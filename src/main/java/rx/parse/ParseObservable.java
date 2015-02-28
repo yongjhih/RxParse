@@ -99,4 +99,33 @@ public class ParseObservable<T extends ParseObject> {
     public Observable<T> listFromLocal() {
         return find(getQuery().fromLocalDatastore());
     }
+
+    public Observable<T> all(ParseQuery<T> query) {
+        return count(query).flatMap(c -> all(query, c));
+    }
+
+    public Observable<T> all(ParseQuery<T> query, int count) {
+        final int limit = 1000; // limit limitation
+        Observable<T> find = find(query, 0, limit);
+        for (int i = limit; i < count; i+= limit) {
+            if (i >= 10000) break; // skip limitation
+            find.concatWith(find(query, i, limit));
+        }
+        return find.distinct(o -> o.getObjectId());
+    }
+
+    public Observable<T> findSkip(ParseQuery<T> query, int skip) {
+        return find(query, skip, -1);
+    }
+
+    public Observable<T> findLimit(ParseQuery<T> query, int limit) {
+        return find(query, -1, limit);
+    }
+
+    public Observable<T> find(ParseQuery<T> query, int skip, int limit) {
+        if (skip >= 0) query.setSkip(skip);
+        if (limit >= 0) query.setLimit(limit);
+
+        return find(query);
+    }
 }

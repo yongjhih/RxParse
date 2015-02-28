@@ -103,10 +103,14 @@ public class ParseUserObservable {
     }
 
     public static Observable<ParseUser> all(ParseQuery<ParseUser> query) {
-        Integer count = count(query).toBlocking().single();
-        Observable<ParseUser> list = Observable.empty();
+        return count(query).flatMap(c -> all(query, c));
+    }
+
+    public static Observable<ParseUser> all(ParseQuery<ParseUser> query, int count) {
         final int limit = 1000;
-        for (int i = 0; i < count; i+= limit) {
+        Observable<ParseUser> list = list(query, 0, limit);
+        for (int i = limit; i < count; i+= limit) {
+            if (i >= 10000) break;
             list.concatWith(list(query, i, limit));
         }
         return list.distinct(o -> o.getObjectId());
