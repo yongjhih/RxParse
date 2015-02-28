@@ -12,7 +12,7 @@ import java.util.List;
 public class ParseObservable<T extends ParseObject> {
     private Class<T> mSubClass;
 
-    private ParseObservable(Class<T> subclass) {
+    public ParseObservable(Class<T> subclass) {
         mSubClass = subclass;
     }
 

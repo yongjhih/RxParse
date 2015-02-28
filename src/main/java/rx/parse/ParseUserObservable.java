@@ -17,13 +17,17 @@ import java.util.List;
  * ParseNotificationObservable
  * com.parse.simple.Callbacks
  */
-public class ParseUserObservable {
-    public static get() {
-        ParseObservable.from(ParseUser.class);
+public class ParseUserObservable extends ParseObservable<ParseUser> {
+    public ParseUserObservable(Class<ParseUser> subclass) {
+        super(subclass);
+    }
+
+    public static ParseUserObservable get() {
+        return new ParseUserObservable(ParseUser.class);
     }
 
     // to(), be(), as()
-    public static getObservable() {
-        ParseObservable.from(ParseUser.class);
+    public static ParseUserObservable getObservable() {
+        return new ParseUserObservable(ParseUser.class);
     }
 }
