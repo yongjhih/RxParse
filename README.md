@@ -1,15 +1,13 @@
 # RxParse
 
+## Usage
+
+```java
+Observable<ParseUser> users = ParseObservable.from(ParseUser.class).find();
+users.subscribe(user -> System.out.println(user.getObjectId()));
 ```
-▼ rx.parse.ParseUserObservable : class
-    [methods]
-   +Observable<ParseUser> contains(String key, String value)
-   +Observable<Integer> count()
-   +Observable<ParseUser> list()
-   +Observable<ParseUser> list(int skip, int limit)
-   +Observable<ParseUser> listFromLocal()
-   +Observable<ParseUser> listLimit(int limit)
-   +Observable<ParseUser> listSkip(int skip)
-   +Observable<ParseUser> pin(ParseUser user)
-   +Observable<ParseUser> pin(List<ParseUser> users)
+
+```java
+Observable<ParseUser> posts = ParseObservable.from(Post.class).find();
+posts.subscribe(p -> System.out.println(p.getObjectId()));
 ```
