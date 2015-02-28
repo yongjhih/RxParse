@@ -76,8 +76,10 @@ public class ParseUserObservable {
     }
 
     public static Observable<ParseUser> list(int skip, int limit) {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        return list(ParseUser.getQuery(), skip, limit);
+    }
 
+    public static Observable<ParseUser> list(ParseQuery<ParseUser> query, int skip, int limit) {
         if (skip >= 0) query.setSkip(skip);
         if (limit >= 0) query.setLimit(limit);
 
@@ -100,14 +102,18 @@ public class ParseUserObservable {
         return count(ParseUser.getQuery());
     }
 
-    public static Observable<ParseUser> all() {
-        Integer count = count().toBlocking().single();
+    public static Observable<ParseUser> all(ParseQuery<ParseUser> query) {
+        Integer count = count(query).toBlocking().single();
         Observable<ParseUser> list = Observable.empty();
         final int limit = 1000;
         for (int i = 0; i < count; i+= limit) {
-            list.concatWith(list(i, limit));
+            list.concatWith(list(query, i, limit));
         }
-        return list;
+        return list.distinct(o -> o.getObjectId());
+    }
+
+    public static Observable<ParseUser> all() {
+        return all(ParseUser.getQuery());
     }
 
     /*
