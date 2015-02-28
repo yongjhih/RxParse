@@ -8,6 +8,9 @@ buildscript {
     }
 }
 
+group = 'com.github.yongjhih'
+
+apply plugin: 'maven'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'java'
 
