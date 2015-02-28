@@ -5,14 +5,11 @@ buildscript {
 
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:2.5.0'
-        classpath 'com.android.tools.build:gradle:1.1.2'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
-apply plugin: 'android-sdk-manager'
-apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'java'
 
 retrolambda {
     // ```bash
@@ -35,29 +32,8 @@ repositories {
 dependencies {
     compile 'io.reactivex:rxjava:1.0.7'
     compile 'com.infstory:parse:1.8.1'
-    compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.parse.bolts:bolts-android:1.1.4'
     testCompile "org.mockito:mockito-core:1.+"
-}
-
-android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 21
-    }
-
-/*
-    lintOptions {
-        abortOnError false
-    }
-*/
 }
 
 tasks.withType(JavaCompile) {
