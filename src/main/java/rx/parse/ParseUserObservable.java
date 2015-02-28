@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ParseUserObservable {
     public static Observable<ParseUser> contains(String key, String value) {
-        return ParseObservable.getObservable(ParseUser.class).contains(key, value);
+        return ParseObservable.from(ParseUser.class).contains(key, value);
     }
 
     /*
@@ -27,30 +27,34 @@ public class ParseUserObservable {
     Observable<ParseUser> = ParseObjectObservable.find();
 
     ParseUserObservable.find();
+    ParseUserObservable.all();
     PostObservable.find();
     CommentObservable.find();
 
     public class ParseUserObservable {
-        static Observable<ParseUser> find() {
-            public static Observable<ParseUser> contains(String key, String value) {
-                return ParseObservable.getObservable(ParseUser.class).contains(key, value);
-            }
+        public static Observable<ParseUser> find() {
+            return ParseObservable.from(ParseUser.class).find();
+        }
+        public static Observable<ParseUser> contains(String key, String value) {
+            return ParseObservable.from(ParseUser.class).contains(key, value);
         }
     }
 
     public class PostObservable {
-        Observable<Post> find() {
-            public static Observable<ParseUser> contains(String key, String value) {
-                return ParseObservable.getObservable(ParseUser.class).contains(key, value);
-            }
+        public static Observable<Post> find() {
+            return ParseObservable.from(Post.class).find();
+        }
+        public static Observable<Post> contains(String key, String value) {
+            return ParseObservable.from(Post.class).contains(key, value);
         }
     }
 
     public class CommentObservable {
-        Observable<Comment> find() {
-            public static Observable<ParseUser> contains(String key, String value) {
-                return ParseObservable.getObservable(ParseUser.class).contains(key, value);
-            }
+        public static Observable<Comment> find() {
+            return ParseObservable.from(Comment.class).find();
+        }
+        public static Observable<Comment> contains(String key, String value) {
+            return ParseObservable.from(Comment.class).contains(key, value);
         }
     }
     */
@@ -60,7 +64,7 @@ public class ParseUserObservable {
 
     // list(), all(), get()
     public static Observable<ParseUser> list() {
-        return ParseObservable.getObservable(ParseUser.class).find();
+        return ParseObservable.from(ParseUser.class).find();
     }
 
     public static Observable<ParseUser> listSkip(int skip) {
@@ -85,11 +89,11 @@ public class ParseUserObservable {
     }
 
     public static Observable<ParseUser> find(ParseQuery<ParseUser> query) {
-        return ParseObservable.getObservable(ParseUser.class).find(query);
+        return ParseObservable.from(ParseUser.class).find(query);
     }
 
     public static Observable<Integer> count(ParseQuery<ParseUser> query) {
-        return ParseObservable.getObservable(ParseUser.class).count(query);
+        return ParseObservable.from(ParseUser.class).count(query);
     }
 
     public static Observable<Integer> count() {
@@ -115,15 +119,15 @@ public class ParseUserObservable {
     */
 
     public static Observable<ParseUser> pin(ParseUser user) {
-        return ParseObservable.getObservable(ParseUser.class).pin(user);
+        return ParseObservable.from(ParseUser.class).pin(user);
     }
 
     public static Observable<ParseUser> pin(List<ParseUser> users) {
-        return ParseObservable.getObservable(ParseUser.class).pin(users);
+        return ParseObservable.from(ParseUser.class).pin(users);
     }
 
     public static Observable<ParseUser> listFromLocal() {
-        return ParseObservable.getObservable(ParseUser.class).listFromLocal();
+        return ParseObservable.from(ParseUser.class).listFromLocal();
     }
 
     /*

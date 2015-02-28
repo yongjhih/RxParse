@@ -16,7 +16,7 @@ public class ParseObservable<T extends ParseObject> {
         mSubClass = subclass;
     }
 
-    public static <T extends ParseObject> ParseObservable<T> getObservable(Class<T> subclass) {
+    public static <T extends ParseObject> ParseObservable<T> from(Class<T> subclass) {
         return new ParseObservable<T>(subclass);
     }
 
