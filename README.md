@@ -1,7 +1,7 @@
 # RxParse
 
 ```
-▼ ParseUserObservable : class
+▼ rx.parse.ParseUserObservable : class
     [methods]
    +Observable<ParseUser> contains(String key, String value)
    +Observable<Integer> count()
