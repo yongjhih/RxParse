@@ -64,26 +64,19 @@ public class ParseUserObservable {
 
     // list(), all(), get()
     public static Observable<ParseUser> list() {
-        return ParseObservable.from(ParseUser.class).find();
+        return find();
     }
 
     public static Observable<ParseUser> listSkip(int skip) {
-        return list(skip, -1);
+        return ParseObservable.from(ParseUser.class).findSkip(ParseUser.getQuery(), skip);
     }
 
     public static Observable<ParseUser> listLimit(int limit) {
-        return list(-1, limit);
+        return ParseObservable.from(ParseUser.class).findLimit(ParseUser.getQuery(), limit);
     }
 
     public static Observable<ParseUser> list(int skip, int limit) {
-        return list(ParseUser.getQuery(), skip, limit);
-    }
-
-    public static Observable<ParseUser> list(ParseQuery<ParseUser> query, int skip, int limit) {
-        if (skip >= 0) query.setSkip(skip);
-        if (limit >= 0) query.setLimit(limit);
-
-        return find(query);
+        return ParseObservable.from(ParseUser.class).find(ParseUser.getQuery(), skip, limit);
     }
 
     public static Observable<ParseUser> find() {
@@ -99,39 +92,16 @@ public class ParseUserObservable {
     }
 
     public static Observable<Integer> count() {
-        return count(ParseUser.getQuery());
+        return ParseObservable.from(ParseUser.class).count();
     }
 
     public static Observable<ParseUser> all(ParseQuery<ParseUser> query) {
-        return count(query).flatMap(c -> all(query, c));
-    }
-
-    public static Observable<ParseUser> all(ParseQuery<ParseUser> query, int count) {
-        final int limit = 1000;
-        Observable<ParseUser> list = list(query, 0, limit);
-        for (int i = limit; i < count; i+= limit) {
-            if (i >= 10000) break;
-            list.concatWith(list(query, i, limit));
-        }
-        return list.distinct(o -> o.getObjectId());
+        return ParseObservable.from(ParseUser.class).all(query);
     }
 
     public static Observable<ParseUser> all() {
         return all(ParseUser.getQuery());
     }
-
-    /*
-    public static Observable<ParseUser> all() {
-        return all(Observable.empty(), 0);
-    }
-
-    public static Observable<ParseUser> all(Observable<ParseUser> obs, int skip) {
-        if (obs == null) obs = Observable.empty();
-        Observable<ParseUser> list = list(skip, 1000);
-        if (list.toList.count() < 1000) return obs.concatWith(list);
-        return all(obs, skip + 1000);
-    }
-    */
 
     public static Observable<ParseUser> pin(ParseUser user) {
         return ParseObservable.from(ParseUser.class).pin(user);
