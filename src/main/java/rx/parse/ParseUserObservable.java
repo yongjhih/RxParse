@@ -60,7 +60,7 @@ public class ParseUserObservable {
 
     // list(), all(), get()
     public static Observable<ParseUser> list() {
-        return find();
+        return ParseObservable.getObservable(ParseUser.class).find();
     }
 
     public static Observable<ParseUser> listSkip(int skip) {
@@ -85,30 +85,11 @@ public class ParseUserObservable {
     }
 
     public static Observable<ParseUser> find(ParseQuery<ParseUser> query) {
-        Observable<List<ParseUser>> list = Observable.create(sub -> {
-            query.findInBackground(Callbacks.find((users, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(users);
-                    sub.onCompleted();
-                }
-            }));
-        });
-        return list.flatMap(users -> Observable.from(users));
+        return ParseObservable.getObservable(ParseUser.class).find(query);
     }
 
     public static Observable<Integer> count(ParseQuery<ParseUser> query) {
-        return Observable.create(sub -> {
-            query.countInBackground(Callbacks.count((c, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(new Integer(c));
-                    sub.onCompleted();
-                }
-            }));
-        });
+        return ParseObservable.getObservable(ParseUser.class).count(query);
     }
 
     public static Observable<Integer> count() {
@@ -134,47 +115,15 @@ public class ParseUserObservable {
     */
 
     public static Observable<ParseUser> pin(ParseUser user) {
-        return Observable.create(sub -> {
-            user.pinInBackground(Callbacks.save(e -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(user);
-                    sub.onCompleted();
-                }
-            }));
-        });
+        return ParseObservable.getObservable(ParseUser.class).pin(user);
     }
 
     public static Observable<ParseUser> pin(List<ParseUser> users) {
-        Observable<List<ParseUser>> list = Observable.create(sub -> {
-            ParseObject.pinAllInBackground(users, Callbacks.save(e -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(users);
-                    sub.onCompleted();
-                }
-            }));
-        });
-        return list.flatMap(l -> Observable.from(l));
+        return ParseObservable.getObservable(ParseUser.class).pin(users);
     }
 
     public static Observable<ParseUser> listFromLocal() {
-        Observable<List<ParseUser>> list = Observable.create(sub -> {
-            ParseUser.getQuery()
-            .fromLocalDatastore() //
-            .findInBackground(Callbacks.find((users, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(users);
-                    sub.onCompleted();
-                }
-            }));
-        });
-
-        return list.flatMap(users -> Observable.from(users));
+        return ParseObservable.getObservable(ParseUser.class).listFromLocal();
     }
 
     /*

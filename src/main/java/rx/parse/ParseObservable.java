@@ -10,23 +10,6 @@ import com.parse.*;
 import java.util.List;
 
 public class ParseObservable<T extends ParseObject> {
-    /*
-    public class ParseUserObservable {
-        Observable<ParseUser> find() {
-        }
-    }
-
-    public class PostObservable {
-        Observable<Post> find() {
-        }
-    }
-
-    public class CommentObservable {
-        Observable<Comment> find() {
-        }
-    }
-    */
-
     private Class<T> mSubClass;
 
     private ParseObservable(Class<T> subclass) {
