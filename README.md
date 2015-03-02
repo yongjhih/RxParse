@@ -15,3 +15,7 @@ Observable<ParseUser> users = ParseObservable.from(ParseUser.class).find(ParseUs
 Observable<Integer> count = ParseObservable.from(ParseUser.class).count();
 count.subscirbe(c -> System.out.println(c));
 ```
+
+```java
+Observable<ParseUser> loginUser = ParseObservable.loginWithFacebook(activity);
+```

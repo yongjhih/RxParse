@@ -8,6 +8,10 @@ import rx.observables.*;
 import com.parse.*;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
+
+import android.app.Activity;
 
 public class ParseObservable<T extends ParseObject> {
     private Class<T> mSubClass;
@@ -127,5 +131,22 @@ public class ParseObservable<T extends ParseObject> {
         if (limit >= 0) query.setLimit(limit);
 
         return find(query);
+    }
+
+    public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
+        return Observable.create(sub -> {
+            ParseFacebookUtils.logIn(permissions, activity, Callbacks.login((user, e) -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(user);
+                    sub.onCompleted();
+                }
+            }));
+        });
+    }
+
+    public static Observable<ParseUser> loginWithFacebook(Activity activity) {
+        return loginWithFacebook(activity, Arrays.asList("public_profile", "email"));
     }
 }
