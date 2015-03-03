@@ -133,6 +133,19 @@ public class ParseObservable<T extends ParseObject> {
         return find(query);
     }
 
+    public Observable<T> first(ParseQuery<T> query) {
+        return Observable.create(sub -> {
+            query.getFirstInBackground(Callbacks.get((o, e) -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(o);
+                    sub.onCompleted();
+                }
+            }));
+        });
+    }
+
     public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
         return Observable.create(sub -> {
             ParseFacebookUtils.logIn(permissions, activity, Callbacks.login((user, e) -> {
