@@ -22,12 +22,20 @@ public class ParseUserObservable extends ParseObservable<ParseUser> {
         super(subclass);
     }
 
-    public static ParseUserObservable get() {
+    public static ParseUserObservable from() {
         return new ParseUserObservable(ParseUser.class);
+    }
+
+    public static ParseUserObservable get() {
+        return from();
+    }
+
+    public static ParseUserObservable of() {
+        return from();
     }
 
     // to(), be(), as()
     public static ParseUserObservable getObservable() {
-        return new ParseUserObservable(ParseUser.class);
+        return from();
     }
 }

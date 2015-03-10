@@ -21,6 +21,10 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <T extends ParseObject> ParseObservable<T> from(Class<T> subclass) {
+        return of(subclass);
+    }
+
+    public static <T extends ParseObject> ParseObservable<T> of(Class<T> subclass) {
         return new ParseObservable<T>(subclass);
     }
 
@@ -49,11 +53,11 @@ public class ParseObservable<T extends ParseObject> {
                 }
             }));
         });
-        return list.flatMap(l -> Observable.from(l));
+        return list.flatMap(l -> Observable.from(l)).doOnUnsubscribe(() -> query.cancel());
     }
 
     public Observable<Integer> count(ParseQuery<T> query) {
-        return Observable.create(sub -> {
+        return Observable.<Integer>create(sub -> {
             query.countInBackground(Callbacks.count((c, e) -> {
                 if (e != null) {
                     sub.onError(e);
@@ -62,7 +66,7 @@ public class ParseObservable<T extends ParseObject> {
                     sub.onCompleted();
                 }
             }));
-        });
+        }).doOnUnsubscribe(() -> query.cancel());
     }
 
     public Observable<Integer> count() {
@@ -115,7 +119,7 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public Observable<T> first(ParseQuery<T> query) {
-        return Observable.create(sub -> {
+        return Observable.<T>create(sub -> {
             query.getFirstInBackground(Callbacks.get((o, e) -> {
                 if (e != null) {
                     sub.onError(e);
@@ -124,7 +128,7 @@ public class ParseObservable<T extends ParseObject> {
                     sub.onCompleted();
                 }
             }));
-        });
+        }).doOnUnsubscribe(() -> query.cancel());
     }
 
     public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
