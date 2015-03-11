@@ -10,6 +10,7 @@ import com.parse.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 
@@ -53,7 +54,8 @@ public class ParseObservable<T extends ParseObject> {
                 }
             }));
         });
-        return list.flatMap(l -> Observable.from(l)).doOnUnsubscribe(() -> query.cancel());
+        return list.flatMap(l -> Observable.from(l))
+            .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
     }
 
     public Observable<Integer> count(ParseQuery<T> query) {
@@ -66,7 +68,8 @@ public class ParseObservable<T extends ParseObject> {
                     sub.onCompleted();
                 }
             }));
-        }).doOnUnsubscribe(() -> query.cancel());
+        })
+        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
     }
 
     public Observable<Integer> count() {
@@ -104,6 +107,7 @@ public class ParseObservable<T extends ParseObject> {
         return count(query).flatMap(c -> all(query, c));
     }
 
+    /** limit 10000 by skip */
     public Observable<T> all(ParseQuery<T> query, int count) {
         final int limit = 1000; // limit limitation
         query.setSkip(0);
@@ -128,7 +132,8 @@ public class ParseObservable<T extends ParseObject> {
                     sub.onCompleted();
                 }
             }));
-        }).doOnUnsubscribe(() -> query.cancel());
+        })
+        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
     }
 
     public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
