@@ -136,6 +136,21 @@ public class ParseObservable<T extends ParseObject> {
         .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
     }
 
+    public Observable<T> get(String objectId) {
+        ParseQuery<T> query = getQuery();
+        return Observable.<T>create(sub -> {
+            query.getInBackground(objectId, Callbacks.get((o, e) -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(o);
+                    sub.onCompleted();
+                }
+            }));
+        })
+        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
+    }
+
     public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
         return Observable.create(sub -> {
             ParseFacebookUtils.logIn(permissions, activity, Callbacks.login((user, e) -> {
