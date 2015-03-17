@@ -10,6 +10,7 @@ import com.parse.*;
 import java.util.List;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
@@ -167,4 +168,21 @@ public class ParseObservable<T extends ParseObject> {
     public static Observable<ParseUser> loginWithFacebook(Activity activity) {
         return loginWithFacebook(activity, Arrays.asList("public_profile", "email"));
     }
+
+    public static <R> Observable<R> callFunction(String name, Map<String, R> params) {
+        return Observable.create(sub -> {
+            ParseCloud.callFunctionInBackground("iAmHere", params, new FunctionCallback<R>() {
+                @Override
+                public void done(R object, ParseException e) {
+                    if (e != null) {
+                        sub.onError(e);
+                    } else {
+                        sub.onNext(object);
+                        sub.onCompleted();
+                    }
+                }
+            });
+        });
+    }
+
 }
