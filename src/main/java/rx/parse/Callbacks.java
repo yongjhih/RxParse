@@ -38,6 +38,10 @@ public class Callbacks {
         void done(ParseUser user, ParseException e);
     }
 
+    public interface IFunctionCallback<E> {
+        void done(E emit, ParseException e);
+    }
+
     public static <T extends ParseObject> FindCallback<T> find(IFindCallback<T> callback) {
         return new FindCallback<T>() {
             @Override public void done(List<T> list, ParseException e) {
@@ -74,6 +78,14 @@ public class Callbacks {
         return new LogInCallback() {
             @Override public void done(ParseUser user, ParseException e) {
                 callback.done(user, e);
+            }
+        };
+    }
+
+    public static <T> FunctionCallback function(IFunctionCallback<T> callback) {
+        return new FunctionCallback<T>() {
+            @Override public void done(T emit, ParseException e) {
+                callback.done(emit, e);
             }
         };
     }

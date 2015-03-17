@@ -171,17 +171,14 @@ public class ParseObservable<T extends ParseObject> {
 
     public static <R> Observable<R> callFunction(String name, Map<String, R> params) {
         return Observable.create(sub -> {
-            ParseCloud.callFunctionInBackground("iAmHere", params, new FunctionCallback<R>() {
-                @Override
-                public void done(R object, ParseException e) {
-                    if (e != null) {
-                        sub.onError(e);
-                    } else {
-                        sub.onNext(object);
-                        sub.onCompleted();
-                    }
+            ParseCloud.callFunctionInBackground(name, params, Callbacks.<R>function((o, e) -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(o);
+                    sub.onCompleted();
                 }
-            });
+            }));
         });
     }
 
