@@ -182,4 +182,16 @@ public class ParseObservable<T extends ParseObject> {
         });
     }
 
+    public static <R extends ParseObject> Observable<R> save(R object) {
+        return Observable.create(sub -> {
+            object.saveInBackground(Callbacks.save(e -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(object);
+                    sub.onCompleted();
+                }
+            }));
+        });
+    }
 }
