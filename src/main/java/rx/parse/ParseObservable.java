@@ -77,7 +77,7 @@ public class ParseObservable<T extends ParseObject> {
         return count(getQuery());
     }
 
-    public Observable<T> pin(T object) {
+    public static <R extends ParseObject> Observable<R> pin(R object) {
         return Observable.create(sub -> {
             object.pinInBackground(Callbacks.save(e -> {
                 if (e != null) {
@@ -90,8 +90,8 @@ public class ParseObservable<T extends ParseObject> {
         });
     }
 
-    public Observable<T> pin(List<T> objects) {
-        Observable<List<T>> list = Observable.create(sub -> {
+    public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
+        Observable<List<R>> list = Observable.create(sub -> {
             ParseObject.pinAllInBackground(objects, Callbacks.save(e -> {
                 if (e != null) {
                     sub.onError(e);
