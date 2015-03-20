@@ -194,4 +194,17 @@ public class ParseObservable<T extends ParseObject> {
             }));
         });
     }
+
+    public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
+        return Observable.<R>create(sub -> {
+            object.<R>fetchIfNeededInBackground(Callbacks.get((o, e) -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(o);
+                    sub.onCompleted();
+                }
+            }));
+        });
+    }
 }
