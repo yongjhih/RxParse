@@ -56,7 +56,11 @@ public class ParseObservable<T extends ParseObject> {
             }));
         });
         return list.flatMap(l -> Observable.from(l))
-            .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
+            .doOnUnsubscribe(() -> Observable.just(query)
+                .doOnNext(q -> q.cancel())
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(o -> {}, e -> {}));
     }
 
     public Observable<Integer> count(ParseQuery<T> query) {
@@ -70,7 +74,11 @@ public class ParseObservable<T extends ParseObject> {
                 }
             }));
         })
-        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
+        .doOnUnsubscribe(() -> Observable.just(query)
+                .doOnNext(q -> q.cancel())
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(o -> {}, e -> {}));
     }
 
     public Observable<Integer> count() {
@@ -134,7 +142,11 @@ public class ParseObservable<T extends ParseObject> {
                 }
             }));
         })
-        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
+        .doOnUnsubscribe(() -> Observable.just(query)
+                .doOnNext(q -> q.cancel())
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(o -> {}, e -> {}));
     }
 
     public Observable<T> get(String objectId) {
@@ -149,7 +161,11 @@ public class ParseObservable<T extends ParseObject> {
                 }
             }));
         })
-        .doOnUnsubscribe(() -> Observable.just(query).doOnNext(q -> q.cancel()).timeout(1, TimeUnit.SECONDS).subscribeOn(Schedulers.io()).subscribe(o -> {}, e -> {}));
+        .doOnUnsubscribe(() -> Observable.just(query)
+                .doOnNext(q -> q.cancel())
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(o -> {}, e -> {}));
     }
 
     public static Observable<ParseUser> loginWithFacebook(Activity activity, Collection<String> permissions) {
