@@ -132,6 +132,36 @@ ParseObservable.save(user)
     .subscribe(user -> System.out.println(user));
 ```
 
+## Installation
+
+
+via jitpack.io
+
+```gradle
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+dependencies {
+    compile 'com.github.yongjhih:rxparse:1.0.5'
+}
+```
+
+Or via bintray
+
+```gradle
+repositories {
+    maven {
+        url 'https://dl.bintray.com/yongjhih/maven/'
+    }
+}
+
+dependencies {
+    compile 'com.infstory:rxparse:1.0.5'
+}
+```
 
 ## LICENSE
 
