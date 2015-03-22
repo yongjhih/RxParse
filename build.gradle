@@ -48,12 +48,6 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
     }
-
-/*
-    lintOptions {
-        abortOnError false
-    }
-*/
 }
 
 dependencies {
@@ -72,13 +66,4 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
-/*
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-artifacts {
-    archives sourcesJar
-}
-*/
+apply from: 'https://raw.github.com/yongjhih/gradle-mvn-push/master/gradle-mvn-push-bintray.gradle'
