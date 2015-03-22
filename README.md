@@ -134,8 +134,18 @@ ParseObservable.save(user)
 
 ## Installation
 
+via jcenter
+```gradle
+repositories {
+    jcenter
+}
 
-via jitpack.io
+dependencies {
+    compile 'com.infstory:rxparse:1.0.0'
+}
+```
+
+Or via jitpack.io
 
 ```gradle
 repositories {
@@ -145,7 +155,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.yongjhih:rxparse:1.0.5'
+    compile 'com.github.yongjhih:rxparse:1.0.0'
 }
 ```
 
@@ -159,7 +169,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.infstory:rxparse:1.0.5'
+    compile 'com.infstory:rxparse:1.0.0'
 }
 ```
 
