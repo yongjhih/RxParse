@@ -147,7 +147,7 @@ via jcenter
 
 ```gradle
 repositories {
-    jcenter
+    jcenter()
 }
 
 dependencies {
