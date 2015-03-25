@@ -239,4 +239,30 @@ public class ParseObservable<T extends ParseObject> {
             }));
         });
     }
+
+    public static <R extends ParseObject> Observable<R> delete(R object) {
+        return Observable.create(sub -> {
+            object.deleteInBackground(Callbacks.delete(e -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(object);
+                    sub.onCompleted();
+                }
+            }));
+        });
+    }
+
+    public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
+        return Observable.<List<R>>create(sub -> {
+            ParseObject.deleteAllInBackground(objects, Callbacks.delete(e -> {
+                if (e != null) {
+                    sub.onError(e);
+                } else {
+                    sub.onNext(objects);
+                    sub.onCompleted();
+                }
+            }));
+        }).flatMap(l -> Observable.from(l));
+    }
 }

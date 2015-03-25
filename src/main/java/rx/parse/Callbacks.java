@@ -72,4 +72,12 @@ public class Callbacks {
             }
         };
     }
+
+    public static DeleteCallback delete(Action1<? super ParseException> callback) {
+        return new DeleteCallback() {
+            @Override public void done(ParseException e) {
+                callback.call(e);
+            }
+        };
+    }
 }
