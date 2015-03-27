@@ -66,4 +66,4 @@ task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'
 }
 
-apply from: 'https://raw.github.com/yongjhih/gradle-mvn-push/master/gradle-mvn-push-bintray.gradle'
+apply from: 'gradle-mvn-push-bintray.gradle'
