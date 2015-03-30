@@ -13,9 +13,8 @@
 
 ### find
 
-`<T extends ParseObject> Observable<T> ParseObservable.from(Class<?>).find(ParseQuery<T>);`
 
-`<T extends ParseObject> Observable<T> ParseObservable.from(Class<?>).find();`
+`<T extends ParseObject> Observable<T> ParseObservable.find(ParseQuery<T>);`
 
 Before:
 
@@ -31,12 +30,12 @@ ParseUser.getQuery().findInBackground(new FindCallback() {
 After:
 
 ```java
-Observable<ParseUser> users = ParseObservable.from(ParseUser.class).find();
+Observable<ParseUser> users = ParseObservable.find(ParseUser.getQuery());
 users.subscribe(user -> System.out.println(user.getObjectId()));
 ```
 
 ```java
-Observable<ParseUser> users = ParseObservable.from(ParseUser.class).find(ParseUser.getQuery().setLimit(1000));
+Observable<ParseUser> users = ParseObservable.find(ParseUser.getQuery().setLimit(1000));
 ```
 
 ### count
