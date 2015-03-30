@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # Push javadoc files to a website hosted by github <http://pages.github.com/>.
 # Before executing this script, generate the javadoc files into build/docs/javadoc/.
 git checkout gh-pages || exit $?
 
 # Clear out the old files:
-rm -rf javadoc/* 
+rm -rf javadoc/*
 # Replace them with new files and commit them:
 cp -pr build/docs/javadoc/* javadoc \
 && git add javadoc \
