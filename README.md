@@ -13,6 +13,10 @@
 
 ### find
 
+`<T extends ParseObject> Observable<T> ParseObservable.from(Class<?>).find(ParseQuery<T>);`
+
+`<T extends ParseObject> Observable<T> ParseObservable.from(Class<?>).find();`
+
 Before:
 
 ```java
