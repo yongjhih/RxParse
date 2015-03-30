@@ -38,17 +38,17 @@ public class ParseObservable<T extends ParseObject> {
         mSubClass = subclass;
     }
 
-    /** {@Deprecated} */
+    @Deprecated
     public static <T extends ParseObject> ParseObservable<T> from(Class<T> subclass) {
         return of(subclass);
     }
 
-    /** {@Deprecated} */
+    @Deprecated
     public static <T extends ParseObject> ParseObservable<T> of(Class<T> subclass) {
         return new ParseObservable<T>(subclass);
     }
 
-    /** {@Deprecated} */
+    @Deprecated
     public ParseQuery<T> getQuery() {
         /* error: incompatible types: ParseQuery<ParseUser> cannot be converted to ParseQuery<T>
         if (mSubClass.equals(ParseUser.class)) {
@@ -59,7 +59,7 @@ public class ParseObservable<T extends ParseObject> {
         return ParseQuery.getQuery(mSubClass);
     }
 
-    /** {@Deprecated} */
+    @Deprecated
     public Observable<T> find() {
         return find(getQuery());
     }
