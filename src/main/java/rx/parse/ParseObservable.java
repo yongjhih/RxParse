@@ -38,14 +38,17 @@ public class ParseObservable<T extends ParseObject> {
         mSubClass = subclass;
     }
 
+    /** {@Deprecated} */
     public static <T extends ParseObject> ParseObservable<T> from(Class<T> subclass) {
         return of(subclass);
     }
 
+    /** {@Deprecated} */
     public static <T extends ParseObject> ParseObservable<T> of(Class<T> subclass) {
         return new ParseObservable<T>(subclass);
     }
 
+    /** {@Deprecated} */
     public ParseQuery<T> getQuery() {
         /* error: incompatible types: ParseQuery<ParseUser> cannot be converted to ParseQuery<T>
         if (mSubClass.equals(ParseUser.class)) {
@@ -56,12 +59,13 @@ public class ParseObservable<T extends ParseObject> {
         return ParseQuery.getQuery(mSubClass);
     }
 
+    /** {@Deprecated} */
     public Observable<T> find() {
         return find(getQuery());
     }
 
-    public Observable<T> find(ParseQuery<T> query) {
-        Observable<List<T>> list = Observable.create(sub -> {
+    public static <R extends ParseObject> Observable<R> find(ParseQuery<R> query) {
+        Observable<List<R>> list = Observable.create(sub -> {
             query.findInBackground(Callbacks.find((l, e) -> {
                 if (e != null) {
                     sub.onError(e);
@@ -79,7 +83,7 @@ public class ParseObservable<T extends ParseObject> {
                 .subscribe(o -> {}, e -> {}));
     }
 
-    public Observable<Integer> count(ParseQuery<T> query) {
+    public static <R extends ParseObject> Observable<Integer> count(ParseQuery<R> query) {
         return Observable.<Integer>create(sub -> {
             query.countInBackground(Callbacks.count((c, e) -> {
                 if (e != null) {
@@ -128,16 +132,16 @@ public class ParseObservable<T extends ParseObject> {
         return list.flatMap(l -> Observable.from(l));
     }
 
-    public Observable<T> all(ParseQuery<T> query) {
+    public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query) {
         return count(query).flatMap(c -> all(query, c));
     }
 
     /** limit 10000 by skip */
-    public Observable<T> all(ParseQuery<T> query, int count) {
+    public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query, int count) {
         final int limit = 1000; // limit limitation
         query.setSkip(0);
         query.setLimit(limit);
-        Observable<T> find = find(query);
+        Observable<R> find = find(query);
         for (int i = limit; i < count; i+= limit) {
             if (i >= 10000) break; // skip limitation
             query.setSkip(i);
@@ -147,8 +151,8 @@ public class ParseObservable<T extends ParseObject> {
         return find.distinct(o -> o.getObjectId());
     }
 
-    public Observable<T> first(ParseQuery<T> query) {
-        return Observable.<T>create(sub -> {
+    public static <R extends ParseObject> Observable<R> first(ParseQuery<R> query) {
+        return Observable.<R>create(sub -> {
             query.getFirstInBackground(Callbacks.get((o, e) -> {
                 if (e != null) {
                     sub.onError(e);
