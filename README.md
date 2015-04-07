@@ -54,7 +54,7 @@ ParseUser.getQuery().countInBackground(new CountCallback() {
 After:
 
 ```java
-Observable<Integer> count = ParseObservable.from(ParseUser.class).count();
+Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
 count.subscirbe(c -> System.out.println(c));
 ```
 
