@@ -65,71 +65,64 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> find(ParseQuery<R> query) {
-        Observable<List<R>> list = Observable.create(sub -> {
-            query.findInBackground(Callbacks.find((l, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(l);
-                    sub.onCompleted();
-                }
-            }));
-        });
-        return list.flatMap(l -> Observable.from(l))
-            .doOnUnsubscribe(() -> Observable.just(query)
-                .doOnNext(q -> q.cancel())
-                .timeout(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
-    }
-
-    public static <R extends ParseObject> Observable<Integer> count(ParseQuery<R> query) {
-        return Observable.<Integer>create(sub -> {
-            query.countInBackground(Callbacks.count((c, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(new Integer(c));
-                    sub.onCompleted();
-                }
-            }));
+        return Observable.defer(() -> {
+            try {
+                return Observable.from(query.find());
+            } catch (ParseException e) {
+                return Observable.error(e);
+            }
         })
         .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
                 .timeout(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
+                .subscribe(o -> {
+                }, e -> {
+                }));
     }
 
+    public static <R extends ParseObject> Observable<Integer> count(ParseQuery<R> query) {
+        return Observable.defer(() -> {
+            try {
+                return Observable.just(query.count());
+            } catch (ParseException e) {
+                return Observable.error(e);
+            }
+        })
+        .doOnUnsubscribe(() -> Observable.just(query)
+                .doOnNext(q -> q.cancel())
+                .timeout(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .subscribe(o -> {
+                }, e -> {
+                }));
+    }
+
+    @Deprecated
     public Observable<Integer> count() {
         return count(getQuery());
     }
 
     public static <R extends ParseObject> Observable<R> pin(R object) {
-        return Observable.create(sub -> {
-            object.pinInBackground(Callbacks.save(e -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(object);
-                    sub.onCompleted();
-                }
-            }));
+        return Observable.defer(() -> {
+            try {
+                object.pin();
+                return Observable.just(object);
+            } catch (ParseException e) {
+                return Observable.error(e);
+            }
         });
     }
 
     public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        Observable<List<R>> list = Observable.create(sub -> {
-            ParseObject.pinAllInBackground(objects, Callbacks.save(e -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(objects);
-                    sub.onCompleted();
-                }
-            }));
+        return Observable.defer(() -> {
+            try {
+                ParseObject.pinAll(objects);
+                return Observable.from(objects);
+            } catch (ParseException e) {
+                return Observable.error(e);
+            }
         });
-        return list.flatMap(l -> Observable.from(l));
     }
 
     public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query) {
@@ -152,15 +145,12 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> first(ParseQuery<R> query) {
-        return Observable.<R>create(sub -> {
-            query.getFirstInBackground(Callbacks.get((o, e) -> {
-                if (e != null) {
-                    sub.onError(e);
-                } else {
-                    sub.onNext(o);
-                    sub.onCompleted();
-                }
-            }));
+        return Observable.defer(() -> {
+            try {
+                return Observable.just(query.getFirst());
+            } catch (ParseException e) {
+                return Observable.error(e);
+            }
         })
         .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
