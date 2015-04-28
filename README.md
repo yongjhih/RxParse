@@ -154,7 +154,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.infstory:rxparse:1.0.1'
+    compile 'com.infstory:rxparse:1.0.2'
 }
 ```
 
@@ -168,7 +168,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.yongjhih:rxparse:1.0.1'
+    compile 'com.github.yongjhih:rxparse:1.0.2'
 }
 ```
 
