@@ -133,7 +133,7 @@ public class MainFragment extends Fragment {
         };
 
         @Override
-        void onBind(int position, ParseUser item) {
+        public void onBind(int position, ParseUser item) {
             android.util.Log.d("RxParse", "onBind");
             String email = item.getEmail() != null ? item.getEmail() : "";
             if (!android.text.TextUtils.isEmpty(email)) {
