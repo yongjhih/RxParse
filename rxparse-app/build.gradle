@@ -12,24 +12,20 @@ buildscript {
 
 repositories {
     jcenter()
+    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
 }
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
+/*
 retrolambda {
-    // ```bash
-    // export JAVA8_HOME="/usr/lib/jvm/java-8-oracle"
-    // export JAVA7_HOME="/usr/lib/jvm/java-7-oracle"
-    // export JAVA_HOME="$JAVA8_HOME"
-    // ```
-    //jvmArgs '-noverify'
     jdk System.getenv("JAVA8_HOME")
-    //oldJdk System.getenv("JAVA_HOME")
     oldJdk System.getenv("JAVA7_HOME")
     javaVersion JavaVersion.VERSION_1_7
 }
+*/
 
 android {
     compileSdkVersion 22
@@ -46,11 +42,29 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "parse_app_id", "2q1WWZdKmgjuhGAbt1Dfvu89Y1SDM6TlHvRgeQXd"
+            resValue "string", "parse_client_key", "k6jG6j2K6brMgHdWov8MPyhLMkjOFouzbBdqO09k"
+        }
+        debug {
+            resValue "string", "parse_app_id", "2q1WWZdKmgjuhGAbt1Dfvu89Y1SDM6TlHvRgeQXd"
+            resValue "string", "parse_client_key", "k6jG6j2K6brMgHdWov8MPyhLMkjOFouzbBdqO09k"
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.1.0'
+
+    //compile project(':rxparse')
+    compile 'com.infstory:rxparse:1.0.2'
+
+    compile 'io.reactivex:rxjava:1.0.7'
+    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'com.infstory:parse:1.8.1' // maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+    //compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.parse.bolts:bolts-android:1.1.4'
+    //testCompile "org.mockito:mockito-core:1.+"
+
+    compile 'com.jakewharton:butterknife:6.1.0'
+    //compile 'com.jakewharton.timber:timber:2.5.1'
 }
