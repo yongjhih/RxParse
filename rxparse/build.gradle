@@ -1,0 +1,69 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:2.5.0'
+        classpath 'com.android.tools.build:gradle:1.1.2'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+    }
+}
+
+group = GROUP
+
+apply plugin: 'android-sdk-manager'
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+    // ```bash
+    // export JAVA8_HOME="/usr/lib/jvm/java-8-oracle"
+    // export JAVA7_HOME="/usr/lib/jvm/java-7-oracle"
+    // export JAVA_HOME="$JAVA8_HOME"
+    // ```
+    //jvmArgs '-noverify'
+    jdk System.getenv("JAVA8_HOME")
+    //oldJdk System.getenv("JAVA_HOME")
+    oldJdk System.getenv("JAVA7_HOME")
+    javaVersion JavaVersion.VERSION_1_7
+}
+
+repositories {
+    jcenter()
+    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+    }
+}
+
+dependencies {
+    compile 'io.reactivex:rxjava:1.0.7'
+    compile 'com.infstory:parse:1.8.1'
+    //compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.parse.bolts:bolts-android:1.1.4'
+    //testCompile "org.mockito:mockito-core:1.+"
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2.1'
+}
+
+apply from: 'gradle-mvn-push-bintray.gradle'
