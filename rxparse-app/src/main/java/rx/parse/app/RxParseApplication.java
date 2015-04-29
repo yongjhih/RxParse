@@ -15,6 +15,8 @@ import com.parse.*;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import com.facebook.drawee.backends.pipeline.Fresco
+;
 
 public class RxParseApplication extends Application {
     @Override
@@ -34,5 +36,7 @@ public class RxParseApplication extends Application {
         //ParseFacebookUtils.initialize(getString(R.string.app_id));
         //
         //ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        Fresco.initialize(this);
     }
 }
