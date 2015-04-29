@@ -77,11 +77,9 @@ public class MainFragment extends Fragment {
         AppObservable.bindFragment(this, ParseObservable.find(ParseUser.getQuery()))
             .flatMap(user -> ParseObservable.get(ParseUser.class, user.getObjectId()))
             .subscribe(user -> {
-                handler.post(new Runnable() {
-                    @Override public void run() {
-                        android.util.Log.d("RxParse", "textView: " + user.getObjectId());
-                        textView.setText(user.getObjectId());
-                    }
+                handler.post(() -> {
+                    android.util.Log.d("RxParse", "textView: " + user.getObjectId());
+                    textView.setText(user.getObjectId());
                 });
             });
         */
