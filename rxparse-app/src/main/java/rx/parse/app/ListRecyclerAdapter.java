@@ -33,7 +33,7 @@ public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends Recycl
         return null;
     }
 
-    protected ListRecyclerAdapter<T, VH> createViewHolder(Func2<ViewGroup, Integer, VH> onCreateViewHolder) {
+    public ListRecyclerAdapter<T, VH> createViewHolder(Func2<ViewGroup, Integer, VH> onCreateViewHolder) {
         mOnCreateViewHolder = onCreateViewHolder;
         return this;
     }
