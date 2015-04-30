@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:clickable="true"
     android:background="?attr/selectableItemBackground"
     >
     <LinearLayout
@@ -36,6 +37,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#eeee"
+        android:background="#3333"
         />
 </LinearLayout>
