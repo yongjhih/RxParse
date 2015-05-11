@@ -136,6 +136,30 @@ public class ParseObservable<T extends ParseObject> {
         return toObservableWithNull(ParseObject.pinAllInBackground(objects)).flatMap(v -> Observable.from(objects));
     }
 
+    public static <R extends ParseObject> Observable<R> pin(String name, R object) {
+        return toObservableWithNull(object.pinInBackground(name)).map(v -> object);
+    }
+
+    public static <R extends ParseObject> Observable<R> pin(String name, List<R> objects) {
+        return toObservableWithNull(ParseObject.pinAllInBackground(name, objects)).flatMap(v -> Observable.from(objects));
+    }
+
+    public static <R extends ParseObject> Observable<R> unpin(R object) {
+        return toObservableWithNull(object.unpinInBackground()).map(v -> object);
+    }
+
+    public static <R extends ParseObject> Observable<R> unpin(List<R> objects) {
+        return toObservableWithNull(ParseObject.unpinAllInBackground(objects)).flatMap(v -> Observable.from(objects));
+    }
+
+    public static <R extends ParseObject> Observable<R> unpin(String name, R object) {
+        return toObservableWithNull(object.unpinInBackground(name)).map(v -> object);
+    }
+
+    public static <R extends ParseObject> Observable<R> unpin(String name, List<R> objects) {
+        return toObservableWithNull(ParseObject.unpinAllInBackground(name, objects)).flatMap(v -> Observable.from(objects));
+    }
+
     public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query) {
         return count(query).flatMap(c -> all(query, c));
     }
