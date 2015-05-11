@@ -67,6 +67,24 @@ public class ParseObservable<T extends ParseObject> {
 
     // Bolts2Rx
     // Bolts.Task2Observable
+    public static <R> Observable<R> toObservableWithNull(Task<R> task) {
+        return Observable.create(sub -> {
+            task.continueWith(t -> {
+                if (t.isCancelled()) {
+                    // NOTICE: doOnUnsubscribe(() -> Observable.just(query) in outside
+                    sub.unsubscribe(); //sub.onCompleted();?
+                } else if (t.isFaulted()) {
+                    sub.onError(t.getError());
+                } else {
+                    R r = t.getResult();
+                    sub.onNext(r);
+                    sub.onCompleted();
+                }
+                return null;
+            });
+        });
+    }
+
     public static <R> Observable<R> toObservable(Task<R> task) {
         return Observable.create(sub -> {
             task.continueWith(t -> {
@@ -111,11 +129,11 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> pin(R object) {
-        return toObservable(object.pinInBackground()).map(v -> object);
+        return toObservableWithNull(object.pinInBackground()).map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        return toObservable(ParseObject.pinAllInBackground(objects)).flatMap(v -> Observable.from(objects));
+        return toObservableWithNull(ParseObject.pinAllInBackground(objects)).flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query) {
@@ -196,7 +214,7 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> save(R object) {
-        return toObservable(object.saveInBackground()).map(v -> object);
+        return toObservableWithNull(object.saveInBackground()).map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
@@ -204,10 +222,10 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> delete(R object) {
-        return toObservable(object.deleteInBackground()).map(v -> object);
+        return toObservableWithNull(object.deleteInBackground()).map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
-        return toObservable(ParseObject.deleteAllInBackground(objects)).flatMap(v -> Observable.from(objects));
+        return toObservableWithNull(ParseObject.deleteAllInBackground(objects)).flatMap(v -> Observable.from(objects));
     }
 }
