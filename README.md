@@ -106,6 +106,11 @@ ParseObservable.pin(user)
     .subscribe(user -> System.out.println(user));
 ```
 
+```java
+ParseObservable.pin(name, user)
+    .subscribe(user -> System.out.println(user));
+```
+
 ### pin List
 
 Before:
@@ -123,6 +128,33 @@ After:
 
 ```java
 ParseObservable.pin(users)
+    .subscribe(user -> System.out.println(user));
+```
+
+```java
+ParseObservable.pin(name, users)
+    .subscribe(user -> System.out.println(user));
+```
+
+### Unpin
+
+```java
+ParseObservable.unpin(user)
+    .subscribe(user -> System.out.println(user));
+```
+
+```java
+ParseObservable.unpin(users)
+    .subscribe(user -> System.out.println(user));
+```
+
+```java
+ParseObservable.unpin(name, user)
+    .subscribe(user -> System.out.println(user));
+```
+
+```java
+ParseObservable.unpin(name, users)
     .subscribe(user -> System.out.println(user));
 ```
 
