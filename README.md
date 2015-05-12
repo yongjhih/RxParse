@@ -86,6 +86,16 @@ ParseObservable.fetchIfNeeded(user)
     .subscribe(user -> System.out.println(user));
 ```
 
+```java
+ParseObservable.fetchIfNeeded(users)
+    .subscribe(users -> System.out.println(users));
+```
+
+```java
+ParseObservable.find(ParseUser.getQuery()).toList().flatMap(users -> ParseObservable.fetchIfNeeded(users));
+    .subscribe(users -> System.out.println(users));
+```
+
 ### pin
 
 Before:
