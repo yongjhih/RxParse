@@ -245,6 +245,11 @@ public class ParseObservable<T extends ParseObject> {
         return toObservable(object.fetchIfNeededInBackground());
     }
 
+    public static <R extends ParseObject> Observable<R> fetchIfNeeded(List<R> objects) {
+        return toObservable(ParseObject.fetchAllIfNeededInBackground(objects))
+                .flatMap(l -> Observable.from(l));
+    }
+
     public static <R extends ParseObject> Observable<R> delete(R object) {
         return toObservableWithNull(object.deleteInBackground()).map(v -> object);
     }
