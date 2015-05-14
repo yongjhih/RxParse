@@ -245,6 +245,16 @@ public class ParseObservable<T extends ParseObject> {
                 .map(v -> object);
     }
 
+    public static <R extends ParseObject> Observable<R> save(List<R> objects) {
+        return Observable.defer(() -> just(ParseObject.saveAllInBackground(objects)))
+                .flatMap(v -> Observable.from(objects));
+    }
+
+    public static <R extends ParseObject> Observable<R> saveEventually(R object) {
+        return Observable.defer(() -> just(object.saveEventually()))
+                .map(v -> object);
+    }
+
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
         return Observable.defer(() -> just(object.fetchIfNeededInBackground()));
     }
@@ -283,4 +293,12 @@ public class ParseObservable<T extends ParseObject> {
     // ParseObject
     // refresh()
     // fetchFromLocalDatastore()
+    //
+    // ParseUser
+    // becomeInBackground()
+    // enableRevocableSessionInBackground
+    // logInInBackground(String username, String password)
+    // logOutInBackground()
+    // requestPasswordResetInBackground(String email)
+    // signUpInBackground()
 }
