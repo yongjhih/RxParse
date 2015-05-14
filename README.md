@@ -188,6 +188,18 @@ ParseObservable.save(user)
     .subscribe(u -> System.out.println(u));
 ```
 
+```java
+ParseObservable.save(users)
+    .subscribe(user -> System.out.println(user));
+```
+
+### saveEventually
+
+```java
+ParseObservable.saveEventually(user)
+    .subscribe(u -> System.out.println(u));
+```
+
 ### ParseRole subscribe/unsubscribe
 
 ```java
@@ -206,7 +218,7 @@ ParseObservable.unsubscribe(channel)
 ParseObservable.defer(() -> {
     ParseUser user = ParseUser.getCurrentUser();
     user.put("email", "yongjhih@github.com");
-    return user.saveInBackground();
+    return user.saveInBackground(); // Void
 }).subscribe();
 ```
 
