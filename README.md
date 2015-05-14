@@ -200,7 +200,7 @@ ParseObservable.unsubscribe(channel)
     .subscribe(s -> System.out.println(s));
 ```
 
-### Advanced: ParseObservable.defer(Func0<bolts.Task<T>> task)
+### Advanced: ParseObservable.defer(Func0&lt;bolts.Task&lt;T&gt;&gt; task)
 
 ```java
 ParseObservable.defer(() -> {
