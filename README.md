@@ -1,6 +1,6 @@
 # RxParse
 
-[![rxparse.png](art/rxparse-transparent.png)](art/rxparse-transparent.png)
+[![rxparse.png](art/rxparse.png)](art/rxparse.png)
 
 [![Join the chat at https://gitter.im/yongjhih/RxParse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yongjhih/RxParse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![JitPack](https://img.shields.io/github/tag/yongjhih/RxParse.svg?label=maven)
