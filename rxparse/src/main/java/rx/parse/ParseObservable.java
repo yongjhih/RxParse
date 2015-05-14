@@ -89,7 +89,12 @@ public class ParseObservable<T extends ParseObject> {
         });
     }
 
+    @Deprecated
     public static <R> Observable<R> just(Func0<Task<R>> task) {
+        return defer(task);
+    }
+
+    public static <R> Observable<R> defer(Func0<Task<R>> task) {
         return Observable.defer(() -> just(task.call()));
     }
 

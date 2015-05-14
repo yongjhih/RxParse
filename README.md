@@ -83,17 +83,17 @@ After:
 
 ```java
 ParseObservable.fetchIfNeeded(user)
-    .subscribe(user -> System.out.println(user));
+    .subscribe(u -> System.out.println(u));
 ```
 
 ```java
 ParseObservable.fetchIfNeeded(users)
-    .subscribe(users -> System.out.println(users));
+    .subscribe(user -> System.out.println(user));
 ```
 
 ```java
 ParseObservable.find(ParseUser.getQuery()).toList().flatMap(users -> ParseObservable.fetchIfNeeded(users));
-    .subscribe(users -> System.out.println(users));
+    .subscribe(user -> System.out.println(user));
 ```
 
 ### pin
@@ -118,7 +118,7 @@ ParseObservable.pin(user)
 
 ```java
 ParseObservable.pin(name, user)
-    .subscribe(user -> System.out.println(user));
+    .subscribe(u -> System.out.println(u));
 ```
 
 ### pin List
@@ -150,7 +150,7 @@ ParseObservable.pin(name, users)
 
 ```java
 ParseObservable.unpin(user)
-    .subscribe(user -> System.out.println(user));
+    .subscribe(u -> System.out.println(u));
 ```
 
 ```java
@@ -160,7 +160,7 @@ ParseObservable.unpin(users)
 
 ```java
 ParseObservable.unpin(name, user)
-    .subscribe(user -> System.out.println(user));
+    .subscribe(u -> System.out.println(u));
 ```
 
 ```java
@@ -185,7 +185,29 @@ After:
 
 ```java
 ParseObservable.save(user)
-    .subscribe(user -> System.out.println(user));
+    .subscribe(u -> System.out.println(u));
+```
+
+### ParseRole subscribe/unsubscribe
+
+```java
+ParseObservable.subscribe(channel)
+    .subscribe(s -> System.out.println(s));
+```
+
+```java
+ParseObservable.unsubscribe(channel)
+    .subscribe(s -> System.out.println(s));
+```
+
+### Advanced: ParseObservable.defer(Func0<bolts.Task<T>> task)
+
+```java
+ParseObservable.defer(() -> {
+    ParseUser user = ParseUser.getCurrentUser();
+    user.put("email", "yongjhih@github.com");
+    return user.saveInBackground();
+}).subscribe();
 ```
 
 ## Installation
