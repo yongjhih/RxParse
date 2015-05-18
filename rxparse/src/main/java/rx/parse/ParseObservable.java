@@ -71,22 +71,35 @@ public class ParseObservable<T extends ParseObject> {
     // RxTask
     // BoltsObservable
     // TaskObservable
-    public static <R> Observable<R> just(Task<R> task) {
+    public static <R> Observable<R> just(Task<R> task, boolean nullable) {
         return Observable.create(sub -> {
             task.continueWith(t -> {
+                android.util.Log.d("ParseObservable", "task: " + task);
                 if (t.isCancelled()) {
+                    android.util.Log.d("ParseObservable", "cancel");
                     // NOTICE: doOnUnsubscribe(() -> Observable.just(query) in outside
                     sub.unsubscribe(); //sub.onCompleted();?
                 } else if (t.isFaulted()) {
-                    sub.onError(t.getError());
+                    Throwable error = t.getError();
+                    android.util.Log.d("ParseObservable", "error: " + error);
+                    sub.onError(error);
                 } else {
                     R r = t.getResult();
-                    if (r instanceof Void || r != null) sub.onNext(r);
+                    android.util.Log.d("ParseObservable", "r: " + r);
+                    if (nullable || r != null) sub.onNext(r);
                     sub.onCompleted();
                 }
                 return null;
             });
         });
+    }
+
+    public static <R> Observable<R> justNullable(Task<R> task) {
+        return just(task, true);
+    }
+
+    public static <R> Observable<R> just(Task<R> task) {
+        return just(task, false);
     }
 
     @Deprecated
@@ -124,42 +137,42 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R extends ParseObject> Observable<R> pin(R object) {
-        return Observable.defer(() -> just(object.pinInBackground()))
+        return Observable.defer(() -> justNullable(object.pinInBackground()))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.pinAllInBackground(objects)))
+        return Observable.defer(() -> justNullable(ParseObject.pinAllInBackground(objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> pin(String name, R object) {
-        return Observable.defer(() -> just(object.pinInBackground(name)))
+        return Observable.defer(() -> justNullable(object.pinInBackground(name)))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(String name, List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.pinAllInBackground(name, objects)))
+        return Observable.defer(() -> justNullable(ParseObject.pinAllInBackground(name, objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> unpin(R object) {
-        return Observable.defer(() -> just(object.unpinInBackground()))
+        return Observable.defer(() -> justNullable(object.unpinInBackground()))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> unpin(List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.unpinAllInBackground(objects)))
+        return Observable.defer(() -> justNullable(ParseObject.unpinAllInBackground(objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> unpin(String name, R object) {
-        return Observable.defer(() -> just(object.unpinInBackground(name)))
+        return Observable.defer(() -> justNullable(object.unpinInBackground(name)))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> unpin(String name, List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.unpinAllInBackground(name, objects)))
+        return Observable.defer(() -> justNullable(ParseObject.unpinAllInBackground(name, objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
@@ -237,50 +250,55 @@ public class ParseObservable<T extends ParseObject> {
     }
 
     public static <R> Observable<R> callFunction(String name, Map<String, R> params) {
-        return Observable.defer(() -> just(ParseCloud.callFunctionInBackground(name, params)));
+        return Observable.defer(() -> justNullable(ParseCloud.callFunctionInBackground(name, params)));
     }
 
     public static <R extends ParseObject> Observable<R> save(R object) {
-        return Observable.defer(() -> just(object.saveInBackground()))
+        return Observable.defer(() -> justNullable(object.saveInBackground()))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> save(List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.saveAllInBackground(objects)))
+        return Observable.defer(() -> justNullable(ParseObject.saveAllInBackground(objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> saveEventually(R object) {
-        return Observable.defer(() -> just(object.saveEventually()))
+        return Observable.defer(() -> justNullable(object.saveEventually()))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
-        return Observable.defer(() -> just(object.fetchIfNeededInBackground()));
+        return Observable.defer(() -> justNullable(object.fetchIfNeededInBackground()));
     }
 
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.fetchAllIfNeededInBackground(objects)))
+        return Observable.defer(() -> justNullable(ParseObject.fetchAllIfNeededInBackground(objects)))
                 .flatMap(l -> Observable.from(l));
     }
 
     public static <R extends ParseObject> Observable<R> delete(R object) {
-        return Observable.defer(() -> just(object.deleteInBackground()))
+        return Observable.defer(() -> justNullable(object.deleteInBackground()))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
-        return Observable.defer(() -> just(ParseObject.deleteAllInBackground(objects)))
+        return Observable.defer(() -> justNullable(ParseObject.deleteAllInBackground(objects)))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static Observable<String> subscribe(String channel) {
-        return Observable.defer(() -> just(ParsePush.subscribeInBackground(channel)))
+        android.util.Log.d("ParseObservable", "subscribe: channel: " + channel);
+
+        return Observable.defer(() -> justNullable(ParsePush.subscribeInBackground(channel)))
+                .doOnNext(v -> android.util.Log.d("ParseObservable", "doOnNext: " + v))
                 .map(v -> channel);
     }
 
     public static Observable<String> unsubscribe(String channel) {
-        return Observable.defer(() -> just(ParsePush.unsubscribeInBackground(channel)))
+        android.util.Log.d("ParseObservable", "unsubscribe, channel: " + channel);
+
+        return Observable.defer(() -> justNullable(ParsePush.unsubscribeInBackground(channel)))
                 .map(v -> channel);
     }
 
