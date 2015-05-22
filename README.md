@@ -232,6 +232,8 @@ via jcenter
 ```gradle
 repositories {
     jcenter()
+    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+
 }
 
 dependencies {
@@ -246,6 +248,7 @@ repositories {
     maven {
         url "https://jitpack.io"
     }
+    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
 }
 
 dependencies {
