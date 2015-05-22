@@ -1,3 +1,5 @@
+# RxParse
+
 [![Join the chat at https://gitter.im/yongjhih/RxParse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yongjhih/RxParse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![JitPack](https://img.shields.io/github/tag/yongjhih/RxParse.svg?label=maven)
 [![Download](https://api.bintray.com/packages/yongjhih/maven/RxParse/images/download.svg) ](https://bintray.com/yongjhih/maven/RxParse/_latestVersion)
@@ -5,8 +7,6 @@
 [![Build Status](https://travis-ci.org/yongjhih/RxParse.svg)](https://travis-ci.org/yongjhih/RxParse)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxParse-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1670)
 [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)
-
-# RxParse
 
 [![rxparse.png](art/rxparse.png)](art/rxparse.png)
 
