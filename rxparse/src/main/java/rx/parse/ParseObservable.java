@@ -218,6 +218,12 @@ public class ParseObservable {
         return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(permissions, activity, activityCode)));
     }
 
+    public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity) {
+        // package class com.parse.FacebookAuthenticationProvider.DEFAULT_AUTH_ACTIVITY_CODE
+        // private com.facebook.android.Facebook.DEFAULT_AUTH_ACTIVITY_CODE = 32665
+        return logIn(permissions, activity, 32665);
+    }
+
     public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
         return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate)));
     }
@@ -232,21 +238,28 @@ public class ParseObservable {
                 .map(v -> user);
     }
 
-    // TODO
-    // ParsePush
-    // send(JSONObject data, ParseQuery<ParseInstallation> query)
-    // send()
-    // sendMessage(String message)
-    //
-    // ParseObject
-    // refresh()
-    // fetchFromLocalDatastore()
-    //
-    // ParseUser
-    // becomeInBackground()
-    // enableRevocableSessionInBackground
-    // logInInBackground(String username, String password)
-    // logOutInBackground()
-    // requestPasswordResetInBackground(String email)
-    // signUpInBackground()
+    /* ParsePush */
+
+    // TODO send(JSONObject data, ParseQuery<ParseInstallation> query)
+    // TODO send()
+    // TODO sendMessage(String message)
+
+    /* ParseObject */
+
+    // TODO refresh()
+    // TODO fetchFromLocalDatastore()
+
+    /* ParseUser */
+
+    // TODO becomeInBackground()
+    // TODO enableRevocableSessionInBackground
+
+    public static Observable<ParseUser> logIn(String username, String password) {
+        return Observable.defer(() -> TaskObservable.justNullable(ParseUser.logInInBackground(username, password)));
+    }
+
+    // TODO logOutInBackground()
+    // TODO requestPasswordResetInBackground(String email)
+    // TODO signUpInBackground()
+
 }
