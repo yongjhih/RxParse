@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rx.parse.facebook;
+package rx.parse.facebook.v4;
 
 import rx.schedulers.*;
 import rx.Observable;
@@ -35,7 +35,6 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 public class ParseFacebookObservable {
-    /* ParseFacebookUtils 1.9 */
 
     public static Observable<ParseUser> link(ParseUser user, com.facebook.AccessToken accessToken) {
         return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, accessToken)))

@@ -52,14 +52,11 @@ android {
 }
 
 dependencies {
-    //compile project(':rxparse')
-    compile 'com.github.yongjhih:RxParse:5bb4abaeb1'
+    compile project(':rxparse')
+    compile 'com.infstory:parse-facebook-v3:1.9.2'
+    compile 'com.facebook.android:facebook-android-sdk:3.20.0'
 
     compile 'io.reactivex:rxjava:1.0.7'
-    compile 'com.github.ParsePlatform:ParseUI-Android:82caece93e'
-
-    compile 'com.facebook.android:facebook-android-sdk:4.1.2'
-
     //testCompile "org.mockito:mockito-core:1.+"
 }
 
