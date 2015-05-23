@@ -14,10 +14,11 @@
 
 ## Usage
 
-[![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)
+rxparse: [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)
+
+rxparse-facebook (ParseFacebookUtils): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook/)
 
 ### find
-
 
 `<T extends ParseObject> Observable<T> ParseObservable.find(ParseQuery<T>);`
 
@@ -61,168 +62,6 @@ After:
 ```java
 Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
 count.subscirbe(c -> System.out.println(c));
-```
-
-### loginWithFacebook
-
-```java
-Observable<ParseUser> loginUser = ParseObservable.loginWithFacebook(activity);
-```
-
-### fetchIfNeeded
-
-Before:
-
-```java
-ParseUser.getQuery().fetchIfNeededInBackground(new GetCallback() {
-    @Override
-    public done(ParseUser user, ParseException e) {
-        if (e == null) System.out.println(user));
-    }
-});
-```
-
-After:
-
-```java
-ParseObservable.fetchIfNeeded(user)
-    .subscribe(u -> System.out.println(u));
-```
-
-```java
-ParseObservable.fetchIfNeeded(users)
-    .subscribe(user -> System.out.println(user));
-```
-
-```java
-ParseObservable.find(ParseUser.getQuery()).toList().flatMap(users -> ParseObservable.fetchIfNeeded(users));
-    .subscribe(user -> System.out.println(user));
-```
-
-### pin
-
-Before:
-
-```java
-user.pinInBackground(new SaveCallback() {
-    @Override
-    public done(ParseException e) {
-        // ...
-    }
-});
-```
-
-After:
-
-```java
-ParseObservable.pin(user)
-    .subscribe(user -> System.out.println(user));
-```
-
-```java
-ParseObservable.pin(name, user)
-    .subscribe(u -> System.out.println(u));
-```
-
-### pin List
-
-Before:
-
-```java
-ParseObject.pinAllInBackground(users, new SaveCallback() {
-    @Override
-    public done(ParseException e) {
-        // ...
-    }
-});
-```
-
-After:
-
-```java
-ParseObservable.pin(users)
-    .subscribe(user -> System.out.println(user));
-```
-
-```java
-ParseObservable.pin(name, users)
-    .subscribe(user -> System.out.println(user));
-```
-
-### Unpin
-
-```java
-ParseObservable.unpin(user)
-    .subscribe(u -> System.out.println(u));
-```
-
-```java
-ParseObservable.unpin(users)
-    .subscribe(user -> System.out.println(user));
-```
-
-```java
-ParseObservable.unpin(name, user)
-    .subscribe(u -> System.out.println(u));
-```
-
-```java
-ParseObservable.unpin(name, users)
-    .subscribe(user -> System.out.println(user));
-```
-
-### save
-
-Before:
-
-```java
-user.saveInBackground(new SaveCallback() {
-    @Override
-    public done(ParseException e) {
-        // ...
-    }
-});
-```
-
-After:
-
-```java
-ParseObservable.save(user)
-    .subscribe(u -> System.out.println(u));
-```
-
-```java
-ParseObservable.save(users)
-    .subscribe(user -> System.out.println(user));
-```
-
-### saveEventually
-
-```java
-ParseObservable.saveEventually(user)
-    .subscribe(u -> System.out.println(u));
-```
-
-### ParseRole subscribe/unsubscribe
-
-```java
-ParseObservable.subscribe(channel)
-    .subscribe(s -> System.out.println(s));
-```
-
-```java
-ParseObservable.unsubscribe(channel)
-    .subscribe(s -> System.out.println(s));
-```
-
-### Advanced: ParseObservable.defer(Func0&lt;bolts.Task&lt;T&gt;&gt; task)
-
-```java
-ParseObservable.defer(() -> {
-    ParseUser user = ParseUser.getCurrentUser();
-    user.put("email", "yongjhih@github.com");
-    return user.saveInBackground(); // Void
-}).subscribe();
 ```
 
 ## Installation
