@@ -13,6 +13,7 @@ buildscript {
 repositories {
     jcenter()
     maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+    maven { url "https://jitpack.io" }
 }
 
 apply plugin: 'android-sdk-manager'
@@ -63,14 +64,17 @@ dependencies {
     //compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:recyclerview-v7:22.1.1'
 
-    //compile project(':rxparse')
-    compile 'com.infstory:rxparse:1.0.2'
+    compile project(':rxparse')
+    //compile 'com.infstory:rxparse:1.0.2'
+    //compile 'com.infstory:parse:1.8.1' // maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+    //compile 'com.github.ParsePlatform:ParseUI-Android:82caece93e'
+    compile 'com.github.ParsePlatform:ParseUI-Android:1caf256185'
 
     compile 'io.reactivex:rxjava:1.0.7'
     compile 'io.reactivex:rxandroid:0.24.0'
-    compile 'com.infstory:parse:1.8.1' // maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+
     //compile 'com.facebook.android:facebook-android-sdk:3.20.0'
-    compile 'com.parse.bolts:bolts-android:1.1.4'
+    //compile 'com.parse.bolts:bolts-android:1.1.4'
     //testCompile "org.mockito:mockito-core:1.+"
 
     compile 'com.jakewharton:butterknife:6.1.0'

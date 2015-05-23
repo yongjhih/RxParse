@@ -52,11 +52,15 @@ android {
 }
 
 dependencies {
+    compile project(':rxparse')
+
     compile 'io.reactivex:rxjava:1.0.7'
     //compile 'com.infstory:parse:1.8.1' // maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
     compile 'com.github.ParsePlatform:ParseUI-Android:82caece93e'
     //compile 'com.github.ParsePlatform:ParseUI-Android:1caf256185'
-    compile 'com.parse.bolts:bolts-android:1.1.4'
+
+    //compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.1.2'
 
     //testCompile "org.mockito:mockito-core:1.+"
 }
