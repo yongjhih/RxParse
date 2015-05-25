@@ -1,4 +1,4 @@
 include ':rxparse'
 include ':rxparse-app'
 include ':rxparse-facebook-v3'
-include ':rxparse-facebook-v4'
+//include ':rxparse-facebook-v4'
