@@ -153,6 +153,15 @@ public class ParseObservable {
                 .map(v -> object);
     }
 
+    public static <R extends ParseObject> Observable<R> fetch(R object) {
+        return Observable.defer(() -> TaskObservable.justNullable(object.fetchInBackground()));
+    }
+
+    public static <R extends ParseObject> Observable<R> fetch(List<R> objects) {
+        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.fetchAllInBackground(objects)))
+                .flatMap(l -> Observable.from(l));
+    }
+
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
         return Observable.defer(() -> TaskObservable.justNullable(object.fetchIfNeededInBackground()));
     }
