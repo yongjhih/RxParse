@@ -134,7 +134,7 @@ public class ParseObservable {
                 .subscribe(o -> {}, e -> {}));
     }
 
-    public static <R> Observable<R> callFunction(String name, Map<String, R> params) {
+    public static <R> Observable<R> callFunction(String name, Map<String, ?> params) {
         return Observable.defer(() -> TaskObservable.justNullable(ParseCloud.callFunctionInBackground(name, params)));
     }
 
@@ -260,7 +260,10 @@ public class ParseObservable {
 
     /* ParseUser */
 
-    // TODO becomeInBackground()
+    public static Observable<ParseUser> become(String sessionToken) {
+        return Observable.defer(() -> TaskObservable.just(ParseUser.becomeInBackground(sessionToken)));
+    }
+
     // TODO enableRevocableSessionInBackground
 
     public static Observable<ParseUser> logIn(String username, String password) {
