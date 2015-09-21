@@ -33,6 +33,7 @@ import java.util.concurrent.TimeUnit;
 import rx.bolts.TaskObservable;
 
 import android.app.Activity;
+import android.content.Intent;
 
 public class ParseObservable {
 
@@ -273,5 +274,19 @@ public class ParseObservable {
     // TODO logOutInBackground()
     // TODO requestPasswordResetInBackground(String email)
     // TODO signUpInBackground()
+
+    // ParseAnalytics
+
+    public static Observable<Intent> trackAppOpened(Intent intent) {
+        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackAppOpenedInBackground(intent))).map(v -> intent);
+    }
+
+    public static Observable<String> trackEvent(String name) {
+        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackEventInBackground(name))).map(v -> name);
+    }
+
+    public static Observable<String> trackEvent(String name, Map<String,String> dimensions) {
+        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackEventInBackground(name, dimensions))).map(v -> name);
+    }
 
 }
