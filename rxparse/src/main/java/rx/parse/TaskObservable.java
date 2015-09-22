@@ -69,4 +69,8 @@ public class TaskObservable {
         return Observable.defer(() -> just(task.call()));
     }
 
+    public static <R> Observable<R> deferNullable(Func0<Task<R>> task) {
+        return Observable.defer(() -> justNullable(task.call()));
+    }
+
 }

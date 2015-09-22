@@ -38,7 +38,7 @@ import android.content.Intent;
 public class ParseObservable {
 
     public static <R extends ParseObject> Observable<R> find(ParseQuery<R> query) {
-        return Observable.defer(() -> TaskObservable.just(query.findInBackground()))
+        return TaskObservable.defer(() -> query.findInBackground())
                 .flatMap(l -> Observable.from(l))
             .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
@@ -48,7 +48,7 @@ public class ParseObservable {
     }
 
     public static <R extends ParseObject> Observable<Integer> count(ParseQuery<R> query) {
-        return Observable.defer(() -> TaskObservable.just(query.countInBackground()))
+        return TaskObservable.defer(() -> query.countInBackground())
             .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
                 .timeout(1, TimeUnit.SECONDS)
@@ -58,42 +58,42 @@ public class ParseObservable {
     }
 
     public static <R extends ParseObject> Observable<R> pin(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.pinInBackground()))
+        return TaskObservable.deferNullable(() -> object.pinInBackground())
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.pinAllInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.pinAllInBackground(objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> pin(String name, R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.pinInBackground(name)))
+        return TaskObservable.deferNullable(() -> object.pinInBackground(name))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(String name, List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.pinAllInBackground(name, objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.pinAllInBackground(name, objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> unpin(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.unpinInBackground()))
+        return TaskObservable.deferNullable(() -> object.unpinInBackground())
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> unpin(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.unpinAllInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.unpinAllInBackground(objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> unpin(String name, R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.unpinInBackground(name)))
+        return TaskObservable.deferNullable(() -> object.unpinInBackground(name))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> unpin(String name, List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.unpinAllInBackground(name, objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.unpinAllInBackground(name, objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
@@ -117,7 +117,7 @@ public class ParseObservable {
     }
 
     public static <R extends ParseObject> Observable<R> first(ParseQuery<R> query) {
-        return Observable.defer(() -> TaskObservable.just(query.getFirstInBackground()))
+        return TaskObservable.defer(() -> query.getFirstInBackground())
             .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
                 .timeout(1, TimeUnit.SECONDS)
@@ -127,7 +127,7 @@ public class ParseObservable {
 
     public static <R extends ParseObject> Observable<R> get(Class<R> clazz, String objectId) {
         ParseQuery<R> query = ParseQuery.getQuery(clazz);
-        return Observable.defer(() -> TaskObservable.just(query.getInBackground(objectId)))
+        return TaskObservable.defer(() -> query.getInBackground(objectId))
             .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
                 .timeout(1, TimeUnit.SECONDS)
@@ -136,56 +136,56 @@ public class ParseObservable {
     }
 
     public static <R> Observable<R> callFunction(String name, Map<String, ?> params) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseCloud.callFunctionInBackground(name, params)));
+        return TaskObservable.deferNullable(() -> ParseCloud.callFunctionInBackground(name, params));
     }
 
     public static <R extends ParseObject> Observable<R> save(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.saveInBackground()))
+        return TaskObservable.deferNullable(() -> object.saveInBackground())
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> save(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.saveAllInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.saveAllInBackground(objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static <R extends ParseObject> Observable<R> saveEventually(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.saveEventually()))
+        return TaskObservable.deferNullable(() -> object.saveEventually())
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> fetch(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.fetchInBackground()));
+        return TaskObservable.deferNullable(() -> object.fetchInBackground());
     }
 
     public static <R extends ParseObject> Observable<R> fetch(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.fetchAllInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.fetchAllInBackground(objects))
                 .flatMap(l -> Observable.from(l));
     }
 
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.fetchIfNeededInBackground()));
+        return TaskObservable.deferNullable(() -> object.fetchIfNeededInBackground());
     }
 
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.fetchAllIfNeededInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.fetchAllIfNeededInBackground(objects))
                 .flatMap(l -> Observable.from(l));
     }
 
     public static <R extends ParseObject> Observable<R> delete(R object) {
-        return Observable.defer(() -> TaskObservable.justNullable(object.deleteInBackground()))
+        return TaskObservable.deferNullable(() -> object.deleteInBackground())
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseObject.deleteAllInBackground(objects)))
+        return TaskObservable.deferNullable(() -> ParseObject.deleteAllInBackground(objects))
                 .flatMap(v -> Observable.from(objects));
     }
 
     public static Observable<String> subscribe(String channel) {
         android.util.Log.d("ParseObservable", "subscribe: channel: " + channel);
 
-        return Observable.defer(() -> TaskObservable.justNullable(ParsePush.subscribeInBackground(channel)))
+        return TaskObservable.deferNullable(() -> ParsePush.subscribeInBackground(channel))
                 .doOnNext(v -> android.util.Log.d("ParseObservable", "doOnNext: " + v))
                 .map(v -> channel);
     }
@@ -193,39 +193,39 @@ public class ParseObservable {
     public static Observable<String> unsubscribe(String channel) {
         android.util.Log.d("ParseObservable", "unsubscribe, channel: " + channel);
 
-        return Observable.defer(() -> TaskObservable.justNullable(ParsePush.unsubscribeInBackground(channel)))
+        return TaskObservable.deferNullable(() -> ParsePush.unsubscribeInBackground(channel))
                 .map(v -> channel);
     }
 
     /* ParseFacebookUtils 1.8 */
 
     public static Observable<ParseUser> link(ParseUser user, Activity activity) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, activity)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, activity, activityCode)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity, activityCode))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, permissions, activity)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, String facebookId, String accessToken, Date expirationDate) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(permissions, activity, activityCode)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
     }
 
     public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity) {
@@ -235,16 +235,16 @@ public class ParseObservable {
     }
 
     public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
     }
 
     public static Observable<ParseUser> saveLatestSessionData(ParseUser user) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.saveLatestSessionDataInBackground(user)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.saveLatestSessionDataInBackground(user))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> unlink(ParseUser user) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.unlinkInBackground(user)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.unlinkInBackground(user))
                 .map(v -> user);
     }
 
@@ -262,13 +262,13 @@ public class ParseObservable {
     /* ParseUser */
 
     public static Observable<ParseUser> become(String sessionToken) {
-        return Observable.defer(() -> TaskObservable.just(ParseUser.becomeInBackground(sessionToken)));
+        return TaskObservable.defer(() -> ParseUser.becomeInBackground(sessionToken));
     }
 
     // TODO enableRevocableSessionInBackground
 
     public static Observable<ParseUser> logIn(String username, String password) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseUser.logInInBackground(username, password)));
+        return TaskObservable.deferNullable(() -> ParseUser.logInInBackground(username, password));
     }
 
     // TODO logOutInBackground()
@@ -278,15 +278,15 @@ public class ParseObservable {
     // ParseAnalytics
 
     public static Observable<Intent> trackAppOpened(Intent intent) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackAppOpenedInBackground(intent))).map(v -> intent);
+        return TaskObservable.deferNullable(() -> ParseAnalytics.trackAppOpenedInBackground(intent)).map(v -> intent);
     }
 
     public static Observable<String> trackEvent(String name) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackEventInBackground(name))).map(v -> name);
+        return TaskObservable.deferNullable(() -> ParseAnalytics.trackEventInBackground(name)).map(v -> name);
     }
 
     public static Observable<String> trackEvent(String name, Map<String,String> dimensions) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseAnalytics.trackEventInBackground(name, dimensions))).map(v -> name);
+        return TaskObservable.deferNullable(() -> ParseAnalytics.trackEventInBackground(name, dimensions)).map(v -> name);
     }
 
 }
