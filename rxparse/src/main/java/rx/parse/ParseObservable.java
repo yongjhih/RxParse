@@ -135,6 +135,7 @@ public class ParseObservable {
                 .subscribe(o -> {}, e -> {}));
     }
 
+    // Task<T> nullable?
     public static <R> Observable<R> callFunction(String name, Map<String, ?> params) {
         return TaskObservable.deferNullable(() -> ParseCloud.callFunctionInBackground(name, params));
     }
@@ -154,29 +155,37 @@ public class ParseObservable {
                 .map(v -> object);
     }
 
+    // Task<T> nullable?
     public static <R extends ParseObject> Observable<R> fetch(R object) {
-        return TaskObservable.deferNullable(() -> object.fetchInBackground());
+        return TaskObservable.deferNullable(() -> object.fetchInBackground())
+                .map(v -> object);
     }
 
+    // Task<List<T>> nullable?
     public static <R extends ParseObject> Observable<R> fetch(List<R> objects) {
         return TaskObservable.deferNullable(() -> ParseObject.fetchAllInBackground(objects))
-                .flatMap(l -> Observable.from(l));
+                .flatMap(l -> Observable.from(l)); // v -> Observable.from(objects)
     }
 
+    // Task<T> nullable?
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
-        return TaskObservable.deferNullable(() -> object.fetchIfNeededInBackground());
+        return TaskObservable.deferNullable(() -> object.fetchIfNeededInBackground())
+                .map(v -> object);
     }
 
+    // Task<List<T>> nullable?
     public static <R extends ParseObject> Observable<R> fetchIfNeeded(List<R> objects) {
         return TaskObservable.deferNullable(() -> ParseObject.fetchAllIfNeededInBackground(objects))
-                .flatMap(l -> Observable.from(l));
+                .flatMap(l -> Observable.from(l)); // v -> Observable.from(objects)
     }
 
+    // Task<T> nullable?
     public static <R extends ParseObject> Observable<R> delete(R object) {
         return TaskObservable.deferNullable(() -> object.deleteInBackground())
                 .map(v -> object);
     }
 
+    // Task<List<T>> nullable?
     public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
         return TaskObservable.deferNullable(() -> ParseObject.deleteAllInBackground(objects))
                 .flatMap(v -> Observable.from(objects));
@@ -224,6 +233,7 @@ public class ParseObservable {
                 .map(v -> user);
     }
 
+    // Task<ParseUser> nullable?
     public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity, int activityCode) {
         return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
     }
@@ -234,6 +244,7 @@ public class ParseObservable {
         return logIn(permissions, activity, 32665);
     }
 
+    // Task<ParseUser> nullable?
     public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
         return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
     }
@@ -267,6 +278,7 @@ public class ParseObservable {
 
     // TODO enableRevocableSessionInBackground
 
+    // Task<ParseUser> nullable?
     public static Observable<ParseUser> logIn(String username, String password) {
         return TaskObservable.deferNullable(() -> ParseUser.logInInBackground(username, password));
     }
