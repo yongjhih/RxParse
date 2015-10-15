@@ -65,10 +65,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:22.1.1'
 
     compile project(':rxparse')
-    //compile 'com.infstory:rxparse:1.0.2'
-    //compile project(':rxparse-facebook')
-    compile 'com.infstory:parse:1.8.1' // maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
-    //compile 'com.github.ParsePlatform:ParseUI-Android:82caece93e'
+    compile project(':rxparse-facebook-v3')
 
     compile 'io.reactivex:rxjava:1.0.7'
     compile 'io.reactivex:rxandroid:0.24.0'

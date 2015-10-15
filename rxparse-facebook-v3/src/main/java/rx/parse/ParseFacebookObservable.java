@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package rx.parse.facebook.v3;
+package rx.parse;
 
 import rx.schedulers.*;
 import rx.Observable;

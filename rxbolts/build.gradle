@@ -45,17 +45,15 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 8
         targetSdkVersion 22
     }
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.10.3'
     compile 'io.reactivex:rxjava:1.0.7'
 
     compile 'com.parse.bolts:bolts-android:1.1.4'
-    compile project(':rxbolts')
 
     //testCompile "org.mockito:mockito-core:1.+"
 }

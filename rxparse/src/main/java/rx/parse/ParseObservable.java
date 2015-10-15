@@ -206,59 +206,6 @@ public class ParseObservable {
                 .map(v -> channel);
     }
 
-    /* ParseFacebookUtils 1.8 */
-
-    public static Observable<ParseUser> link(ParseUser user, Activity activity) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity))
-                .map(v -> user);
-    }
-
-    public static Observable<ParseUser> link(ParseUser user, Activity activity, int activityCode) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity, activityCode))
-                .map(v -> user);
-    }
-
-    public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity))
-                .map(v -> user);
-    }
-
-    public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity, int activityCode) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode))
-                .map(v -> user);
-    }
-
-    public static Observable<ParseUser> link(ParseUser user, String facebookId, String accessToken, Date expirationDate) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate))
-                .map(v -> user);
-    }
-
-    // Task<ParseUser> nullable?
-    public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity, int activityCode) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
-    }
-
-    public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity) {
-        // package class com.parse.FacebookAuthenticationProvider.DEFAULT_AUTH_ACTIVITY_CODE
-        // private com.facebook.android.Facebook.DEFAULT_AUTH_ACTIVITY_CODE = 32665
-        return logIn(permissions, activity, 32665);
-    }
-
-    // Task<ParseUser> nullable?
-    public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
-    }
-
-    public static Observable<ParseUser> saveLatestSessionData(ParseUser user) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.saveLatestSessionDataInBackground(user))
-                .map(v -> user);
-    }
-
-    public static Observable<ParseUser> unlink(ParseUser user) {
-        return TaskObservable.deferNullable(() -> ParseFacebookUtils.unlinkInBackground(user))
-                .map(v -> user);
-    }
-
     /* ParsePush */
 
     // TODO send(JSONObject data, ParseQuery<ParseInstallation> query)

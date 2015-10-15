@@ -71,12 +71,11 @@ via jcenter
 ```gradle
 repositories {
     jcenter()
-    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
 
 }
 
 dependencies {
-    compile 'com.infstory:rxparse:1.0.3'
+    compile 'com.infstory:rxparse:2.0.0'
 }
 ```
 
@@ -84,14 +83,12 @@ Or via jitpack.io
 
 ```gradle
 repositories {
-    maven {
-        url "https://jitpack.io"
-    }
-    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
+    jcenter()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    compile 'com.github.yongjhih:rxparse:1.0.3'
+    compile 'com.github.yongjhih:rxparse:2.0.0'
 }
 ```
 

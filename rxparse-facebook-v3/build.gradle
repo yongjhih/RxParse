@@ -32,13 +32,12 @@ retrolambda {
 
 repositories {
     jcenter()
-    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
     maven { url "https://jitpack.io" }
 }
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -52,11 +51,16 @@ android {
 }
 
 dependencies {
-    compile project(':rxparse')
-    compile 'com.infstory:parse-facebook-v3:1.9.2'
-    compile 'com.facebook.android:facebook-android-sdk:3.20.0'
+    compile 'com.parse:parse-android:1.10.3'
+    compile 'com.parse:parsefacebookutils-v3-android:1.10.3@aar'
+
+    compile 'com.parse.bolts:bolts-android:1.1.4'
+    compile project(':rxbolts')
 
     compile 'io.reactivex:rxjava:1.0.7'
+    compile 'com.android.support:support-v4:22.1.1'
+
+    compile 'com.facebook.android:facebook-android-sdk:3.21.0'
     //testCompile "org.mockito:mockito-core:1.+"
 }
 
