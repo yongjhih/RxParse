@@ -57,11 +57,14 @@ ParseUser.getQuery().countInBackground(new CountCallback() {
 });
 ```
 
+### Sign in with facebook
+
 After:
 
 ```java
-Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
-count.subscirbe(c -> System.out.println(c));
+ParseFacebookObservable.logIn(Arrays.asList("public_profile", "email"), activity).subscribe(user -> {
+  System.out.println("user: " + user);
+});
 ```
 
 ## Installation
@@ -76,6 +79,8 @@ repositories {
 
 dependencies {
     compile 'com.infstory:rxparse:2.0.0'
+    //compile 'com.infstory:rxparse-facebook-v3:2.0.0' // if needed
+    //compile 'com.infstory:rxparse-facebook-v4:2.0.0' // if needed
 }
 ```
 
@@ -89,6 +94,8 @@ repositories {
 
 dependencies {
     compile 'com.github.yongjhih:rxparse:2.0.0'
+    //compile 'com.infstory:rxparse-facebook-v3:2.0.0' // if needed
+    //compile 'com.infstory:rxparse-facebook-v4:2.0.0' // if needed
 }
 ```
 
