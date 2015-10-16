@@ -55,7 +55,6 @@ dependencies {
     compile 'com.parse:parsefacebookutils-v3-android:1.10.3@aar'
 
     compile 'com.parse.bolts:bolts-android:1.1.4'
-    //compile project(':rxbolts')
     compile 'com.infstory:rxbolts:1.0.0'
 
     compile 'io.reactivex:rxjava:1.0.7'
