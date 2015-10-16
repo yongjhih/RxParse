@@ -10,8 +10,6 @@ buildscript {
     }
 }
 
-group = GROUP
-
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 apply plugin: 'maven'
@@ -33,6 +31,7 @@ retrolambda {
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/yongjhih/maven/" }
 }
 
 android {
@@ -61,5 +60,3 @@ dependencies {
 tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
-
-apply from: 'mvn-push.gradle'

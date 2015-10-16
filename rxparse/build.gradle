@@ -7,10 +7,9 @@ buildscript {
         classpath 'me.tatarka:gradle-retrolambda:2.5.0'
         classpath 'com.android.tools.build:gradle:1.1.2'
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
+        classpath 'com.novoda:bintray-release:0.3.4'
     }
 }
-
-group = GROUP
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
@@ -33,6 +32,7 @@ retrolambda {
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/yongjhih/maven/" }
 }
 
 android {
@@ -55,7 +55,8 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.7'
 
     compile 'com.parse.bolts:bolts-android:1.1.4'
-    compile project(':rxbolts')
+    //compile project(':rxbolts')
+    compile 'com.infstory:rxbolts:1.0.0'
 
     //testCompile "org.mockito:mockito-core:1.+"
 }
@@ -64,4 +65,25 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
 
-apply from: 'mvn-push.gradle'
+apply plugin: 'com.novoda.bintray-release'
+
+def getRepositoryUsername() {
+    return hasProperty('BINTRAY_USER') ? BINTRAY_USER : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('BINTRAY_KEY') ? BINTRAY_KEY : ""
+}
+
+publish {
+    userOrg = 'yongjhih'
+    groupId = 'com.infstory'
+    artifactId = 'rxparse'
+    uploadName = 'RxParse'
+    publishVersion = '2.0.0'
+    desc = 'Reactive Parse'
+    website = 'https://github.com/yongjhih/RxParse'
+    bintrayUser = getRepositoryUsername()
+    bintrayKey = getRepositoryPassword()
+    dryRun = false
+}

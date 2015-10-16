@@ -12,8 +12,8 @@ buildscript {
 
 repositories {
     jcenter()
-    maven { url 'https://github.com/8tory/parse-android-sdk.m2/raw/master/' }
     maven { url "https://jitpack.io" }
+    maven { url "https://dl.bintray.com/yongjhih/maven/" }
 }
 
 apply plugin: 'android-sdk-manager'
