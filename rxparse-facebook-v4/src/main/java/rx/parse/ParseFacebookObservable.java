@@ -37,52 +37,52 @@ import android.support.v4.app.Fragment;
 public class ParseFacebookObservable {
 
     public static Observable<ParseUser> link(ParseUser user, com.facebook.AccessToken accessToken) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, accessToken)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, accessToken))
             .map(v -> user);
     }
 
     public static Observable<ParseUser> linkWithPublishPermissions(ParseUser user, Activity activity, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, activity, permissions)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, activity, permissions))
             .map(v -> user);
     }
 
     public static Observable<ParseUser> linkWithPublishPermissions(ParseUser user, Fragment fragment, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, fragment, permissions)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, fragment, permissions))
             .map(v -> user);
     }
 
     public static Observable<ParseUser> linkWithReadPermissions(ParseUser user, Activity activity, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkWithReadPermissionsInBackground(user, activity, permissions)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, activity, permissions))
             .map(v -> user);
     }
 
     public static Observable<ParseUser> linkWithReadPermissions(ParseUser user, Fragment fragment, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkWithReadPermissionsInBackground(user, fragment, permissions)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, fragment, permissions))
             .map(v -> user);
     }
 
     public static Observable<ParseUser> logIn(com.facebook.AccessToken accessToken) {
-        return Observable.defer(() -> TaskObservable.just(ParseFacebookUtils.logInInBackground(accessToken)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(accessToken));
     }
 
     public static Observable<ParseUser> logInWithPublishPermissions(Activity activity, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.just(ParseFacebookUtils.logInWithPublishPermissionsInBackground(activity, permissions)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(activity, permissions));
     }
 
     public static Observable<ParseUser> logInWithPublishPermissions(Fragment fragment, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.just(ParseFacebookUtils.logInWithPublishPermissionsInBackground(fragment, permissions)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(fragment, permissions));
     }
 
     public static Observable<ParseUser> logInWithReadPermissions(Activity activity, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.just(ParseFacebookUtils.logInWithReadPermissionsInBackground(activity, permissions)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(activity, permissions));
     }
 
     public static Observable<ParseUser> logInWithReadPermissions(Fragment fragment, Collection<String> permissions) {
-        return Observable.defer(() -> TaskObservable.just(ParseFacebookUtils.logInWithReadPermissionsInBackground(fragment, permissions)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(fragment, permissions));
     }
 
     public static Observable<ParseUser> unlink(ParseUser user) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.unlinkInBackground(user)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.unlinkInBackground(user))
             .map(v -> user);
     }
 }

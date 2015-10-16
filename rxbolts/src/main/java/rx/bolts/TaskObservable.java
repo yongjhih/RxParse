@@ -73,4 +73,10 @@ public class TaskObservable {
         return Observable.defer(() -> justNullable(task.call()));
     }
 
+    public static <R> Observable<R> deferNonNull(Func0<Task<R>> task) {
+        return deferNullable(task).doOnNext(it -> {
+            if (it == null) throw new NullPointerException();
+        });
+    }
+
 }

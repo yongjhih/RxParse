@@ -225,12 +225,10 @@ public class ParseObservable {
 
     // TODO enableRevocableSessionInBackground
 
-    // Task<ParseUser> nullable?
     public static Observable<ParseUser> logIn(String username, String password) {
         return TaskObservable.deferNullable(() -> ParseUser.logInInBackground(username, password));
     }
 
-    // Task<ParseUser> nullable?
     public static Observable<Void> logOut() {
         return TaskObservable.deferNullable(() -> ParseUser.logOutInBackground());
     }

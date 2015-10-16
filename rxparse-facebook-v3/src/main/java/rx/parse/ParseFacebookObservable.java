@@ -38,32 +38,32 @@ import android.support.v4.app.Fragment;
 public class ParseFacebookObservable {
 
     public static Observable<ParseUser> link(ParseUser user, Activity activity) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, activity)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, activity, activityCode)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, activity, activityCode))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, permissions, activity)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> link(ParseUser user, String facebookId, String accessToken, Date expirationDate) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity, int activityCode) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(permissions, activity, activityCode)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
     }
 
     public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity) {
@@ -73,16 +73,16 @@ public class ParseFacebookObservable {
     }
 
     public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate)));
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
     }
 
     public static Observable<ParseUser> saveLatestSessionData(ParseUser user) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.saveLatestSessionDataInBackground(user)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.saveLatestSessionDataInBackground(user))
                 .map(v -> user);
     }
 
     public static Observable<ParseUser> unlink(ParseUser user) {
-        return Observable.defer(() -> TaskObservable.justNullable(ParseFacebookUtils.unlinkInBackground(user)))
+        return TaskObservable.deferNullable(() -> ParseFacebookUtils.unlinkInBackground(user))
                 .map(v -> user);
     }
 
