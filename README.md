@@ -17,6 +17,7 @@
 rxparse: [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)
 
 rxparse-facebook-v3 (ParseFacebookUtils v3): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v3/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v3/)
+
 rxparse-facebook-v4 (ParseFacebookUtils v4): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v4/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v4/)
 
 ### find
@@ -102,9 +103,14 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.yongjhih:rxparse:2.0.0'
-    //compile 'com.github.yongjhih:rxparse-facebook-v3:2.0.0' // if needed
-    //compile 'com.github.yongjhih:rxparse-facebook-v4:2.0.0' // if needed
+    compile 'com.github.yongjhih.RxParse:rxparse:2.0.0'
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:2.0.0' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v4:2.0.0' // if needed
+
+    // SNAPSHOT
+    //compile 'com.github.yongjhih.RxParse:rxparse:-SNAPSHOT'
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:-SNAPSHOT' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v4:-SNAPSHOT' // if needed
 }
 ```
 
