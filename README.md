@@ -46,6 +46,7 @@ Observable<ParseUser> users = ParseObservable.find(ParseUser.getQuery().setLimit
 
 ### count
 
+
 Before:
 
 ```java
@@ -55,6 +56,13 @@ ParseUser.getQuery().countInBackground(new CountCallback() {
         if (e == null) System.out.println(count));
     }
 });
+```
+
+ After:
+
+```java
+Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
+count.subscirbe(c -> System.out.println(c));
 ```
 
 ### Sign in with facebook
