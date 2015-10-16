@@ -66,6 +66,8 @@ dependencies {
 
     compile project(':rxparse')
     compile project(':rxparse-facebook-v3')
+    //compile 'com.github.yongjhih.RxParse:rxparse:-SNAPSHOT'
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:-SNAPSHOT'
 
     compile 'io.reactivex:rxjava:1.0.7'
     compile 'io.reactivex:rxandroid:0.24.0'

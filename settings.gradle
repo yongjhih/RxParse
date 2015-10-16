@@ -1,4 +1,3 @@
-include ':rxbolts'
 include ':rxparse'
 include ':rxparse-app'
 include ':rxparse-facebook-v3'
