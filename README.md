@@ -16,7 +16,8 @@
 
 rxparse: [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)
 
-rxparse-facebook (ParseFacebookUtils): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook/)
+rxparse-facebook-v3 (ParseFacebookUtils v3): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v3/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v3/)
+rxparse-facebook-v4 (ParseFacebookUtils v4): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v4/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v4/)
 
 ### find
 
