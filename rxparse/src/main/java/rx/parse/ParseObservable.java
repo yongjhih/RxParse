@@ -34,6 +34,7 @@ import rx.bolts.TaskObservable;
 
 import android.app.Activity;
 import android.content.Intent;
+import org.json.JSONObject;
 
 public class ParseObservable {
 
@@ -191,6 +192,8 @@ public class ParseObservable {
                 .flatMap(v -> Observable.from(objects));
     }
 
+    /* ParsePush */
+
     public static Observable<String> subscribe(String channel) {
         android.util.Log.d("ParseObservable", "subscribe: channel: " + channel);
 
@@ -206,11 +209,19 @@ public class ParseObservable {
                 .map(v -> channel);
     }
 
-    /* ParsePush */
+    public static Observable<ParsePush> send(ParsePush push) {
+        return TaskObservable.deferNullable(() -> push.sendInBackground()).map(v -> push);
+    }
 
-    // TODO send(JSONObject data, ParseQuery<ParseInstallation> query)
-    // TODO send()
-    // TODO sendMessage(String message)
+    public static Observable<JSONObject> send(JSONObject data, ParseQuery<ParseInstallation> query) {
+        return TaskObservable.deferNullable(() -> ParsePush.sendDataInBackground(data, query))
+                .map(v -> data);
+    }
+
+    public static Observable<String> send(String message, ParseQuery<ParseInstallation> query) {
+        return TaskObservable.deferNullable(() -> ParsePush.sendMessageInBackground(message, query))
+                .map(v -> message);
+    }
 
     /* ParseObject */
 
