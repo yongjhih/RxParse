@@ -123,6 +123,12 @@ dependencies {
 }
 ```
 
+## Test
+
+```bash
+./gradlew clean :rxparse:assembleDebug :rxparse:testDebug --tests='*.ParseObservableTest'
+```
+
 ## LICENSE
 
 Copyright 2015 8tory, Inc.
