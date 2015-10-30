@@ -67,11 +67,11 @@ public class ParseObservableTest {
     ParseUser user2 = mock(ParseUser.class);
     ParseUser user3 = mock(ParseUser.class);
     List<ParseUser> users = new ArrayList<>();
-    when(user.getObjectId()).thenReturn("" + user.hashCode());
+    when(user.getObjectId()).thenReturn("1_" + user.hashCode());
     users.add(user);
-    when(user2.getObjectId()).thenReturn("" + user2.hashCode());
+    when(user2.getObjectId()).thenReturn("2_" + user2.hashCode());
     users.add(user2);
-    when(user3.getObjectId()).thenReturn("" + user3.hashCode());
+    when(user3.getObjectId()).thenReturn("3_" + user3.hashCode());
     users.add(user3);
     ParseQueryController queryController = mock(ParseQueryController.class);
     ParseCorePlugins.getInstance().registerQueryController(queryController);
