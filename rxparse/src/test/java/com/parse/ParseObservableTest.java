@@ -65,9 +65,14 @@ public class ParseObservableTest {
   public void testParseObservableAllNextAfterCompleted() {
     ParseUser user = mock(ParseUser.class);
     ParseUser user2 = mock(ParseUser.class);
+    ParseUser user3 = mock(ParseUser.class);
     List<ParseUser> users = new ArrayList<>();
+    when(user.getObjectId()).thenReturn("" + user.hashCode());
     users.add(user);
+    when(user2.getObjectId()).thenReturn("" + user2.hashCode());
     users.add(user2);
+    when(user3.getObjectId()).thenReturn("" + user3.hashCode());
+    users.add(user3);
     ParseQueryController queryController = mock(ParseQueryController.class);
     ParseCorePlugins.getInstance().registerQueryController(queryController);
 
@@ -77,6 +82,10 @@ public class ParseObservableTest {
             any(ParseUser.class),
             any(Task.class))
     ).thenReturn(task);
+    when(queryController.countAsync(
+      any(ParseQuery.State.class),
+      any(ParseUser.class),
+      any(Task.class))).thenReturn(Task.<Integer>forResult(users.size()));
 
     ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
     query.setUser(new ParseUser());
@@ -87,7 +96,7 @@ public class ParseObservableTest {
         //.subscribeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<ParseObject>() {
         @Override public void call(ParseObject it) {
-            System.out.println("onNext: " + it);
+            System.out.println("onNext: " + it.getObjectId());
             if (completed.get()) {
                 fail("Should've onNext after completed.");
             }
@@ -114,9 +123,11 @@ public class ParseObservableTest {
   public void testParseObservableFindNextAfterCompleted() {
     ParseUser user = mock(ParseUser.class);
     ParseUser user2 = mock(ParseUser.class);
+    ParseUser user3 = mock(ParseUser.class);
     List<ParseUser> users = new ArrayList<>();
     users.add(user);
     users.add(user2);
+    users.add(user3);
     ParseQueryController queryController = mock(ParseQueryController.class);
     ParseCorePlugins.getInstance().registerQueryController(queryController);
 
