@@ -98,7 +98,7 @@ public class ParseObservableTest {
         @Override public void call(ParseObject it) {
             System.out.println("onNext: " + it.getObjectId());
             if (completed.get()) {
-                fail("Should've onNext after completed.");
+                fail("Should've onNext after onCompleted.");
             }
         }
     }, new Action1<Throwable>() {
@@ -149,7 +149,7 @@ public class ParseObservableTest {
         @Override public void call(ParseObject it) {
             System.out.println("onNext: " + it);
             if (completed.get()) {
-                fail("Should've onNext after completed.");
+                fail("Should've onNext after onCompleted.");
             }
         }
     }, new Action1<Throwable>() {
