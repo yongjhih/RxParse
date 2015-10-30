@@ -35,6 +35,8 @@ import rx.bolts.TaskObservable;
 import android.app.Activity;
 import android.content.Intent;
 import org.json.JSONObject;
+import java.io.File;
+import java.io.InputStream;
 
 public class ParseObservable {
 
@@ -261,4 +263,37 @@ public class ParseObservable {
         return TaskObservable.deferNullable(() -> ParseAnalytics.trackEventInBackground(name, dimensions)).map(v -> name);
     }
 
+    /* ParseFile */
+
+    public static Observable<byte[]> getData(ParseFile file) {
+        return TaskObservable.deferNullable(() -> file.getDataInBackground());
+    }
+
+    public static Observable<byte[]> getData(ParseFile file, ProgressCallback progressCallback) {
+        return TaskObservable.deferNullable(() -> file.getDataInBackground(progressCallback));
+    }
+
+    public static Observable<InputStream> getDataStream(ParseFile file) {
+        return TaskObservable.deferNullable(() -> file.getDataStreamInBackground());
+    }
+
+    public static Observable<InputStream> getDataStream(ParseFile file, ProgressCallback progressCallback) {
+        return TaskObservable.deferNullable(() -> file.getDataStreamInBackground(progressCallback));
+    }
+
+    public static Observable<File> getFile(ParseFile file) {
+        return TaskObservable.deferNullable(() -> file.getFileInBackground());
+    }
+
+    public static Observable<File> getFile(ParseFile file, ProgressCallback progressCallback) {
+        return TaskObservable.deferNullable(() -> file.getFileInBackground(progressCallback));
+    }
+
+    public static Observable<ParseFile> save(ParseFile file) {
+        return TaskObservable.deferNullable(() -> file.saveInBackground()).map(v -> file);
+    }
+
+    public static Observable<ParseFile> save(ParseFile file, ProgressCallback uploadProgressCallback) {
+        return TaskObservable.deferNullable(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
+    }
 }
