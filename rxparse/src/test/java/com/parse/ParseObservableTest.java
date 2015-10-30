@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -61,12 +62,16 @@ public class ParseObservableTest {
   }
 
   @Test
-  public void testParseObservableFindNextAfterCompleted() {
+  public void testParseObservableAllNextAfterCompleted() {
     ParseUser user = mock(ParseUser.class);
+    ParseUser user2 = mock(ParseUser.class);
+    List<ParseUser> users = new ArrayList<>();
+    users.add(user);
+    users.add(user2);
     ParseQueryController queryController = mock(ParseQueryController.class);
     ParseCorePlugins.getInstance().registerQueryController(queryController);
 
-    Task<List<ParseUser>> task = Task.forResult(Collections.singletonList(user));
+    Task<List<ParseUser>> task = Task.forResult(users);
     when(queryController.findAsync(
             any(ParseQuery.State.class),
             any(ParseUser.class),
@@ -78,6 +83,55 @@ public class ParseObservableTest {
 
     final AtomicBoolean completed = new AtomicBoolean(false);
     rx.parse.ParseObservable.all(query)
+        //.observeOn(Schedulers.newThread())
+        //.subscribeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Action1<ParseObject>() {
+        @Override public void call(ParseObject it) {
+            System.out.println("onNext: " + it);
+            if (completed.get()) {
+                fail("Should've onNext after completed.");
+            }
+        }
+    }, new Action1<Throwable>() {
+        @Override public void call(Throwable e) {
+            System.out.println("onError: " + e);
+        }
+    }, new Action0() {
+        @Override public void call() {
+            System.out.println("onCompleted");
+            completed.set(true);
+        }
+    });
+
+    try {
+        ParseTaskUtils.wait(task);
+    } catch (Exception e) {
+        // do nothing
+    }
+  }
+
+  @Test
+  public void testParseObservableFindNextAfterCompleted() {
+    ParseUser user = mock(ParseUser.class);
+    ParseUser user2 = mock(ParseUser.class);
+    List<ParseUser> users = new ArrayList<>();
+    users.add(user);
+    users.add(user2);
+    ParseQueryController queryController = mock(ParseQueryController.class);
+    ParseCorePlugins.getInstance().registerQueryController(queryController);
+
+    Task<List<ParseUser>> task = Task.forResult(users);
+    when(queryController.findAsync(
+            any(ParseQuery.State.class),
+            any(ParseUser.class),
+            any(Task.class))
+    ).thenReturn(task);
+
+    ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+    query.setUser(new ParseUser());
+
+    final AtomicBoolean completed = new AtomicBoolean(false);
+    rx.parse.ParseObservable.find(query)
         //.observeOn(Schedulers.newThread())
         //.subscribeOn(AndroidSchedulers.mainThread())
         .subscribe(new Action1<ParseObject>() {
