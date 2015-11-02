@@ -129,6 +129,14 @@ dependencies {
 ./gradlew clean :rxparse:assembleDebug :rxparse:testDebug --tests='*.ParseObservableTest'
 ```
 
+## Deploy
+
+```bash
+./gradlew :rxparse:build :rxparse:bintrayUpload
+./gradlew :rxparse-facebook-v3:build :rxparse-facebook-v3:bintrayUpload
+./gradlew :rxparse-facebook-v4:build :rxparse-facebook-v4:bintrayUpload
+```
+
 ## LICENSE
 
 Copyright 2015 8tory, Inc.
