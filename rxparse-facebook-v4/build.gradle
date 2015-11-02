@@ -81,7 +81,7 @@ publish {
     userOrg = 'yongjhih'
     groupId = 'com.infstory'
     artifactId = 'rxparse-facebook-v4'
-    publishVersion = '2.0.0'
+    publishVersion = '2.0.1'
     desc = 'Reactive ParseFacebooUtils v4'
     website = 'https://github.com/yongjhih/RxParse'
     bintrayUser = getRepositoryUsername()
