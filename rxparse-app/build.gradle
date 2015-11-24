@@ -6,7 +6,6 @@ buildscript {
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:2.5.0'
         classpath 'com.android.tools.build:gradle:1.1.2'
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -15,7 +14,6 @@ repositories {
     maven { url "https://jitpack.io" }
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
 //apply plugin: 'me.tatarka.retrolambda'
 
