@@ -48,10 +48,10 @@ android {
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.10.3'
-    compile 'com.parse:parsefacebookutils-v3-android:1.10.3@aar'
+    compile 'com.parse:parse-android:1.13.0'
+    compile 'com.parse:parsefacebookutils-v3-android:1.10.4@aar'
 
-    compile 'com.parse.bolts:bolts-android:1.1.4'
+    compile 'com.parse.bolts:bolts-android:1.4.0'
     compile 'com.infstory:rxbolts:1.0.0'
 
     compile 'io.reactivex:rxjava:1.0.7'
