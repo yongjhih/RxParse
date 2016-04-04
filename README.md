@@ -39,7 +39,7 @@ Before:
 ParseUser.getQuery().findInBackground(new FindCallback() {
     @Override
     public done(ParseUser user, ParseException e) {
-        if (e == null) System.out.println(user));
+        if (e == null) System.out.println(user);
     }
 });
 ```
@@ -64,7 +64,7 @@ Before:
 ParseUser.getQuery().countInBackground(new CountCallback() {
     @Override
     public done(int count, ParseException e) {
-        if (e == null) System.out.println(count));
+        if (e == null) System.out.println(count);
     }
 });
 ```
