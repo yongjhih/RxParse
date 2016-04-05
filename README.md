@@ -88,14 +88,33 @@ ParseFacebookObservable.logIn(Arrays.asList("public_profile", "email"), activity
 
 ### Get my commented posts
 
-```java
-public static Observable<ParseComment> getMyComments() {
-    return ParseObservable.find(ParseComment.getQuery().whereEqualTo("from", ParseUser.getCurrentUser()));
-}
+Before:
 
-public static Observable<ParsePost> getMyCommentedPosts() {
-    return getMyComments.toList().flatMap(comments -> ParsePost.getQuery().whereContainedIn("comments", comments));
-}
+```java
+ParseComment.getQuery().whereEqualTo("from", ParseUser.getCurrentUser()).findInBackground(new FindCallback<ParseComment> {
+    @Override
+    public done(List<ParseComment> comments, ParseException e) {
+        if (e != null) return;
+
+        ParsePost.getQuery().whereContainedIn("comments", comments).findInBackground(new FindCallback<ParsePost>() {
+            @Override
+            public done(List<ParsePost> posts, ParseException e2) {
+                if (e2 != null) return;
+
+                // ...
+            }
+        });
+    }
+});
+```
+
+After:
+
+```java
+ParseObservable.find(ParseComment.getQuery().whereEqualTo("from", ParseUser.getCurrentUser()))
+    .toList()
+    .flatMap(comments -> ParseObservable.find(ParsePost.getQuery().whereContainedIn("comments", comments)))
+    .subscribe(posts -> {});
 ```
 
 ## Installation
