@@ -39,7 +39,7 @@ Before:
 ParseUser.getQuery().findInBackground(new FindCallback() {
     @Override
     public done(ParseUser user, ParseException e) {
-        if (e == null) System.out.println(user));
+        if (e == null) System.out.println(user);
     }
 });
 ```
@@ -64,7 +64,7 @@ Before:
 ParseUser.getQuery().countInBackground(new CountCallback() {
     @Override
     public done(int count, ParseException e) {
-        if (e == null) System.out.println(count));
+        if (e == null) System.out.println(count);
     }
 });
 ```
@@ -84,6 +84,37 @@ After:
 ParseFacebookObservable.logIn(Arrays.asList("public_profile", "email"), activity).subscribe(user -> {
   System.out.println("user: " + user);
 });
+```
+
+### Get my commented posts
+
+Before:
+
+```java
+ParseComment.getQuery().whereEqualTo("from", ParseUser.getCurrentUser()).findInBackground(new FindCallback<ParseComment> {
+    @Override
+    public done(List<ParseComment> comments, ParseException e) {
+        if (e != null) return;
+
+        ParsePost.getQuery().whereContainedIn("comments", comments).findInBackground(new FindCallback<ParsePost>() {
+            @Override
+            public done(List<ParsePost> posts, ParseException e2) {
+                if (e2 != null) return;
+
+                // ...
+            }
+        });
+    }
+});
+```
+
+After:
+
+```java
+ParseObservable.find(ParseComment.getQuery().whereEqualTo("from", ParseUser.getCurrentUser()))
+    .toList()
+    .flatMap(comments -> ParseObservable.find(ParsePost.getQuery().whereContainedIn("comments", comments)))
+    .subscribe(posts -> {});
 ```
 
 ## Installation

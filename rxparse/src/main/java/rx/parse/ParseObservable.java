@@ -246,6 +246,19 @@ public class ParseObservable {
         return TaskObservable.deferNullable(() -> ParseUser.logOutInBackground());
     }
 
+    public static Observable<ParseUser> anonymousLogIn() {
+        return TaskObservable.deferNullable(() -> ParseAnonymousUtils.logInInBackground());
+    }
+
+    /*
+    ParseObservable.Anonymous.logIn()
+    public static class Anonymous {
+        public static Observable<ParseUser> logIn() {
+            return TaskObservable.deferNullable(() -> ParseAnonymousUtils.logInInBackground());
+        }
+    }
+    */
+
     // TODO requestPasswordResetInBackground(String email)
     // TODO signUpInBackground()
 
