@@ -259,8 +259,16 @@ public class ParseObservable {
     }
     */
 
-    // TODO requestPasswordResetInBackground(String email)
-    // TODO signUpInBackground()
+    // TODO linkWithInBackground(String authType, Map<String,String> authData)
+    // TODO unlinkFromInBackground(String authType)
+
+    public static Observable<String> resetPassword(String email) {
+        return TaskObservable.deferNullable(() -> ParseUser.requestPasswordResetInBackground(email)).map(v -> email);
+    }
+
+    public static Observable<ParseUser> signUp(ParseUser user) {
+        return TaskObservable.deferNullable(() -> user.signUpInBackground()).map(v -> user);
+    }
 
     // ParseAnalytics
 
