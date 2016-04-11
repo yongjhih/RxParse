@@ -121,8 +121,8 @@ ParseObservable.find(ParseComment.getQuery().whereEqualTo("from", ParseUser.getC
 
 ```java
 Map<String, Object> params = new HashMap<>();
-params.put("accessToken", accessToken.token());
-ParseObservable.callFunction("signInWithGooglePlus", params).subscribe(parseToken -> {});
+params.put("accessToken", googleToken());
+ParseObservable.callFunction("signInWithGoogle", params).subscribe(parseToken -> {});
 ```
 
 ## Installation
