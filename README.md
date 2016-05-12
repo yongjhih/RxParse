@@ -11,8 +11,6 @@
 
 [![rxparse.png](art/rxparse.png)](art/rxparse.png)
 
-[![users.png](art/users.png)](art/users.png)
-
 ## Usage
 
 javadoc:
