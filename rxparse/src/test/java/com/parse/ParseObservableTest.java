@@ -90,27 +90,9 @@ public class ParseObservableTest {
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.setUser(new ParseUser());
 
-        final AtomicBoolean completed = new AtomicBoolean(false);
-        rx.parse.ParseObservable.all(query)
-            //.observeOn(Schedulers.newThread())
-            //.subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<ParseObject>() {
-                @Override public void call(ParseObject it) {
-                    System.out.println("onNext: " + it.getObjectId());
-                    if (completed.get()) {
-                        fail("Should've onNext after onCompleted.");
-                    }
-                }
-            }, new Action1<Throwable>() {
-                @Override public void call(Throwable e) {
-                    System.out.println("onError: " + e);
-                }
-            }, new Action0() {
-                @Override public void call() {
-                    System.out.println("onCompleted");
-                    completed.set(true);
-                }
-            });
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(query))
+            .withoutErrors()
+            .completes();
 
         try {
             ParseTaskUtils.wait(task);
@@ -137,31 +119,14 @@ public class ParseObservableTest {
                     any(ParseUser.class),
                     any(Task.class))
             ).thenReturn(task);
+            //).thenThrow(IllegalStateException.class);
 
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
         query.setUser(new ParseUser());
 
-        final AtomicBoolean completed = new AtomicBoolean(false);
-        rx.parse.ParseObservable.find(query)
-            //.observeOn(Schedulers.newThread())
-            //.subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Action1<ParseObject>() {
-                @Override public void call(ParseObject it) {
-                    System.out.println("onNext: " + it);
-                    if (completed.get()) {
-                        fail("Should've onNext after onCompleted.");
-                    }
-                }
-            }, new Action1<Throwable>() {
-                @Override public void call(Throwable e) {
-                    System.out.println("onError: " + e);
-                }
-            }, new Action0() {
-                @Override public void call() {
-                    System.out.println("onCompleted");
-                    completed.set(true);
-                }
-            });
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(query))
+            .withoutErrors()
+            .completes();
 
         try {
             ParseTaskUtils.wait(task);

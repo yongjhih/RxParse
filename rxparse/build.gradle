@@ -64,6 +64,8 @@ dependencies {
     testCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
     testCompile 'io.reactivex:rxandroid:0.24.0'
     //testCompile 'com.github.ubiratansoares:rxassertions:0.2.0'
+    testCompile 'com.github.yongjhih:rxassertions:-SNAPSHOT'
+    //testCompile 'com.github.ubiratansoares:rxassertions:0.2.0'
 }
 
 tasks.withType(Test) {
