@@ -92,6 +92,7 @@ public class ParseObservableTest {
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(query))
             .withoutErrors()
+            .expectedValues(user, user2, user3)
             .completes();
 
         try {
@@ -126,6 +127,7 @@ public class ParseObservableTest {
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(query))
             .withoutErrors()
+            .expectedValues(user, user2, user3)
             .completes();
 
         try {
