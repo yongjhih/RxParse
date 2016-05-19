@@ -92,4 +92,15 @@ public class ParseObservableTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testParseObservablePin() {
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.pin(mocker(ParseUser.class)
+                    .when(user -> user.pinInBackground())
+                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .mock()))
+            .withoutErrors()
+            .completes();
+    }
+
 }

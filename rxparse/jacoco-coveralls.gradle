@@ -1,0 +1,18 @@
+// Setup: classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
+
+// ref. http://stackoverflow.com/questions/29133761/jacoco-code-coverage-in-android-studio
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    //jacocoReportPath "$buildDir/reports/coverage/debug/report.xml" // Instrumentation
+    //jacocoReportPath "$buildDir/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml" // jacoco-android
+    jacocoReportPath "$buildDir/reports/jacoco/jacocoTestReport/jacocoTestReport.xml" // jacoco.gradle
+}
+
+tasks.coveralls {
+    //dependsOn 'createDebugCoverageReport' // Instrumentation
+    dependsOn 'jacocoTestReport'
+}
+
+////apply plugin: 'jacoco-android'
+apply from: 'jacoco.gradle'
