@@ -40,22 +40,29 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static mocker.Mocker.mocker;
+import mocker.Mocker;
 import rx.Observable;
 
 public class ParseObservableTest {
 
     @Test
     public void testParseObservableAllNextAfterCompleted() {
-        List<ParseUser> users = Arrays.asList(
-                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
-                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
-                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
+        //List<ParseUser> users = Arrays.asList(
+                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
+        //ParseUser parseUser = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode())).mock();
+        //List<ParseUser> users = Arrays.asList(parseUser, parseUser, parseUser);
+        Mocker<ParseUser> mocker = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode()));
+        List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker.mock());
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQuery.class)
                     .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
                     .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
                     .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
-                    .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null).mock()))
+                    .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null).mock())
+                )
+                //.doOnNext(user -> System.out.println("" + ((ParseUser) user).getObjectId())))
             .withoutErrors()
             .expectedValues(users)
             .completes();
@@ -65,7 +72,7 @@ public class ParseObservableTest {
     public void testParseObservableAllForMass() {
         // FIXME: how mockito to make mass mocks?
         List<ParseUser> users = Observable.range(1, 1001)
-            .map(i -> mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "" + user.hashCode()).mock())
+            .map(i -> mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "" + i + user.hashCode()).mock())
             .toList()
             .toBlocking()
             .single();
