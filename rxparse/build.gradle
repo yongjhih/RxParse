@@ -98,3 +98,7 @@ coveralls {
     //jacocoReportPath 'build/outputs/reports/coverage/debug/report.xml'
     jacocoReportPath 'build/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml'
 }
+
+//tasks.coveralls {
+//    dependsOn 'check'
+//}

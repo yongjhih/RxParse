@@ -46,6 +46,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.*;
 import java.util.Collections;
 
+// Avoid cannot be accessed from outside package
 public class ParseObservableTest {
 
     @Before
