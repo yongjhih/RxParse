@@ -8,6 +8,7 @@
 [![Build Status](https://travis-ci.org/yongjhih/RxParse.svg)](https://travis-ci.org/yongjhih/RxParse)
 [![Join the chat at https://gitter.im/yongjhih/RxParse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yongjhih/RxParse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <!--[![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)-->
+[![Coveralls](https://img.shields.io/coveralls/yongjhih/RxParse.svg)](https://coveralls.io/github/yongjhih/RxParse)
 
 [![rxparse.png](art/rxparse.png)](art/rxparse.png)
 
