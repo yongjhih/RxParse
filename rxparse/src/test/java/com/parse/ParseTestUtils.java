@@ -19,7 +19,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-/** package */ final class ParseTestUtils {
+public final class ParseTestUtils {
 
   /**
    * In our unit test, lots of controllers need to use currentParseUser. A normal
