@@ -25,6 +25,7 @@ import org.mockito.ArgumentCaptor;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,10 +73,10 @@ public class ParseObservableTest {
     @Test
     public void testParseObservableFindNextAfterCompleted() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
-        ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
-        when(query.findInBackground()).thenReturn(Task.forResult(users));
 
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(query))
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(Mocker.of(ParseQuery.class)
+                    .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
+                    .mock()))
             .withoutErrors()
             .expectedValues(users)
             .completes();
@@ -84,11 +85,18 @@ public class ParseObservableTest {
     @Test
     public void testBlockingFind() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
-        ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
-        when(query.findInBackground()).thenReturn(Task.forResult(users));
+        ParseQuery<ParseUser> query = Mocker.of(ParseQuery.class)
+            .when(q -> q.findInBackground()).thenReturn(q -> Task.forResult(users))
+            .when(q -> {
+                List<ParseUser> list = Collections.emptyList();
+                try {
+                    list = q.find();
+                } catch (Exception e) {
+                }
+                return list;
+            }).thenReturn(q -> users)
+            .mock();
         try {
-            when(query.find()).thenReturn(users);
-
             assertEquals(query.find(), rx.parse.ParseObservable.find(query).toList().toBlocking().single());
         } catch (ParseException e) {
             e.printStackTrace();
