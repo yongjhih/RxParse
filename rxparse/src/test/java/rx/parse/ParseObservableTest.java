@@ -21,23 +21,13 @@ import com.parse.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.regex.Pattern;
 
-import bolts.Continuation;
 import bolts.Task;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;

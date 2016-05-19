@@ -36,17 +36,4 @@ public final class ParseTestUtils {
     ParseCorePlugins.getInstance().registerCurrentUserController(currentUserController);
   }
 
-  //public static ParseHttpClient mockParseHttpClientWithResponse(
-      //JSONObject content, int statusCode, String reasonPhase) throws IOException {
-    //byte[] contentBytes = content.toString().getBytes();
-    //ParseHttpResponse response = new ParseHttpResponse.Builder()
-        //.setContent(new ByteArrayInputStream(contentBytes))
-        //.setStatusCode(statusCode)
-        //.setTotalSize(contentBytes.length)
-        //.setContentType("application/json")
-        //.build();
-    //ParseHttpClient client = mock(ParseHttpClient.class);
-    //when(client.execute(any(ParseHttpRequest.class))).thenReturn(response);
-    //return client;
-  //}
 }

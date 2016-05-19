@@ -13,22 +13,15 @@ package com.parse;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 
+import java.util.Collections;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 
-import bolts.Continuation;
 import bolts.Task;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
@@ -40,11 +33,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import rx.functions.*;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.*;
-import java.util.Collections;
+import mocker.Mocker;
 
 // Avoid cannot be accessed from outside package
 public class ParseObservableTest {
@@ -64,18 +53,13 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableAllNextAfterCompleted() {
-        ParseUser user = mock(ParseUser.class);
-        ParseUser user2 = mock(ParseUser.class);
-        ParseUser user3 = mock(ParseUser.class);
-        List<ParseUser> users = new ArrayList<>();
-        when(user.getObjectId()).thenReturn("1_" + user.hashCode());
-        users.add(user);
-        when(user2.getObjectId()).thenReturn("2_" + user2.hashCode());
-        users.add(user2);
-        when(user3.getObjectId()).thenReturn("3_" + user3.hashCode());
-        users.add(user3);
         ParseQueryController queryController = mock(ParseQueryController.class);
         ParseCorePlugins.getInstance().registerQueryController(queryController);
+
+        List<ParseUser> users = Arrays.asList(
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
 
         Task<List<ParseUser>> task = Task.forResult(users);
         when(queryController.findAsync(
@@ -93,7 +77,7 @@ public class ParseObservableTest {
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(query))
             .withoutErrors()
-            .expectedValues(user, user2, user3)
+            .expectedValues(users)
             .completes();
 
         try {
@@ -105,13 +89,7 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableFindNextAfterCompleted() {
-        ParseUser user = mock(ParseUser.class);
-        ParseUser user2 = mock(ParseUser.class);
-        ParseUser user3 = mock(ParseUser.class);
-        List<ParseUser> users = new ArrayList<>();
-        users.add(user);
-        users.add(user2);
-        users.add(user3);
+        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQueryController queryController = mock(ParseQueryController.class);
         ParseCorePlugins.getInstance().registerQueryController(queryController);
 
@@ -128,7 +106,7 @@ public class ParseObservableTest {
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(query))
             .withoutErrors()
-            .expectedValues(user, user2, user3)
+            .expectedValues(users)
             .completes();
 
         try {
