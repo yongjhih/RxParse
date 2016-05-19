@@ -48,28 +48,22 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import mocker.Mocker;
 
 public class ParseObservableTest {
 
     @Test
     public void testParseObservableAllNextAfterCompleted() {
-        ParseUser user = mock(ParseUser.class);
-        ParseUser user2 = mock(ParseUser.class);
-        ParseUser user3 = mock(ParseUser.class);
-        List<ParseUser> users = Arrays.asList(user, user2, user3);
+        List<ParseUser> users = Arrays.asList(
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
 
-        ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
-
-        when(query.countInBackground()).thenReturn(Task.forResult(users.size()));
-        when(query.findInBackground()).thenReturn(Task.forResult(users));
-        when(query.setSkip(any(int.class))).thenReturn(null);
-        when(query.setLimit(any(int.class))).thenReturn(null);
-
-        when(user.getObjectId()).thenReturn("1_" + user.hashCode());
-        when(user2.getObjectId()).thenReturn("2_" + user2.hashCode());
-        when(user3.getObjectId()).thenReturn("3_" + user3.hashCode());
-
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(query))
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(Mocker.of(ParseQuery.class)
+                    .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
+                    .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
+                    .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
+                    .when(query -> query.setLimit(any(int.class))).thenReturn(query -> null).mock()))
             .withoutErrors()
             .expectedValues(users)
             .completes();
