@@ -33,7 +33,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import mocker.Mocker;
+import static mocker.Mocker.mocker;
 
 // Avoid cannot be accessed from outside package
 public class ParseObservableTest {
@@ -57,9 +57,9 @@ public class ParseObservableTest {
         ParseCorePlugins.getInstance().registerQueryController(queryController);
 
         List<ParseUser> users = Arrays.asList(
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
 
         Task<List<ParseUser>> task = Task.forResult(users);
         when(queryController.findAsync(

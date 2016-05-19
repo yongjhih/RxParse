@@ -39,18 +39,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import mocker.Mocker;
+import static mocker.Mocker.mocker;
 
 public class ParseObservableTest {
 
     @Test
     public void testParseObservableAllNextAfterCompleted() {
         List<ParseUser> users = Arrays.asList(
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
-                Mocker.of(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
+                mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
 
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(Mocker.of(ParseQuery.class)
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQuery.class)
                     .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
                     .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
                     .when(query -> query.setSkip(any(int.class))).thenReturn(query -> null)
@@ -64,7 +64,7 @@ public class ParseObservableTest {
     public void testParseObservableFindNextAfterCompleted() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
 
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(Mocker.of(ParseQuery.class)
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(mocker(ParseQuery.class)
                     .when(query -> query.findInBackground()).thenReturn(query -> Task.forResult(users))
                     .mock()))
             .withoutErrors()
@@ -75,7 +75,7 @@ public class ParseObservableTest {
     @Test
     public void testBlockingFind() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
-        ParseQuery<ParseUser> query = Mocker.of(ParseQuery.class)
+        ParseQuery<ParseUser> query = mocker(ParseQuery.class)
             .when(q -> q.findInBackground()).thenReturn(q -> Task.forResult(users))
             .when(q -> {
                 List<ParseUser> list = Collections.emptyList();
