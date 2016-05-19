@@ -11,6 +11,7 @@ buildscript {
         classpath 'com.novoda:bintray-release:0.3.4'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.3'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.6.3'
     }
 
     // Exclude the version that the android plugin depends on.
@@ -75,4 +76,11 @@ tasks.withType(Test) {
     events "passed", "skipped", "failed", "standardOut", "standardError"
     showStandardStreams = true
   }
+}
+
+apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    //jacocoReportPath 'build/outputs/reports/coverage/debug/report.xml'
 }

@@ -19,3 +19,5 @@ before_install:
     - export JAVA_HOME=$JAVA8_HOME
 script:
     - ./gradlew clean assemble check
+after_success:
+    - ./gradlew coveralls
