@@ -56,44 +56,34 @@ public class ParseObservableTest {
         ParseUser user = mock(ParseUser.class);
         ParseUser user2 = mock(ParseUser.class);
         ParseUser user3 = mock(ParseUser.class);
-        List<ParseUser> users = new ArrayList<>();
-        users.add(user);
-        users.add(user2);
-        users.add(user3);
+        List<ParseUser> users = Arrays.asList(user, user2, user3);
 
         ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
+
         when(query.countInBackground()).thenReturn(Task.forResult(users.size()));
         when(query.findInBackground()).thenReturn(Task.forResult(users));
         when(query.setSkip(any(int.class))).thenReturn(null);
         when(query.setLimit(any(int.class))).thenReturn(null);
+
         when(user.getObjectId()).thenReturn("1_" + user.hashCode());
         when(user2.getObjectId()).thenReturn("2_" + user2.hashCode());
         when(user3.getObjectId()).thenReturn("3_" + user3.hashCode());
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(query))
             .withoutErrors()
-            .expectedValues(user, user2, user3)
+            .expectedValues(users)
             .completes();
     }
 
     @Test
     public void testParseObservableFindNextAfterCompleted() {
-        ParseUser user = mock(ParseUser.class);
-        ParseUser user2 = mock(ParseUser.class);
-        ParseUser user3 = mock(ParseUser.class);
-        List<ParseUser> users = new ArrayList<>();
-        users.add(user);
-        users.add(user2);
-        users.add(user3);
-
-        Task<List<ParseUser>> task = Task.forResult(users);
-
+        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
-        when(query.findInBackground()).thenReturn(task);
+        when(query.findInBackground()).thenReturn(Task.forResult(users));
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.find(query))
             .withoutErrors()
-            .expectedValues(user, user2, user3)
+            .expectedValues(users)
             .completes();
     }
 
@@ -101,8 +91,7 @@ public class ParseObservableTest {
     public void testBlockingFind() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQuery<ParseUser> query = (ParseQuery<ParseUser>) mock(ParseQuery.class);
-        when(query.findInBackground())
-            .thenReturn(Task.forResult(users));
+        when(query.findInBackground()).thenReturn(Task.forResult(users));
         try {
             when(query.find()).thenReturn(users);
 
