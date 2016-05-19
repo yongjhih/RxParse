@@ -93,6 +93,18 @@ public class ParseObservableTest {
     }
 
     @Test
+    public void testParseObservableFirst() {
+        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.first(mocker(ParseQuery.class)
+                    .when(query -> query.getFirstInBackground()).thenReturn(query -> Task.forResult(users.get(0)))
+                    .mock()))
+            .withoutErrors()
+            .expectedValues(users.get(0))
+            .completes();
+    }
+
+    @Test
     public void testBlockingFind() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQuery<ParseUser> query = mocker(ParseQuery.class)
@@ -121,6 +133,25 @@ public class ParseObservableTest {
                     .mock()))
             .withoutErrors()
             .completes();
+    }
+
+    @Test
+    public void testParseObservableSave() {
+        /*
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(mocker(ParseUser.class)
+                    .when(user -> {
+                        Task<Void> task = Task.forResult(null);
+                        try {
+                            task = user.saveInBackground();
+                        } catch (Exception e) {
+                        }
+                        return task;
+                    })
+                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .mock()))
+            .withoutErrors()
+            .completes();
+        */
     }
 
 }
