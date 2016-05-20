@@ -180,4 +180,30 @@ public class ParseObservableTest {
             .completes();
      }
 
+    @Test
+    public void testParseObservableUnsubscribe() {
+        ParsePushChannelsController controller = mock(ParsePushChannelsController.class);
+        ParseCorePlugins.getInstance().registerPushChannelsController(controller);
+
+        when(controller.subscribeInBackground(any(String.class)))
+            .thenReturn(Task.forResult(null));
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.subscribe("hello"))
+            .withoutErrors()
+            .completes();
+    }
+
+    @Test
+    public void testParseObservableSubscribe() {
+        ParsePushChannelsController controller = mock(ParsePushChannelsController.class);
+        ParseCorePlugins.getInstance().registerPushChannelsController(controller);
+
+        when(controller.unsubscribeInBackground(any(String.class)))
+            .thenReturn(Task.forResult(null));
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.unsubscribe("hello"))
+            .withoutErrors()
+            .completes();
+    }
+
 }
