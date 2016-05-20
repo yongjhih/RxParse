@@ -188,6 +188,14 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableSaveEventually() {
+        ParseUser user = mock(ParseUser.class);
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.saveEventually(user))
+            .fails();
+        try {
+            verify(user).saveEventually();
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.saveEventually(mocker(ParseUser.class)
                     .when(user -> user.saveEventually())
@@ -207,6 +215,16 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableFetch() {
+        /*
+        ParseUser user = mock(ParseUser.class);
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetch(user))
+            .fails();
+        try {
+            verify(user).fetchInBackground();
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
+        */
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetch(mocker(ParseUser.class)
                     .when(user -> user.fetchInBackground())
@@ -220,6 +238,14 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableFetchIfNeeded() {
+        ParseUser user = mock(ParseUser.class);
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetchIfNeeded(user))
+            .fails();
+        try {
+            verify(user).fetchIfNeededInBackground();
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetchIfNeeded(mocker(ParseUser.class)
                     .when(user -> user.fetchIfNeededInBackground())
