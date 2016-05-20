@@ -320,4 +320,7 @@ public class ParseObservable {
     public static Observable<ParseFile> save(ParseFile file, ProgressCallback uploadProgressCallback) {
         return TaskObservable.deferNullable(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
     }
+
+    private ParseObservable() {
+    }
 }
