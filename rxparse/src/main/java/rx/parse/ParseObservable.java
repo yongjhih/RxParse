@@ -129,7 +129,10 @@ public class ParseObservable {
     }
 
     public static <R extends ParseObject> Observable<R> get(Class<R> clazz, String objectId) {
-        ParseQuery<R> query = ParseQuery.getQuery(clazz);
+        return get(ParseQuery.getQuery(clazz), objectId);
+    }
+
+    public static <R extends ParseObject> Observable<R> get(ParseQuery<R> query, String objectId) {
         return TaskObservable.defer(() -> query.getInBackground(objectId))
             .doOnUnsubscribe(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())

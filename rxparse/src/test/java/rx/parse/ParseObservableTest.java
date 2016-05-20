@@ -112,6 +112,15 @@ public class ParseObservableTest {
     }
 
     @Test
+    public void testParseObservableGet() {
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.get(mocker(ParseQuery.class)
+                    .when(query -> query.getInBackground(any(String.class))).thenReturn(query -> Task.forResult(mock(ParseUser.class)))
+                    .mock(), "hello"))
+            .withoutErrors()
+            .completes();
+    }
+
+    @Test
     public void testBlockingFind() {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQuery<ParseUser> query = mocker(ParseQuery.class)
