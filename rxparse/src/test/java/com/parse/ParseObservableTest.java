@@ -34,13 +34,21 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static mocker.Mocker.mocker;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
+import rx.parse.BuildConfig;
 
 // Avoid cannot be accessed from outside package
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class)
 public class ParseObservableTest {
 
     @Before
     public void setUp() {
         ParseTestUtils.setTestParseUser();
+        Parse.enableLocalDatastore(RuntimeEnvironment.application.getApplicationContext());
         ParseObject.registerSubclass(ParseUser.class);
     }
 
@@ -131,4 +139,66 @@ public class ParseObservableTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testParseObservablePinList() {
+        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
+        ParseQueryController queryController = mock(ParseQueryController.class);
+        ParseCorePlugins.getInstance().registerQueryController(queryController);
+
+        Task<List<ParseUser>> task = Task.forResult(users);
+        when(queryController.findAsync(
+                    any(ParseQuery.State.class),
+                    any(ParseUser.class),
+                    any(Task.class))
+            ).thenReturn(task);
+            //).thenThrow(IllegalStateException.class);
+
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+        query.setUser(new ParseUser());
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.pin(mocker(ParseUser.class)
+                    .when(user -> user.pinInBackground())
+                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .mock()))
+            .withoutErrors()
+            .completes();
+    }
+
+    @Test
+    public void testParseObservableSave() {
+        ParseObjectController controller = mock(ParseObjectController.class);
+        ParseCorePlugins.getInstance().registerObjectController(controller);
+
+        when(controller.saveAsync(
+                    any(ParseObject.State.class),
+                    any(ParseOperationSet.class),
+                    any(String.class),
+                    any(ParseDecoder.class))
+            ).thenReturn(Task.<ParseObject.State>forResult(mock(ParseObject.State.class)));
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(mock(ParseUser.class)))
+            .withoutErrors()
+            .completes();
+     }
+
+    @Test
+    public void testParseObservableSaveAll() {
+        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
+        ParseObjectController controller = mock(ParseObjectController.class);
+        ParseCorePlugins.getInstance().registerObjectController(controller);
+
+        when(controller.saveAllAsync(
+                    any(List.class),
+                    any(List.class),
+                    any(String.class),
+                    any(List.class)))
+            //.thenReturn(Task.<List<ParseObject.State>>forResult(Arrays.asList(mock(ParseObject.State.class), mock(ParseObject.State.class), mock(ParseObject.State.class))));
+            .thenReturn(Arrays.asList(mock(ParseObject.State.class), mock(ParseObject.State.class), mock(ParseObject.State.class)));
+
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(users))
+            .withoutErrors()
+            .completes();
+     }
+
 }
