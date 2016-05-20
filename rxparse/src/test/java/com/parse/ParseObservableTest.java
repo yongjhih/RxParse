@@ -142,27 +142,6 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservablePinList() {
-        List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
-        ParseQueryController queryController = mock(ParseQueryController.class);
-        ParseCorePlugins.getInstance().registerQueryController(queryController);
-
-        Task<List<ParseUser>> task = Task.forResult(users);
-        when(queryController.findAsync(
-                    any(ParseQuery.State.class),
-                    any(ParseUser.class),
-                    any(Task.class))
-            ).thenReturn(task);
-            //).thenThrow(IllegalStateException.class);
-
-        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
-        query.setUser(new ParseUser());
-
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.pin(mocker(ParseUser.class)
-                    .when(user -> user.pinInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
-                    .mock()))
-            .withoutErrors()
-            .completes();
     }
 
     @Test

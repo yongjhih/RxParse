@@ -142,23 +142,4 @@ public class ParseObservableTest {
             .completes();
     }
 
-    @Test
-    public void testParseObservableSave() {
-        /*
-        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(mocker(ParseUser.class)
-                    .when(user -> {
-                        Task<Void> task = Task.forResult(null);
-                        try {
-                            task = user.saveInBackground();
-                        } catch (Exception e) {
-                        }
-                        return task;
-                    })
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
-                    .mock()))
-            .withoutErrors()
-            .completes();
-        */
-    }
-
 }
