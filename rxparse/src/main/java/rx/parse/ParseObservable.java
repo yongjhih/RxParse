@@ -321,6 +321,9 @@ public class ParseObservable {
         return TaskObservable.deferNullable(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
     }
 
+    /*
     private ParseObservable() {
+        throw new UnsupportedOperationException();
     }
+    */
 }
