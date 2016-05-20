@@ -40,7 +40,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.doReturn;
 import static mocker.Mocker.mocker;
 import mocker.Mocker;
 import java.io.File;
@@ -196,6 +196,13 @@ public class ParseObservableTest {
             .withoutErrors()
             .completes();
             */
+        /* isDirty()
+        ParseUser user = mock(ParseUser.class);
+        doReturn(bolts.Task.<Void>forResult(null)).when(user).saveEventually();
+        rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.saveEventually(user))
+            .withoutErrors()
+            .completes();
+        */
     }
 
     @Test
