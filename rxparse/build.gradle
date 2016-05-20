@@ -25,10 +25,11 @@ apply plugin: 'me.tatarka.retrolambda'
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
+    //maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
 }
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion '23.0.2'
 
     compileOptions {
@@ -38,7 +39,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
     }
 
     testOptions {
@@ -66,7 +67,9 @@ dependencies {
     compile 'com.infstory:rxbolts:1.0.0'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.0'
+    //testCompile 'org.robolectric:robolectric:3.0'
+    testCompile 'org.robolectric:robolectric:3.1-rc1'
+    //testCompile 'org.robolectric:robolectric:3.1-SNAPSHOT'
     testCompile 'org.skyscreamer:jsonassert:1.2.3'
     testCompile 'org.mockito:mockito-core:1.10.19'
     testCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
