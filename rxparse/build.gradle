@@ -76,7 +76,7 @@ dependencies {
     testCompile 'io.reactivex:rxandroid:0.24.0'
     //testCompile 'com.github.ubiratansoares:rxassertions:0.2.0'
     testCompile 'com.github.yongjhih:rxassertions:0.2.2'
-    testCompile 'com.github.yongjhih:mocker:0.1.0'
+    testCompile 'com.github.yongjhih:mocker:0.1.2'
     //testCompile 'com.github.ubiratansoares:rxassertions:0.2.0'
 }
 

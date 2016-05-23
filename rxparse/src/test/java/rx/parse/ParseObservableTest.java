@@ -52,14 +52,7 @@ public class ParseObservableTest {
 
     @Test
     public void testParseObservableAllNextAfterCompleted() {
-        //List<ParseUser> users = Arrays.asList(
-                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "1_" + user.hashCode()).mock(),
-                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "2_" + user.hashCode()).mock(),
-                //mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> "3_" + user.hashCode()).mock());
-        //ParseUser parseUser = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode())).mock();
-        //List<ParseUser> users = Arrays.asList(parseUser, parseUser, parseUser);
-        Mocker<ParseUser> mocker = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode()));
-        List<ParseUser> users = Arrays.asList(mocker.mock(), mocker.mock(), mocker.mock());
+        List<ParseUser> users = mocker(ParseUser.class).when(user -> user.getObjectId()).thenReturn(user -> String.valueOf(user.hashCode())).asList(3);
 
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.all(mocker(ParseQuery.class)
                     .when(query -> query.countInBackground()).thenReturn(query -> Task.forResult(users.size()))
