@@ -1,0 +1,9 @@
+apply plugin: 'com.github.kt3k.coveralls'
+
+coveralls {
+    jacocoReportPath "$buildDir/reports/jacoco/jacocoTestDebugUnitTestReport/jacocoTestDebugUnitTestReport.xml"
+}
+
+tasks.coveralls {
+    dependsOn 'jacocoTestReport'
+}

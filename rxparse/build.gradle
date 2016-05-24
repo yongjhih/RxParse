@@ -21,6 +21,7 @@ buildscript {
 
 apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'jacoco-android' // not support retrolambda: 0% coverage
 
 repositories {
     jcenter()
@@ -90,3 +91,4 @@ tasks.withType(Test) {
 }
 
 apply from: 'jacoco-coveralls.gradle'
+//apply from: 'jacoco-android-coveralls.gradle'
