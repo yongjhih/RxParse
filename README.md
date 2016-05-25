@@ -2,12 +2,13 @@
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxParse-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/1670)
 [![JitPack](https://img.shields.io/github/tag/yongjhih/RxParse.svg?label=JitPack)](https://jitpack.io/#yongjhih/RxParse)
-[![Download](https://api.bintray.com/packages/yongjhih/maven/RxParse/images/download.svg) ](https://bintray.com/yongjhih/maven/RxParse/_latestVersion)
+[![Download](https://api.bintray.com/packages/yongjhih/maven/RxParse/images/download.svg)](https://bintray.com/yongjhih/maven/RxParse/_latestVersion)
 [![javadoc](https://img.shields.io/github/tag/yongjhih/RxParse.svg?label=javadoc)](https://jitpack.io/com/github/yongjhih/RxParse/rxparse/c3256ac553/javadoc/)
-[![Bountysource](https://www.bountysource.com/badge/team?team_id=43965&style=bounties_posted)](https://www.bountysource.com/teams/8tory/bounties?utm_source=8tory&utm_medium=shield&utm_campaign=bounties_posted)
 [![Build Status](https://travis-ci.org/yongjhih/RxParse.svg)](https://travis-ci.org/yongjhih/RxParse)
-[![Join the chat at https://gitter.im/yongjhih/RxParse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/yongjhih/RxParse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter Chat](https://img.shields.io/gitter/room/yongjhih/RxParse.svg)](https://gitter.im/yongjhih/RxParse)
 [![Coverage Status](https://coveralls.io/repos/github/yongjhih/RxParse/badge.svg)](https://coveralls.io/github/yongjhih/RxParse)
+[![Bountysource](https://bountysource.com/badge/team?team_id=43965&style=bounties_posted)](https://bountysource.com/teams/8tory/bounties)
+<!--[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c624b6f3c24d47b4917768c70e951dc2)](https://codacy.com/app/yongjhih/RxParse)-->
 <!--[![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)-->
 <!--[![Coveralls](https://img.shields.io/coveralls/yongjhih/RxParse.svg)](https://coveralls.io/github/yongjhih/RxParse)-->
 
