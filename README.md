@@ -8,7 +8,7 @@
 [![Gitter Chat](https://img.shields.io/gitter/room/yongjhih/RxParse.svg)](https://gitter.im/yongjhih/RxParse)
 [![Coverage Status](https://coveralls.io/repos/github/yongjhih/RxParse/badge.svg)](https://coveralls.io/github/yongjhih/RxParse)
 [![Bountysource](https://bountysource.com/badge/team?team_id=43965&style=bounties_posted)](https://bountysource.com/teams/8tory/bounties)
-<!--[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c624b6f3c24d47b4917768c70e951dc2)](https://codacy.com/app/yongjhih/RxParse)-->
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c583ae8fff9f4855954133c9146a11e4)](https://codacy.com/app/yongjhih/RxParse)
 <!--[![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)-->
 <!--[![Coveralls](https://img.shields.io/coveralls/yongjhih/RxParse.svg)](https://coveralls.io/github/yongjhih/RxParse)-->
 
