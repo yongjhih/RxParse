@@ -23,17 +23,12 @@ import rx.observables.*;
 
 import com.parse.*;
 
-import java.util.List;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import rx.bolts.TaskObservable;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 
 public class ParseFacebookObservable {
 

@@ -14,24 +14,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 import bolts.Task;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static mocker.Mocker.mocker;
 import org.robolectric.RobolectricGradleTestRunner;
@@ -125,7 +115,7 @@ public class ParseObservableTest {
     }
 
     @Test
-    public void testBlockingFind() {
+    public void testBlockingFind() throws ParseException {
         ParseQueryController queryController = mock(ParseQueryController.class);
         ParseCorePlugins.getInstance().registerQueryController(queryController);
         Task<List<ParseUser>> task = Task.forResult(Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class)));
@@ -133,11 +123,7 @@ public class ParseObservableTest {
 
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 
-        try {
-            assertEquals(query.find(), rx.parse.ParseObservable.find(query).toList().toBlocking().single());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        assertThat(query.find()).isEqualTo(rx.parse.ParseObservable.find(query).toList().toBlocking().single());
     }
 
     @Test

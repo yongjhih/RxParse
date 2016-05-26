@@ -18,8 +18,6 @@ package rx.parse;
 
 import com.parse.*;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -28,21 +26,11 @@ import java.util.List;
 
 import bolts.Task;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doReturn;
 import static mocker.Mocker.mocker;
-import mocker.Mocker;
 import java.io.File;
 import java.io.InputStream;
 
@@ -119,7 +107,7 @@ public class ParseObservableTest {
     }
 
     @Test
-    public void testBlockingFind() {
+    public void testBlockingFind() throws ParseException {
         List<ParseUser> users = Arrays.asList(mock(ParseUser.class), mock(ParseUser.class), mock(ParseUser.class));
         ParseQuery<ParseUser> query = mocker(ParseQuery.class)
             .when(q -> q.findInBackground()).thenReturn(q -> Task.forResult(users))
@@ -132,18 +120,14 @@ public class ParseObservableTest {
                 return list;
             }).thenReturn(q -> users)
             .mock();
-        try {
-            assertEquals(query.find(), rx.parse.ParseObservable.find(query).toList().toBlocking().single());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        assertThat(query.find()).isEqualTo(rx.parse.ParseObservable.find(query).toList().toBlocking().single());
     }
 
     @Test
     public void testParseObservablePin() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.pin(mocker(ParseUser.class)
                     .when(user -> user.pinInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -153,7 +137,7 @@ public class ParseObservableTest {
     public void testParseObservablePinName() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.pin("hello", mocker(ParseUser.class)
                     .when(user -> user.pinInBackground(any(String.class)))
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -163,7 +147,7 @@ public class ParseObservableTest {
     public void testParseObservableUnpin() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.unpin(mocker(ParseUser.class)
                     .when(user -> user.unpinInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -173,7 +157,7 @@ public class ParseObservableTest {
     public void testParseObservableUnpinName() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.unpin("hello", mocker(ParseUser.class)
                     .when(user -> user.unpinInBackground(any(String.class)))
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -192,14 +176,14 @@ public class ParseObservableTest {
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.saveEventually(mocker(ParseUser.class)
                     .when(user -> user.saveEventually())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
             */
         /* isDirty()
         ParseUser user = mock(ParseUser.class);
-        doReturn(bolts.Task.<Void>forResult(null)).when(user).saveEventually();
+        doReturn(Task.<Void>forResult(null)).when(user).saveEventually();
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.saveEventually(user))
             .withoutErrors()
             .completes();
@@ -221,7 +205,7 @@ public class ParseObservableTest {
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetch(mocker(ParseUser.class)
                     .when(user -> user.fetchInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .then(user -> doThrow(new RuntimeException()).when(user))
                     .mock()))
             .withoutErrors()
@@ -242,7 +226,7 @@ public class ParseObservableTest {
         /* NPE
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.fetchIfNeeded(mocker(ParseUser.class)
                     .when(user -> user.fetchIfNeededInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -253,7 +237,7 @@ public class ParseObservableTest {
     public void testParseObservableSend() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.send(mocker(ParsePush.class)
                     .when(it -> it.sendInBackground())
-                    .thenReturn(it -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(it -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -263,7 +247,7 @@ public class ParseObservableTest {
     public void testParseObservableSignUp() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.signUp(mocker(ParseUser.class)
                     .when(user -> user.signUpInBackground())
-                    .thenReturn(user -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(user -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -273,7 +257,7 @@ public class ParseObservableTest {
     public void testParseObservableGetData() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getData(mocker(ParseFile.class)
                     .when(it -> it.getDataInBackground())
-                    .thenReturn(it -> bolts.Task.<byte[]>forResult(null))
+                    .thenReturn(it -> Task.<byte[]>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -283,7 +267,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataProgress() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getData(mocker(ParseFile.class)
                     .when(it -> it.getDataInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> bolts.Task.<byte[]>forResult(null))
+                    .thenReturn(it -> Task.<byte[]>forResult(null))
                     .mock(), mock(ProgressCallback.class)))
             .withoutErrors()
             .completes();
@@ -293,7 +277,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataStream() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getDataStream(mocker(ParseFile.class)
                     .when(it -> it.getDataStreamInBackground())
-                    .thenReturn(it -> bolts.Task.<InputStream>forResult(null))
+                    .thenReturn(it -> Task.<InputStream>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -303,7 +287,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataStreamProgress() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getDataStream(mocker(ParseFile.class)
                     .when(it -> it.getDataStreamInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> bolts.Task.<InputStream>forResult(null))
+                    .thenReturn(it -> Task.<InputStream>forResult(null))
                     .mock(), mock(ProgressCallback.class)))
             .withoutErrors()
             .completes();
@@ -313,7 +297,7 @@ public class ParseObservableTest {
     public void testParseObservableGetFile() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getFile(mocker(ParseFile.class)
                     .when(it -> it.getFileInBackground())
-                    .thenReturn(it -> bolts.Task.<File>forResult(null))
+                    .thenReturn(it -> Task.<File>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -323,7 +307,7 @@ public class ParseObservableTest {
     public void testParseObservableGetFileProgress() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.getFile(mocker(ParseFile.class)
                     .when(it -> it.getFileInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> bolts.Task.<File>forResult(null))
+                    .thenReturn(it -> Task.<File>forResult(null))
                     .mock(), mock(ProgressCallback.class)))
             .withoutErrors()
             .completes();
@@ -333,7 +317,7 @@ public class ParseObservableTest {
     public void testParseObservableSaveFile() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(mocker(ParseFile.class)
                     .when(it -> it.saveInBackground())
-                    .thenReturn(it -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(it -> Task.<Void>forResult(null))
                     .mock()))
             .withoutErrors()
             .completes();
@@ -343,7 +327,7 @@ public class ParseObservableTest {
     public void testParseObservableSaveFileProgress() {
         rx.assertions.RxAssertions.assertThat(rx.parse.ParseObservable.save(mocker(ParseFile.class)
                     .when(it -> it.saveInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> bolts.Task.<Void>forResult(null))
+                    .thenReturn(it -> Task.<Void>forResult(null))
                     .mock(), mock(ProgressCallback.class)))
             .withoutErrors()
             .completes();
@@ -351,14 +335,6 @@ public class ParseObservableTest {
 
     @Test
     public void testConstructor() {
-        assertNotNull(new ParseObservable());
+        assertThat(new ParseObservable()).isNotNull();
     }
-
-    /*
-    @Test(expected=IllegalAccessException.class)
-    public void testConstructorPrivate() throws Exception {
-        ParseObservable.class.newInstance();
-        fail("Constructor should be private");
-    }
-    */
 }
