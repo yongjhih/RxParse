@@ -108,7 +108,7 @@ publish {
     groupId = 'com.infstory'
     artifactId = 'rxparse'
     uploadName = 'RxParse'
-    publishVersion = '2.0.2'
+    publishVersion = '2.0.3'
     desc = 'Reactive Parse'
     website = 'https://github.com/yongjhih/RxParse'
     bintrayUser = getRepositoryUsername()

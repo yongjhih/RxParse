@@ -64,3 +64,33 @@ tasks.withType(JavaCompile) {
     options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
 
+//apply from: 'jacoco-coveralls.gradle'
+//apply from: 'jacoco-android-coveralls.gradle'
+
+apply plugin: 'com.novoda.bintray-release'
+
+def getRepositoryUsername() {
+    return hasProperty('BINTRAY_USER') ? BINTRAY_USER : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('BINTRAY_KEY') ? BINTRAY_KEY : ""
+}
+
+publish {
+    userOrg = 'yongjhih'
+    groupId = 'com.infstory'
+    artifactId = 'rxparse-facebook-v3'
+    publishVersion = '2.0.3'
+    desc = 'Reactive ParseFacebooUtils v3'
+    website = 'https://github.com/yongjhih/RxParse'
+    bintrayUser = getRepositoryUsername()
+    bintrayKey = getRepositoryPassword()
+    dryRun = false
+}
+
+//group = 'com.github.yongjhih'
+
+apply plugin: 'com.github.dcendents.android-maven'
+
+apply from: 'javadoc.gradle'

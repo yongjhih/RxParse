@@ -75,7 +75,7 @@ publish {
     userOrg = 'yongjhih'
     groupId = 'com.infstory'
     artifactId = 'rxparse-facebook-v4'
-    publishVersion = '2.0.1'
+    publishVersion = '2.0.3'
     desc = 'Reactive ParseFacebooUtils v4'
     website = 'https://github.com/yongjhih/RxParse'
     bintrayUser = getRepositoryUsername()
@@ -83,9 +83,8 @@ publish {
     dryRun = false
 }
 
-//apply plugin: 'maven'
-apply plugin: 'com.github.dcendents.android-maven'
+//group = 'com.github.yongjhih'
 
-group = 'com.github.yongjhih'
+apply plugin: 'com.github.dcendents.android-maven'
 
 apply from: 'javadoc.gradle'
