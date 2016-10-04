@@ -1,4 +1,6 @@
 include ':rxparse'
-include ':rxparse-app'
+//include ':rxparse-android'
+include ':rxparse-app-v3'
+include ':rxparse-app-v4'
 include ':rxparse-facebook-v3'
 include ':rxparse-facebook-v4'

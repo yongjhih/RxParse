@@ -24,13 +24,13 @@ apply plugin: 'com.android.application'
 //apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "rx.parse.app"
-        minSdkVersion 14
-        targetSdkVersion 22
+        minSdkVersion 15
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -59,12 +59,14 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.1.1'
-    //compile 'com.android.support:support-v4:22.1.1'
-    compile 'com.android.support:recyclerview-v7:22.1.1'
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    //compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
 
+    compile 'com.parse:parse-android:1.13.1'
+    compile 'com.parse.bolts:bolts-android:1.4.0'
     compile project(':rxparse')
-    compile project(':rxparse-facebook-v3')
+    compile project(':rxparse-facebook-v4')
     //compile 'com.github.yongjhih.RxParse:rxparse:-SNAPSHOT'
     //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:-SNAPSHOT'
 

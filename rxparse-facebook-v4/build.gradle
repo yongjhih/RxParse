@@ -26,8 +26,8 @@ repositories {
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -35,8 +35,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 21
+        minSdkVersion 15
+        targetSdkVersion 23
     }
 
     lintOptions {
@@ -45,15 +45,15 @@ android {
 }
 
 dependencies {
-    compile 'com.parse:parse-android:1.13.0'
+    compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
 
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
-    compile 'com.infstory:rxbolts:1.0.1'
+    compile 'com.infstory:rxbolts:1.0.3'
 
     compile 'io.reactivex:rxjava:1.0.7'
 
-    compile 'com.facebook.android:facebook-android-sdk:4.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.9.0'
     //testCompile "org.mockito:mockito-core:1.+"
 }
 
