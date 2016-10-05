@@ -1,6 +1,5 @@
 package rx.parse.app;
 
-import android.app.ActivityManager;
 import android.app.Application;
 //import android.support.multidex.MultiDexApplication;
 
@@ -12,11 +11,7 @@ import com.parse.*;
 //import com.sromku.simple.fb.SimpleFacebook;
 //import com.sromku.simple.fb.SimpleFacebookConfiguration;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import com.facebook.drawee.backends.pipeline.Fresco
-;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class RxParseApplication extends Application {
     @Override

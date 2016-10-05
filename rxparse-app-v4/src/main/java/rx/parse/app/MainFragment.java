@@ -10,9 +10,6 @@ import android.support.v7.widget.RecyclerView;
 //import android.support.v7.widget.StaggeredGridLayoutManager;
 //import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -41,9 +38,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 public class MainFragment extends Fragment {
 
     @InjectView(R.id.list)
-    RecyclerView listView;
+    public RecyclerView listView;
     @InjectView(R.id.loading)
-    SwipeRefreshLayout loading;
+    public SwipeRefreshLayout loading;
 
     private Handler handler;
     private ListRecyclerAdapter<ParseUser, ParseUserViewHolder> listAdapter;
@@ -123,9 +120,9 @@ public class MainFragment extends Fragment {
 
     public static class ParseUserViewHolder extends BindViewHolder<ParseUser> {
         @InjectView(R.id.icon)
-        SimpleDraweeView icon;
+        public SimpleDraweeView icon;
         @InjectView(R.id.text1)
-        TextView text1;
+        public TextView text1;
 
         public ParseUserViewHolder(View itemView) {
             super(itemView);

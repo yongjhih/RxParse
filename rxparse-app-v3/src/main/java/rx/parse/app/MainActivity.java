@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     @InjectView(R.id.pager)
-    ViewPager mViewPager;
+    public ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return getString(R.string.title_section1).toUpperCase(l);
+                default:
+                    return null;
             }
-            return null;
         }
     }
 }
