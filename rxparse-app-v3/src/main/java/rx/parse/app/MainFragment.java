@@ -1,6 +1,5 @@
 package rx.parse.app;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,6 +1,5 @@
 package rx.parse.app;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,10 +23,8 @@ import com.parse.*;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
 import rx.android.app.*;
 import rx.functions.*;
 
