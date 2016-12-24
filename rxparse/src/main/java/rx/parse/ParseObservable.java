@@ -21,6 +21,7 @@ import android.content.Intent;
 import com.parse.ParseAnalytics;
 import com.parse.ParseAnonymousUtils;
 import com.parse.ParseCloud;
+import com.parse.ParseConfig;
 import com.parse.ParseFile;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -324,9 +325,15 @@ public class ParseObservable {
         return TaskObservable.deferNullable(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
     }
 
+    public static Observable<ParseConfig> getConfig() {
+        return TaskObservable.deferNullable(() -> ParseConfig.getInBackground())
+                .map(c -> ParseConfig.getCurrentConfig());
+    }
+
     /*
     private ParseObservable() {
         throw new UnsupportedOperationException();
     }
     */
+
 }
