@@ -2,35 +2,34 @@ package rx.parse.app;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
-//import android.support.v4.app.NavUtils;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-//import android.support.v7.widget.StaggeredGridLayoutManager;
-//import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.os.Handler;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.parse.*;
+import com.parse.ParseUser;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import rx.android.app.*;
-import rx.functions.*;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import rx.android.app.AppObservable;
+import rx.functions.Action1;
+import rx.functions.Func2;
+import rx.parse.ParseObservable;
 
-import rx.parse.*;
-
-import android.support.v4.widget.SwipeRefreshLayout;
+//import android.support.v4.app.NavUtils;
+//import android.support.v7.widget.StaggeredGridLayoutManager;
+//import android.support.v7.widget.Toolbar;
 
 public class MainFragment extends Fragment {
 
