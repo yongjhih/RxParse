@@ -1,17 +1,15 @@
 package rx.parse.app;
 
 import android.app.Application;
+
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.parse.Parse;
+
 //import android.support.multidex.MultiDexApplication;
-
 //import timber.log.Timber;
-
-import com.parse.*;
-
 //import com.sromku.simple.fb.Permission;
 //import com.sromku.simple.fb.SimpleFacebook;
 //import com.sromku.simple.fb.SimpleFacebookConfiguration;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class RxParseApplication extends Application {
     @Override

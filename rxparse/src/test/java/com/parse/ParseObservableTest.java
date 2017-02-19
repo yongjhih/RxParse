@@ -24,14 +24,15 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static mocker.Mocker.mocker;
-import org.robolectric.RobolectricGradleTestRunner;
+
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.junit.runner.RunWith;
 import org.robolectric.annotation.Config;
 import rx.parse.BuildConfig;
 
 // Avoid cannot be accessed from outside package
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class ParseObservableTest {
 

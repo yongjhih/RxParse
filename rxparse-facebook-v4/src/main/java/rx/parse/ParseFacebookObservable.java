@@ -16,19 +16,16 @@
 
 package rx.parse;
 
-import rx.schedulers.*;
-import rx.Observable;
-import rx.functions.*;
-import rx.observables.*;
+import android.app.Activity;
+import android.support.v4.app.Fragment;
 
-import com.parse.*;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 import java.util.Collection;
 
+import rx.Observable;
 import rx.bolts.TaskObservable;
-
-import android.app.Activity;
-import android.support.v4.app.Fragment;
 
 public class ParseFacebookObservable {
 
@@ -81,4 +78,5 @@ public class ParseFacebookObservable {
         return TaskObservable.deferNullable(() -> ParseFacebookUtils.unlinkInBackground(user))
             .map(v -> user);
     }
+
 }

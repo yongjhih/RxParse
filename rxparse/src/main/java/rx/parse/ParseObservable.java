@@ -16,23 +16,31 @@
 
 package rx.parse;
 
-import rx.schedulers.*;
-import rx.Observable;
-import rx.functions.*;
-import rx.observables.*;
+import android.content.Intent;
 
-import com.parse.*;
+import com.parse.ParseAnalytics;
+import com.parse.ParseAnonymousUtils;
+import com.parse.ParseCloud;
+import com.parse.ParseConfig;
+import com.parse.ParseFile;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.ProgressCallback;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import rx.Observable;
 import rx.bolts.TaskObservable;
-
-import android.content.Intent;
-import org.json.JSONObject;
-import java.io.File;
-import java.io.InputStream;
+import rx.schedulers.Schedulers;
 
 public class ParseObservable {
 
@@ -317,9 +325,15 @@ public class ParseObservable {
         return TaskObservable.deferNullable(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
     }
 
+    public static Observable<ParseConfig> getConfig() {
+        return TaskObservable.deferNullable(() -> ParseConfig.getInBackground())
+                .map(c -> ParseConfig.getCurrentConfig());
+    }
+
     /*
     private ParseObservable() {
         throw new UnsupportedOperationException();
     }
     */
+
 }

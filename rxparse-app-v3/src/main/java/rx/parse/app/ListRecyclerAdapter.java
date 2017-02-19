@@ -1,13 +1,14 @@
 package rx.parse.app;
 
-import android.view.ViewGroup;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rx.functions.*;
+import rx.functions.Action3;
+import rx.functions.Func2;
 
 public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends RecyclerView.Adapter<VH> {
     private List<T> mList = Collections.emptyList();

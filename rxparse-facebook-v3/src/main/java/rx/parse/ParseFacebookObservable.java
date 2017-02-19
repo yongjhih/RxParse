@@ -16,19 +16,16 @@
 
 package rx.parse;
 
-import rx.schedulers.*;
-import rx.Observable;
-import rx.functions.*;
-import rx.observables.*;
+import android.app.Activity;
 
-import com.parse.*;
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 import java.util.Collection;
 import java.util.Date;
 
+import rx.Observable;
 import rx.bolts.TaskObservable;
-
-import android.app.Activity;
 
 public class ParseFacebookObservable {
 
