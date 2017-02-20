@@ -128,6 +128,26 @@ ParseObservable.callFunction("signInWithGoogle", params).subscribe(parseToken ->
 
 ## Installation
 
+### RxJava2
+
+via jcenter
+
+```gradle
+repositories {
+    jcenter()
+
+}
+
+dependencies {
+    compile 'com.infstory:rxparse:2.0.4'
+    //compile 'com.infstory:rxparse-facebook-v3:2.0.4' // if needed
+    //compile 'com.infstory:rxparse-facebook-v4:2.0.4' // if needed
+}
+```
+
+
+### RxJava1
+
 via jcenter
 
 ```gradle
