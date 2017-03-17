@@ -14,6 +14,7 @@ public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends Recycl
     private List<T> mList = Collections.emptyList();
     protected Action3<VH, Integer, T> mOnBindViewHolder;
     protected Func2<ViewGroup, Integer, VH> mOnCreateViewHolder;
+    private boolean onBindViewHolderSupered;
 
     public ListRecyclerAdapter(List<T> list) {
         mList = list;
@@ -37,8 +38,6 @@ public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends Recycl
         mOnCreateViewHolder = onCreateViewHolder;
         return this;
     }
-
-    private boolean onBindViewHolderSupered;
 
     @Override
     public void onBindViewHolder(VH viewHolder, int position) { // final, DO NOT Override until certainly

@@ -132,9 +132,9 @@ public class ParseObservableTest {
         assertThat(query.find()).isEqualTo(rx.parse2.ParseObservable.find(query).toList().blockingGet());
     }
 
-    @Test
-    public void testParseObservablePinList() {
-    }
+    //@Test
+    //public void testParseObservablePinList() {
+    //}
 
     @Test
     public void testParseObservableSave() {
