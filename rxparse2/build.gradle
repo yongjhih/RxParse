@@ -98,7 +98,6 @@ publish {
     userOrg = 'yongjhih'
     groupId = 'com.infstory'
     artifactId = 'rxparse2'
-    uploadName = 'RxParse'
     publishVersion = '2.0.4'
     desc = 'Reactive Parse'
     website = 'https://github.com/yongjhih/RxParse'
