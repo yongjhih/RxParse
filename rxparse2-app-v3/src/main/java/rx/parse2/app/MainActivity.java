@@ -2,19 +2,18 @@ package rx.parse2.app;
 
 import java.util.Locale;
 
-//import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-//import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+
 import butterknife.InjectView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RxAppCompatActivity {
 
     @InjectView(R.id.pager)
     public ViewPager mViewPager;

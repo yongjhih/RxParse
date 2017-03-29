@@ -130,6 +130,26 @@ ParseObservable.callFunction("signInWithGoogle", params).subscribe(parseToken ->
 
 ### RxJava2
 
+via jitpack.io
+
+```gradle
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.yongjhih.RxParse:rxparse2:2.0.4'
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v3:2.0.4' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v4:2.0.4' // if needed
+
+    // SNAPSHOT
+    //compile 'com.github.yongjhih.RxParse:rxparse2:-SNAPSHOT'
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v3:-SNAPSHOT' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v4:-SNAPSHOT' // if needed
+}
+```
+
 via jcenter
 
 ```gradle
@@ -139,14 +159,27 @@ repositories {
 }
 
 dependencies {
-    compile 'com.infstory:rxparse:2.0.4'
-    //compile 'com.infstory:rxparse-facebook-v3:2.0.4' // if needed
-    //compile 'com.infstory:rxparse-facebook-v4:2.0.4' // if needed
+    compile 'com.infstory:rxparse2:2.0.4'
+    //compile 'com.infstory:rxparse2-facebook-v3:2.0.4' // if needed
+    //compile 'com.infstory:rxparse2-facebook-v4:2.0.4' // if needed
 }
 ```
 
 
 ### RxJava1
+
+```gradle
+repositories {
+    jcenter()
+    maven { url "https://jitpack.io" }
+}
+
+dependencies {
+    compile 'com.github.yongjhih.RxParse:rxparse:2.0.3'
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:2.0.3' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v4:2.0.3' // if needed
+}
+```
 
 via jcenter
 
@@ -163,26 +196,6 @@ dependencies {
 }
 ```
 
-Or via jitpack.io
-
-```gradle
-repositories {
-    jcenter()
-    maven { url "https://jitpack.io" }
-}
-
-dependencies {
-    compile 'com.github.yongjhih.RxParse:rxparse:2.0.3'
-    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:2.0.3' // if needed
-    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v4:2.0.3' // if needed
-
-    // SNAPSHOT
-    //compile 'com.github.yongjhih.RxParse:rxparse:-SNAPSHOT'
-    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v3:-SNAPSHOT' // if needed
-    //compile 'com.github.yongjhih.RxParse:rxparse-facebook-v4:-SNAPSHOT' // if needed
-}
-```
-
 ## Test
 
 ```bash
@@ -192,9 +205,9 @@ dependencies {
 ## Deploy
 
 ```bash
-./gradlew :rxparse:build :rxparse:bintrayUpload
-./gradlew :rxparse-facebook-v3:build :rxparse-facebook-v3:bintrayUpload
-./gradlew :rxparse-facebook-v4:build :rxparse-facebook-v4:bintrayUpload
+./gradlew :rxparse2:build :rxparse2:bintrayUpload
+./gradlew :rxparse2-facebook-v3:build :rxparse2-facebook-v3:bintrayUpload
+./gradlew :rxparse2-facebook-v4:build :rxparse2-facebook-v4:bintrayUpload
 ```
 
 ## LICENSE

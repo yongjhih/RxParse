@@ -14,24 +14,21 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.parse.ParseUser;
+import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.android.app.AppObservable;
-import rx.functions.Action1;
-import rx.functions.Func2;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import rx.parse2.ParseObservable;
 
-//import android.support.v4.app.NavUtils;
-//import android.support.v7.widget.StaggeredGridLayoutManager;
-//import android.support.v7.widget.Toolbar;
-
-public class MainFragment extends Fragment {
+public class MainFragment extends RxFragment {
 
     @InjectView(R.id.list)
     public RecyclerView listView;
@@ -63,7 +60,7 @@ public class MainFragment extends Fragment {
 
         listAdapter = ListRecyclerAdapter.create();
 
-        listAdapter.createViewHolder(new Func2<ViewGroup, Integer, ParseUserViewHolder>() {
+        listAdapter.createViewHolder(new ListRecyclerAdapter.Func2<ViewGroup, Integer, ParseUserViewHolder>() {
             @Override
             public ParseUserViewHolder call(@Nullable ViewGroup viewGroup, Integer position) {
                 android.util.Log.d("RxParse", "ParseUserViewHolder");
@@ -77,24 +74,25 @@ public class MainFragment extends Fragment {
         refresher = new SwipeRefreshLayout.OnRefreshListener() {
             @Override public void onRefresh() {
                 loading.setRefreshing(true);
-                AppObservable.bindFragment(MainFragment.this, ParseObservable.find(ParseUser.getQuery()))
-                        .doOnNext(new Action1<ParseUser>() {
+                ParseObservable.find(ParseUser.getQuery())
+                        .compose(MainFragment.this.<ParseUser>bindToLifecycle())
+                        .doOnNext(new Consumer<ParseUser>() {
                             @Override
-                            public void call(final ParseUser user) {
+                            public void accept(final ParseUser user) {
                                 android.util.Log.d("RxParse", "onNext: " + user.getObjectId());
                             }
                         })
                         .toList()
-                        .subscribe(new Action1<List<ParseUser>>() {
+                        .subscribe(new Consumer<List<? super ParseUser>>() {
                             @Override
-                            public void call(final List<ParseUser> users) {
+                            public void accept(final List<? super ParseUser> users) {
                                 loading.setRefreshing(false);
                                 android.util.Log.d("RxParse", "subscribe: " + users);
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
                                         listAdapter.getList().clear();
-                                        listAdapter.getList().addAll(users);
+                                        listAdapter.getList().addAll((List<ParseUser>) users);
                                         listAdapter.notifyDataSetChanged();
                                     }
                                 });

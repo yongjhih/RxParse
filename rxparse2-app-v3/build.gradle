@@ -7,7 +7,6 @@ buildscript {
     dependencies {
         classpath 'me.tatarka:gradle-retrolambda:3.4.0'
         classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.github.JakeWharton:sdk-manager-plugin:-SNAPSHOT'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
     }
 
@@ -28,7 +27,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "rx.parse.app"
+        applicationId "rx.parse2.app"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -65,17 +64,19 @@ dependencies {
 
     compile 'com.parse:parse-android:1.13.1'
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
+    //compile 'com.github.yongjhih.RxBolts:rxbolts2:-SNAPSHOT'
     compile project(':rxparse2')
     compile project(':rxparse2-facebook-v3')
     //compile 'com.github.yongjhih.RxParse:rxparse2:-SNAPSHOT'
     //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v3:-SNAPSHOT'
 
-    compile 'io.reactivex:rxjava:1.2.4'
-    compile 'io.reactivex:rxandroid:0.24.0'
+    compile  'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
-    //testCompile "org.mockito:mockito-core:1.+"
+    compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-android:2.0.1'
+    compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
 
     compile 'com.jakewharton:butterknife:6.1.0'
-    //compile 'com.jakewharton.timber:timber:2.5.1'
     compile 'com.facebook.fresco:fresco:0.4.0'
 }

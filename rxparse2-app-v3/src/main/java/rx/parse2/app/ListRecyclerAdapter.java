@@ -7,11 +7,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rx.functions.Action3;
-import rx.functions.Func2;
-
 public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends RecyclerView.Adapter<VH> {
     private List<T> mList = Collections.emptyList();
+
+    public interface Action3<T, T2, T3> {
+        void call(T t, T2 t2, T3 t3);
+    }
+
+    public interface Func2<T, T2, R> {
+        R call(T t, T2 t2);
+    }
+
     protected Action3<VH, Integer, T> mOnBindViewHolder;
     protected Func2<ViewGroup, Integer, VH> mOnCreateViewHolder;
     private boolean onBindViewHolderSupered;
@@ -71,7 +77,7 @@ public class ListRecyclerAdapter<T, VH extends BindViewHolder<T>> extends Recycl
         return i;
     }
 
-    public List<T> getList() {
+    public List<? super T> getList() {
         return mList;
     }
 }
