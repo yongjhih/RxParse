@@ -65,12 +65,12 @@ public class ParseObservable {
     }
 
     public static <R extends ParseObject> Observable<R> pin(R object) {
-        return TaskObservable.defer(() -> object.pinInBackground())
+        return TaskObservable.defer(() -> object.pinInBackground().continueWith(v -> object))
                 .map(v -> object);
     }
 
     public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.pinAllInBackground(objects))
+        return TaskObservable.defer(() -> ParseObject.pinAllInBackground(objects).continueWith(v -> objects))
                 .flatMap(v -> Observable.fromIterable(objects));
     }
 
