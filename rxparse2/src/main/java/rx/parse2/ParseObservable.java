@@ -52,23 +52,13 @@ public class ParseObservable {
     @CheckReturnValue
     public static <R extends ParseObject> Observable<R> find(@NonNull final ParseQuery<R> query) {
         return RxTask.observable(() -> query.findInBackground())
-                .flatMap(l -> Observable.fromIterable(l))
-            .doOnDispose(() -> Observable.just(query)
-                .doOnNext(q -> q.cancel())
-                .timeout(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
+                .flatMap(l -> Observable.fromIterable(l));
     }
 
     @NonNull
     @CheckReturnValue
     public static <R extends ParseObject> Single<Integer> count(@NonNull final ParseQuery<R> query) {
-        return RxTask.single(() -> query.countInBackground())
-            .doOnDispose(() -> Observable.just(query)
-                .doOnNext(q -> q.cancel())
-                .timeout(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
+        return RxTask.single(() -> query.countInBackground());
 
     }
 
