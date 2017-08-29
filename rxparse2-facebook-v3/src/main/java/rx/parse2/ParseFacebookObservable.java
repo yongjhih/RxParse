@@ -24,58 +24,67 @@ import com.parse.ParseUser;
 import java.util.Collection;
 import java.util.Date;
 
-import io.reactivex.Observable;
-import rx.bolts2.TaskObservable;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.annotations.CheckReturnValue;
+import io.reactivex.annotations.NonNull;
+import rx.bolts2.RxTask;
 
 public class ParseFacebookObservable {
 
-    public static Observable<ParseUser> link(ParseUser user, Activity activity) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, activity))
-                .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final Activity activity) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, activity));
     }
 
-    public static Observable<ParseUser> link(ParseUser user, Activity activity, int activityCode) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, activity, activityCode))
-                .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final Activity activity, int activityCode) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, activity, activityCode));
     }
 
-    public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity))
-                .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final Collection<String> permissions, @NonNull final Activity activity) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity));
     }
 
-    public static Observable<ParseUser> link(ParseUser user, Collection<String> permissions, Activity activity, int activityCode) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode))
-                .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final Collection<String> permissions, @NonNull final Activity activity, int activityCode) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, permissions, activity, activityCode));
     }
 
-    public static Observable<ParseUser> link(ParseUser user, String facebookId, String accessToken, Date expirationDate) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate))
-                .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final String facebookId, @NonNull final String accessToken, @NonNull final Date expirationDate) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, facebookId, accessToken, expirationDate));
     }
 
-    public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity, int activityCode) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
+    @CheckReturnValue
+    @NonNull
+    public static Single<ParseUser> logIn(@NonNull final Collection<String> permissions, Activity activity, int activityCode) {
+        return RxTask.single(() -> ParseFacebookUtils.logInInBackground(permissions, activity, activityCode));
     }
 
-    public static Observable<ParseUser> logIn(Collection<String> permissions, Activity activity) {
+    @CheckReturnValue
+    @NonNull
+    public static Single<ParseUser> logIn(@NonNull final Collection<String> permissions, @NonNull final Activity activity) {
         // package class com.parse.FacebookAuthenticationProvider.DEFAULT_AUTH_ACTIVITY_CODE
         // private com.facebook.android.Facebook.DEFAULT_AUTH_ACTIVITY_CODE = 32665
         return logIn(permissions, activity, 32665);
     }
 
-    public static Observable<ParseUser> logIn(String facebookId, String accessToken, Date expirationDate) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
+    @CheckReturnValue
+    @NonNull
+    public static Single<ParseUser> logIn(@NonNull final String facebookId, @NonNull final String accessToken, @NonNull final Date expirationDate) {
+        return RxTask.single(() -> ParseFacebookUtils.logInInBackground(facebookId, accessToken, expirationDate));
     }
 
-    public static Observable<ParseUser> saveLatestSessionData(ParseUser user) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.saveLatestSessionDataInBackground(user))
-                .map(v -> user);
+    @NonNull
+    public static Completable saveLatestSessionData(@NonNull final ParseUser user) {
+        return RxTask.completable(() -> ParseFacebookUtils.saveLatestSessionDataInBackground(user));
     }
 
-    public static Observable<ParseUser> unlink(ParseUser user) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.unlinkInBackground(user))
-                .map(v -> user);
+    @NonNull
+    public static Completable unlink(@NonNull final ParseUser user) {
+        return RxTask.completable(() -> ParseFacebookUtils.unlinkInBackground(user));
     }
 
 }

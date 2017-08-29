@@ -24,59 +24,72 @@ import com.parse.ParseUser;
 
 import java.util.Collection;
 
-import io.reactivex.Observable;
-import rx.bolts2.TaskObservable;
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.annotations.CheckReturnValue;
+import io.reactivex.annotations.NonNull;
+import rx.bolts2.RxTask;
 
 public class ParseFacebookObservable {
 
-    public static Observable<ParseUser> link(ParseUser user, com.facebook.AccessToken accessToken) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkInBackground(user, accessToken))
-            .map(v -> user);
+    @NonNull
+    public static Completable link(@NonNull final ParseUser user, @NonNull final com.facebook.AccessToken accessToken) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkInBackground(user, accessToken));
     }
 
-    public static Observable<ParseUser> linkWithPublishPermissions(ParseUser user, Activity activity, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, activity, permissions))
-            .map(v -> user);
+    @NonNull
+    public static Completable linkWithPublishPermissions(@NonNull final ParseUser user, @NonNull final Activity activity, @NonNull final Collection<String> permissions) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, activity, permissions));
     }
 
-    public static Observable<ParseUser> linkWithPublishPermissions(ParseUser user, Fragment fragment, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, fragment, permissions))
-            .map(v -> user);
+    @NonNull
+    public static Completable linkWithPublishPermissions(@NonNull final ParseUser user, @NonNull final Fragment fragment, @NonNull final Collection<String> permissions) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkWithPublishPermissionsInBackground(user, fragment, permissions));
     }
 
-    public static Observable<ParseUser> linkWithReadPermissions(ParseUser user, Activity activity, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, activity, permissions))
-            .map(v -> user);
+    @NonNull
+    public static Completable linkWithReadPermissions(@NonNull final ParseUser user, @NonNull final Activity activity, @NonNull final Collection<String> permissions) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, activity, permissions));
     }
 
-    public static Observable<ParseUser> linkWithReadPermissions(ParseUser user, Fragment fragment, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, fragment, permissions))
-            .map(v -> user);
+    @NonNull
+    public static Completable linkWithReadPermissions(@NonNull final ParseUser user, @NonNull final Fragment fragment, @NonNull final Collection<String> permissions) {
+        return RxTask.completable(() -> ParseFacebookUtils.linkWithReadPermissionsInBackground(user, fragment, permissions));
     }
 
-    public static Observable<ParseUser> logIn(com.facebook.AccessToken accessToken) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInInBackground(accessToken));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logIn(@NonNull final com.facebook.AccessToken accessToken) {
+        return RxTask.single(() -> ParseFacebookUtils.logInInBackground(accessToken));
     }
 
-    public static Observable<ParseUser> logInWithPublishPermissions(Activity activity, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(activity, permissions));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logInWithPublishPermissions(@NonNull final Activity activity, @NonNull final Collection<String> permissions) {
+        return RxTask.single(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(activity, permissions));
     }
 
-    public static Observable<ParseUser> logInWithPublishPermissions(Fragment fragment, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(fragment, permissions));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logInWithPublishPermissions(@NonNull final Fragment fragment, @NonNull final Collection<String> permissions) {
+        return RxTask.single(() -> ParseFacebookUtils.logInWithPublishPermissionsInBackground(fragment, permissions));
     }
 
-    public static Observable<ParseUser> logInWithReadPermissions(Activity activity, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(activity, permissions));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logInWithReadPermissions(@NonNull final Activity activity, @NonNull final Collection<String> permissions) {
+        return RxTask.single(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(activity, permissions));
     }
 
-    public static Observable<ParseUser> logInWithReadPermissions(Fragment fragment, Collection<String> permissions) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(fragment, permissions));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logInWithReadPermissions(@NonNull final Fragment fragment, @NonNull final Collection<String> permissions) {
+        return RxTask.single(() -> ParseFacebookUtils.logInWithReadPermissionsInBackground(fragment, permissions));
     }
 
-    public static Observable<ParseUser> unlink(ParseUser user) {
-        return TaskObservable.defer(() -> ParseFacebookUtils.unlinkInBackground(user))
-            .map(v -> user);
+    @NonNull
+    public static Completable unlink(@NonNull final ParseUser user) {
+        return RxTask.completable(() -> ParseFacebookUtils.unlinkInBackground(user));
     }
 
 }

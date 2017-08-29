@@ -48,9 +48,9 @@ dependencies {
     compile 'com.parse:parsefacebookutils-v4-android:1.10.4@aar'
 
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
-    compile 'com.github.yongjhih.RxBolts:rxbolts2-tasks:e9efae0ffd'
+    compile 'com.github.yongjhih.RxBolts:rxbolts2-tasks:2.0.2'
 
-    compile 'io.reactivex.rxjava2:rxjava:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
 
     compile 'com.facebook.android:facebook-android-sdk:4.18.0'
     //testCompile "org.mockito:mockito-core:1.+"

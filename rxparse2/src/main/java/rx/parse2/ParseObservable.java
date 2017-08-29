@@ -38,14 +38,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
+import io.reactivex.annotations.CheckReturnValue;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.schedulers.Schedulers;
-import rx.bolts2.TaskObservable;
+import rx.bolts2.RxTask;
 
 public class ParseObservable {
 
-    public static <R extends ParseObject> Observable<R> find(ParseQuery<R> query) {
-        return TaskObservable.defer(() -> query.findInBackground())
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Observable<R> find(@NonNull final ParseQuery<R> query) {
+        return RxTask.observable(() -> query.findInBackground())
                 .flatMap(l -> Observable.fromIterable(l))
             .doOnDispose(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
@@ -54,8 +60,10 @@ public class ParseObservable {
                 .subscribe(o -> {}, e -> {}));
     }
 
-    public static <R extends ParseObject> Observable<Integer> count(ParseQuery<R> query) {
-        return TaskObservable.defer(() -> query.countInBackground())
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<Integer> count(@NonNull final ParseQuery<R> query) {
+        return RxTask.single(() -> query.countInBackground())
             .doOnDispose(() -> Observable.just(query)
                 .doOnNext(q -> q.cancel())
                 .timeout(1, TimeUnit.SECONDS)
@@ -64,52 +72,58 @@ public class ParseObservable {
 
     }
 
-    public static <R extends ParseObject> Observable<R> pin(R object) {
-        return TaskObservable.defer(() -> object.pinInBackground().continueWith(v -> object))
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable pin(@NonNull final R object) {
+        return RxTask.completable(() -> object.pinInBackground());
     }
 
-    public static <R extends ParseObject> Observable<R> pin(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.pinAllInBackground(objects).continueWith(v -> objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable pin(@NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.pinAllInBackground(objects));
     }
 
-    public static <R extends ParseObject> Observable<R> pin(String name, R object) {
-        return TaskObservable.defer(() -> object.pinInBackground(name))
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable pin(@NonNull final String name, @NonNull final R object) {
+        return RxTask.completable(() -> object.pinInBackground(name));
     }
 
-    public static <R extends ParseObject> Observable<R> pin(String name, List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.pinAllInBackground(name, objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable pin(@NonNull final String name, @NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.pinAllInBackground(name, objects));
     }
 
-    public static <R extends ParseObject> Observable<R> unpin(R object) {
-        return TaskObservable.defer(() -> object.unpinInBackground())
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable unpin(@NonNull final R object) {
+        return RxTask.completable(() -> object.unpinInBackground());
     }
 
-    public static <R extends ParseObject> Observable<R> unpin(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.unpinAllInBackground(objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable unpin(@NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.unpinAllInBackground(objects));
     }
 
-    public static <R extends ParseObject> Observable<R> unpin(String name, R object) {
-        return TaskObservable.defer(() -> object.unpinInBackground(name))
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable unpin(@NonNull final String name, @NonNull final R object) {
+        return RxTask.completable(() -> object.unpinInBackground(name));
     }
 
-    public static <R extends ParseObject> Observable<R> unpin(String name, List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.unpinAllInBackground(name, objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable unpin(@NonNull final String name, @NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.unpinAllInBackground(name, objects));
     }
 
-    public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query) {
-        return count(query).flatMap(c -> all(query, c));
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Observable<R> all(@NonNull final ParseQuery<R> query) {
+        return count(query).flatMapObservable(c -> all(query, c));
     }
 
-    /** limit 10000 by skip */
-    public static <R extends ParseObject> Observable<R> all(ParseQuery<R> query, int count) {
+    /**
+     *  Limit 10000 by skip
+     */
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Observable<R> all(@NonNull final ParseQuery<R> query, int count) {
         final int limit = 1000; // limit limitation
         query.setSkip(0);
         query.setLimit(limit);
@@ -123,113 +137,111 @@ public class ParseObservable {
         return find.distinct(o -> o.getObjectId());
     }
 
-    public static <R extends ParseObject> Observable<R> first(ParseQuery<R> query) {
-        return TaskObservable.defer(() -> query.getFirstInBackground())
-            .doOnDispose(() -> Observable.just(query)
-                .doOnNext(q -> q.cancel())
-                .timeout(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<R> first(@NonNull final ParseQuery<R> query) {
+        return RxTask.single(() -> query.getFirstInBackground());
     }
 
-    public static <R extends ParseObject> Observable<R> get(Class<R> clazz, String objectId) {
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<R> get(@NonNull final Class<R> clazz, @NonNull final String objectId) {
         return get(ParseQuery.getQuery(clazz), objectId);
     }
 
-    public static <R extends ParseObject> Observable<R> get(ParseQuery<R> query, String objectId) {
-        return TaskObservable.defer(() -> query.getInBackground(objectId))
-            .doOnDispose(() -> Observable.just(query)
-                .doOnNext(q -> q.cancel())
-                .timeout(1, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .subscribe(o -> {}, e -> {}));
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<R> get(@NonNull final ParseQuery<R> query, @NonNull final String objectId) {
+        return RxTask.single(() -> query.getInBackground(objectId));
     }
 
     // Task<T> nullable?
-    public static <R> Observable<R> callFunction(String name, Map<String, ?> params) {
-        return TaskObservable.defer(() -> ParseCloud.callFunctionInBackground(name, params));
+    @NonNull
+    @CheckReturnValue
+    public static <R> Observable<R> callFunction(@NonNull final String name, @NonNull final Map<String, ?> params) {
+        return RxTask.observable(() -> ParseCloud.callFunctionInBackground(name, params));
     }
 
-    public static <R extends ParseObject> Observable<R> save(R object) {
-        return TaskObservable.defer(() -> object.saveInBackground())
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable save(@NonNull final R object) {
+        return RxTask.completable(() -> object.saveInBackground());
     }
 
-    public static <R extends ParseObject> Observable<R> save(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.saveAllInBackground(objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable save(@NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.saveAllInBackground(objects));
     }
 
-    public static <R extends ParseObject> Observable<R> saveEventually(R object) {
-        return TaskObservable.defer(() -> object.saveEventually())
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable saveEventually(@NonNull final R object) {
+        return RxTask.completable(() -> object.saveEventually());
     }
 
     // Task<T> nullable?
-    public static <R extends ParseObject> Observable<R> fetch(R object) {
-        return TaskObservable.defer(() -> object.fetchInBackground())
-                .map(v -> object);
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<R> fetch(@NonNull final R object) {
+        return RxTask.single(() -> object.fetchInBackground());
     }
 
     // Task<List<T>> nullable?
-    public static <R extends ParseObject> Observable<R> fetch(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.fetchAllInBackground(objects))
-                .flatMap(l -> Observable.fromIterable(l)); // v -> Observable.fromIterable(objects)
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Observable<R> fetch(@NonNull final List<R> objects) {
+        return RxTask.observable(() -> ParseObject.fetchAllInBackground(objects))
+                .flatMap(l -> Observable.fromIterable(l));
     }
 
     // Task<T> nullable?
-    public static <R extends ParseObject> Observable<R> fetchIfNeeded(R object) {
-        return TaskObservable.defer(() -> object.fetchIfNeededInBackground())
-                .map(v -> object);
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Single<R> fetchIfNeeded(@NonNull final R object) {
+        return RxTask.single(() -> object.fetchIfNeededInBackground());
     }
 
     // Task<List<T>> nullable?
-    public static <R extends ParseObject> Observable<R> fetchIfNeeded(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.fetchAllIfNeededInBackground(objects))
-                .flatMap(l -> Observable.fromIterable(l)); // v -> Observable.fromIterable(objects)
+    @NonNull
+    @CheckReturnValue
+    public static <R extends ParseObject> Observable<R> fetchIfNeeded(@NonNull final List<R> objects) {
+        return RxTask.observable(() -> ParseObject.fetchAllIfNeededInBackground(objects))
+                .flatMap(l -> Observable.fromIterable(l));
     }
 
-    // Task<T> nullable?
-    public static <R extends ParseObject> Observable<R> delete(R object) {
-        return TaskObservable.defer(() -> object.deleteInBackground())
-                .map(v -> object);
+    @NonNull
+    public static <R extends ParseObject> Completable delete(@NonNull final R object) {
+        return RxTask.completable(() -> object.deleteInBackground());
     }
 
-    // Task<List<T>> nullable?
-    public static <R extends ParseObject> Observable<R> delete(List<R> objects) {
-        return TaskObservable.defer(() -> ParseObject.deleteAllInBackground(objects))
-                .flatMap(v -> Observable.fromIterable(objects));
+    @NonNull
+    public static <R extends ParseObject> Completable delete(@NonNull final List<R> objects) {
+        return RxTask.completable(() -> ParseObject.deleteAllInBackground(objects));
     }
 
     /* ParsePush */
 
-    public static Observable<String> subscribe(String channel) {
-        android.util.Log.d("ParseObservable", "subscribe: channel: " + channel);
-
-        return TaskObservable.defer(() -> ParsePush.subscribeInBackground(channel))
-                .doOnNext(v -> android.util.Log.d("ParseObservable", "doOnNext: " + v))
-                .map(v -> channel);
+    @NonNull
+    public static Completable subscribe(@NonNull final String channel) {
+        return RxTask.completable(() -> ParsePush.subscribeInBackground(channel));
     }
 
-    public static Observable<String> unsubscribe(String channel) {
-        android.util.Log.d("ParseObservable", "unsubscribe, channel: " + channel);
-
-        return TaskObservable.defer(() -> ParsePush.unsubscribeInBackground(channel))
-                .map(v -> channel);
+    @NonNull
+    public static Completable unsubscribe(@NonNull final String channel) {
+        return RxTask.completable(() -> ParsePush.unsubscribeInBackground(channel));
     }
 
-    public static Observable<ParsePush> send(ParsePush push) {
-        return TaskObservable.defer(() -> push.sendInBackground()).map(v -> push);
+    @NonNull
+    public static Completable send(@NonNull final ParsePush push) {
+        return RxTask.completable(() -> push.sendInBackground());
     }
 
-    public static Observable<JSONObject> send(JSONObject data, ParseQuery<ParseInstallation> query) {
-        return TaskObservable.defer(() -> ParsePush.sendDataInBackground(data, query))
-                .map(v -> data);
+    @NonNull
+    public static Completable send(@NonNull final JSONObject data, @NonNull final ParseQuery<ParseInstallation> query) {
+        return RxTask.completable(() -> ParsePush.sendDataInBackground(data, query));
     }
 
-    public static Observable<String> send(String message, ParseQuery<ParseInstallation> query) {
-        return TaskObservable.defer(() -> ParsePush.sendMessageInBackground(message, query))
-                .map(v -> message);
+    @NonNull
+    public static Completable send(@NonNull final String message, @NonNull final ParseQuery<ParseInstallation> query) {
+        return RxTask.completable(() -> ParsePush.sendMessageInBackground(message, query));
     }
 
     /* ParseObject */
@@ -239,22 +251,29 @@ public class ParseObservable {
 
     /* ParseUser */
 
-    public static Observable<ParseUser> become(String sessionToken) {
-        return TaskObservable.defer(() -> ParseUser.becomeInBackground(sessionToken));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> become(@NonNull final String sessionToken) {
+        return RxTask.single(() -> ParseUser.becomeInBackground(sessionToken));
     }
 
     // TODO enableRevocableSessionInBackground
 
-    public static Observable<ParseUser> logIn(String username, String password) {
-        return TaskObservable.defer(() -> ParseUser.logInInBackground(username, password));
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logIn(@NonNull final String username, @NonNull final String password) {
+        return RxTask.single(() -> ParseUser.logInInBackground(username, password));
     }
 
-    public static Observable<Void> logOut() {
-        return TaskObservable.defer(() -> ParseUser.logOutInBackground());
+    @NonNull
+    public static Completable logOut() {
+        return RxTask.completable(() -> ParseUser.logOutInBackground());
     }
 
-    public static Observable<ParseUser> anonymousLogIn() {
-        return TaskObservable.defer(() -> ParseAnonymousUtils.logInInBackground());
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> anonymousLogIn() {
+        return RxTask.single(() -> ParseAnonymousUtils.logInInBackground());
     }
 
     /*
@@ -269,65 +288,85 @@ public class ParseObservable {
     // TODO linkWithInBackground(String authType, Map<String,String> authData)
     // TODO unlinkFromInBackground(String authType)
 
-    public static Observable<String> resetPassword(String email) {
-        return TaskObservable.defer(() -> ParseUser.requestPasswordResetInBackground(email)).map(v -> email);
+    @NonNull
+    public static Completable resetPassword(@NonNull final String email) {
+        return RxTask.completable(() -> ParseUser.requestPasswordResetInBackground(email));
     }
 
-    public static Observable<ParseUser> signUp(ParseUser user) {
-        return TaskObservable.defer(() -> user.signUpInBackground()).map(v -> user);
+    @NonNull
+    public static Completable signUp(@NonNull final ParseUser user) {
+        return RxTask.completable(() -> user.signUpInBackground());
     }
 
     // ParseAnalytics
 
-    public static Observable<Intent> trackAppOpened(Intent intent) {
-        return TaskObservable.defer(() -> ParseAnalytics.trackAppOpenedInBackground(intent)).map(v -> intent);
+    @NonNull
+    public static Completable trackAppOpened(@NonNull final Intent intent) {
+        return RxTask.completable(() -> ParseAnalytics.trackAppOpenedInBackground(intent));
     }
 
-    public static Observable<String> trackEvent(String name) {
-        return TaskObservable.defer(() -> ParseAnalytics.trackEventInBackground(name)).map(v -> name);
+    @NonNull
+    public static Completable trackEvent(@NonNull final String name) {
+        return RxTask.completable(() -> ParseAnalytics.trackEventInBackground(name));
     }
 
-    public static Observable<String> trackEvent(String name, Map<String,String> dimensions) {
-        return TaskObservable.defer(() -> ParseAnalytics.trackEventInBackground(name, dimensions)).map(v -> name);
+    @NonNull
+    public static Completable trackEvent(@NonNull final String name, @NonNull final Map<String,String> dimensions) {
+        return RxTask.completable(() -> ParseAnalytics.trackEventInBackground(name, dimensions));
     }
 
     /* ParseFile */
 
-    public static Observable<byte[]> getData(ParseFile file) {
-        return TaskObservable.defer(() -> file.getDataInBackground());
+    @NonNull
+    @CheckReturnValue
+    public static Single<byte[]> getData(@NonNull final ParseFile file) {
+        return RxTask.single(() -> file.getDataInBackground());
     }
 
-    public static Observable<byte[]> getData(ParseFile file, ProgressCallback progressCallback) {
-        return TaskObservable.defer(() -> file.getDataInBackground(progressCallback));
+    @NonNull
+    @CheckReturnValue
+    public static Single<byte[]> getData(@NonNull final ParseFile file, @NonNull final ProgressCallback progressCallback) {
+        return RxTask.single(() -> file.getDataInBackground(progressCallback));
     }
 
-    public static Observable<InputStream> getDataStream(ParseFile file) {
-        return TaskObservable.defer(() -> file.getDataStreamInBackground());
+    @NonNull
+    @CheckReturnValue
+    public static Single<InputStream> getDataStream(@NonNull final ParseFile file) {
+        return RxTask.single(() -> file.getDataStreamInBackground());
     }
 
-    public static Observable<InputStream> getDataStream(ParseFile file, ProgressCallback progressCallback) {
-        return TaskObservable.defer(() -> file.getDataStreamInBackground(progressCallback));
+    @NonNull
+    @CheckReturnValue
+    public static Single<InputStream> getDataStream(@NonNull final ParseFile file, @NonNull final ProgressCallback progressCallback) {
+        return RxTask.single(() -> file.getDataStreamInBackground(progressCallback));
     }
 
-    public static Observable<File> getFile(ParseFile file) {
-        return TaskObservable.defer(() -> file.getFileInBackground());
+    @NonNull
+    @CheckReturnValue
+    public static Single<File> getFile(@NonNull final ParseFile file) {
+        return RxTask.single(() -> file.getFileInBackground());
     }
 
-    public static Observable<File> getFile(ParseFile file, ProgressCallback progressCallback) {
-        return TaskObservable.defer(() -> file.getFileInBackground(progressCallback));
+    @NonNull
+    @CheckReturnValue
+    public static Single<File> getFile(@NonNull final ParseFile file, @NonNull final ProgressCallback progressCallback) {
+        return RxTask.single(() -> file.getFileInBackground(progressCallback));
     }
 
-    public static Observable<ParseFile> save(ParseFile file) {
-        return TaskObservable.defer(() -> file.saveInBackground()).map(v -> file);
+    @NonNull
+    public static Completable save(@NonNull final ParseFile file) {
+        return RxTask.completable(() -> file.saveInBackground());
     }
 
-    public static Observable<ParseFile> save(ParseFile file, ProgressCallback uploadProgressCallback) {
-        return TaskObservable.defer(() -> file.saveInBackground(uploadProgressCallback)).map(v -> file);
+    @NonNull
+    public static Completable save(@NonNull final ParseFile file, @NonNull final ProgressCallback uploadProgressCallback) {
+        return RxTask.completable(() -> file.saveInBackground(uploadProgressCallback));
     }
 
-    public static Observable<ParseConfig> getConfig() {
-        return TaskObservable.defer(() -> ParseConfig.getInBackground())
-                .map(c -> ParseConfig.getCurrentConfig());
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseConfig> getConfig() {
+        return RxTask.single(() -> ParseConfig.getInBackground());
     }
 
     /*
@@ -335,5 +374,4 @@ public class ParseObservable {
         throw new UnsupportedOperationException();
     }
     */
-
 }

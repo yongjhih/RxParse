@@ -272,7 +272,7 @@ public class ParseObservableTest {
     public void testParseObservableGetData() {
         rx.parse2.ParseObservable.getData(mocker(ParseFile.class)
                     .when(it -> it.getDataInBackground())
-                    .thenReturn(it -> Task.<byte[]>forResult(null))
+                    .thenReturn(it -> Task.<byte[]>forResult(new byte[1]))
                     .mock())
                 .test()
                 .assertNoErrors()
@@ -283,7 +283,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataProgress() {
         rx.parse2.ParseObservable.getData(mocker(ParseFile.class)
                     .when(it -> it.getDataInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> Task.<byte[]>forResult(null))
+                    .thenReturn(it -> Task.<byte[]>forResult(new byte[1]))
                     .mock(), mock(ProgressCallback.class))
                 .test()
                 .assertNoErrors()
@@ -294,7 +294,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataStream() {
         rx.parse2.ParseObservable.getDataStream(mocker(ParseFile.class)
                     .when(it -> it.getDataStreamInBackground())
-                    .thenReturn(it -> Task.<InputStream>forResult(null))
+                    .thenReturn(it -> Task.forResult(mock(InputStream.class)))
                     .mock())
                 .test()
                 .assertNoErrors()
@@ -305,7 +305,7 @@ public class ParseObservableTest {
     public void testParseObservableGetDataStreamProgress() {
         rx.parse2.ParseObservable.getDataStream(mocker(ParseFile.class)
                     .when(it -> it.getDataStreamInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> Task.<InputStream>forResult(null))
+                    .thenReturn(it -> Task.forResult(mock(InputStream.class)))
                     .mock(), mock(ProgressCallback.class))
                 .test()
                 .assertNoErrors()
@@ -316,7 +316,7 @@ public class ParseObservableTest {
     public void testParseObservableGetFile() {
         rx.parse2.ParseObservable.getFile(mocker(ParseFile.class)
                     .when(it -> it.getFileInBackground())
-                    .thenReturn(it -> Task.<File>forResult(null))
+                    .thenReturn(it -> Task.forResult(new File("/")))
                     .mock())
                 .test()
                 .assertNoErrors()
@@ -327,7 +327,7 @@ public class ParseObservableTest {
     public void testParseObservableGetFileProgress() {
         rx.parse2.ParseObservable.getFile(mocker(ParseFile.class)
                     .when(it -> it.getFileInBackground(any(ProgressCallback.class)))
-                    .thenReturn(it -> Task.<File>forResult(null))
+                    .thenReturn(it -> Task.forResult(new File("/")))
                     .mock(), mock(ProgressCallback.class))
                 .test()
                 .assertNoErrors()
