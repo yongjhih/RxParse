@@ -139,9 +139,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.yongjhih.RxParse:rxparse2:2.0.4'
-    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v3:2.0.4' // if needed
-    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v4:2.0.4' // if needed
+    compile 'com.github.yongjhih.RxParse:rxparse2:2.1.0'
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v3:2.1.0' // if needed
+    //compile 'com.github.yongjhih.RxParse:rxparse2-facebook-v4:2.1.0' // if needed
 
     // SNAPSHOT
     //compile 'com.github.yongjhih.RxParse:rxparse2:-SNAPSHOT'
@@ -159,9 +159,9 @@ repositories {
 }
 
 dependencies {
-    compile 'com.infstory:rxparse2:2.0.4'
-    //compile 'com.infstory:rxparse2-facebook-v3:2.0.4' // if needed
-    //compile 'com.infstory:rxparse2-facebook-v4:2.0.4' // if needed
+    compile 'com.infstory:rxparse2:2.1.0'
+    //compile 'com.infstory:rxparse2-facebook-v3:2.1.0' // if needed
+    //compile 'com.infstory:rxparse2-facebook-v4:2.1.0' // if needed
 }
 ```
 
