@@ -275,7 +275,20 @@ public class ParseObservable {
     }
     */
 
-    // TODO linkWithInBackground(String authType, Map<String,String> authData)
+    @NonNull
+    @CheckReturnValue
+    public static Single<ParseUser> logInWith(@NonNull final String authType,
+                                              @NonNull final Map<String, String> authData) {
+        return RxTask.single(() -> ParseUser.logInWithInBackground(authType, authData));
+    }
+
+    @NonNull
+    public static Completable linkWith(@NonNull final ParseUser user,
+                                       @NonNull final String authType,
+                                       @NonNull final Map<String, String> authData) {
+        return RxTask.completable(() -> user.linkWithInBackground(authType, authData));
+    }
+
     // TODO unlinkFromInBackground(String authType)
 
     @NonNull
