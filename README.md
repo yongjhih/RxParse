@@ -14,8 +14,6 @@
 
 [![rxparse.png](art/rxparse.png)](art/rxparse.png)
 
-## Usage
-
 javadoc:
 
 * rxparse: [![javadoc](https://img.shields.io/github/tag/yongjhih/RxParse.svg?label=javadoc)](https://jitpack.io/com/github/yongjhih/RxParse/rxparse2/-SNAPSHOT/javadoc/)
@@ -29,6 +27,8 @@ javadoc:
 <!--rxparse: [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse/)-->
 <!--rxparse-facebook-v3 (ParseFacebookUtils v3): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v3/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v3/)-->
 <!--rxparse-facebook-v4 (ParseFacebookUtils v4): [![javadoc.io](https://javadocio-badges.herokuapp.com/com.infstory/rxparse-facebook-v4/badge.svg)](http://www.javadoc.io/doc/com.infstory/rxparse-facebook-v4/)-->
+
+## Usage of RxJava2
 
 ### find
 
@@ -58,7 +58,6 @@ Observable<ParseUser> users = ParseObservable.find(ParseUser.getQuery().setLimit
 
 ### count
 
-
 Before:
 
 ```java
@@ -73,7 +72,7 @@ ParseUser.getQuery().countInBackground(new CountCallback() {
  After:
 
 ```java
-Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
+Single<Integer> count = ParseObservable.count(ParseUser.getQuery());
 count.subscirbe(c -> System.out.println(c));
 ```
 
@@ -124,6 +123,28 @@ ParseObservable.find(ParseComment.getQuery().whereEqualTo("from", ParseUser.getC
 Map<String, Object> params = new HashMap<>();
 params.put("accessToken", googleToken());
 ParseObservable.callFunction("signInWithGoogle", params).subscribe(parseToken -> {});
+```
+
+## Usage of RxJava1
+
+### count
+
+Before:
+
+```java
+ParseUser.getQuery().countInBackground(new CountCallback() {
+    @Override
+    public done(int count, ParseException e) {
+        if (e == null) System.out.println(count);
+    }
+});
+```
+
+ After:
+
+```java
+Observable<Integer> count = ParseObservable.count(ParseUser.getQuery());
+count.subscirbe(c -> System.out.println(c));
 ```
 
 ## Installation
